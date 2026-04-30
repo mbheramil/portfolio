@@ -1,0 +1,30 @@
+name = "mbheramil-admin"
+main = "src/index.js"
+compatibility_date = "2025-04-01"
+workers_dev = false
+
+routes = [
+  { pattern = "admin.mbheramil.com", custom_domain = true }
+]
+
+[[d1_databases]]
+binding       = "DB"
+database_name = "mbheramil"
+database_id   = "13c53bd7-5b69-44aa-886f-10c53681a743"
+
+[[r2_buckets]]
+binding     = "IMAGES"
+bucket_name = "mbheramil-images"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id      = "1237009db98f458e98a564fe87642525"
+
+[ai]
+binding = "AI"
+
+# Secrets (set via `wrangler secret put` or dashboard):
+#   GITHUB_CLIENT_ID
+#   GITHUB_CLIENT_SECRET
+#   ALLOWED_GITHUB_USER  (set to "mbheramil")
+#   SESSION_SECRET       (any random 32+ char string)
