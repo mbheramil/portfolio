@@ -105,22 +105,30 @@ export default {
       );
     }
 
-    // ── Forward to OpenAI ────────────────────────────────
-    const openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type':  'application/json',
-        'Authorization': 'Bearer ' + env.OPENAI_API_KEY,
-      },
-      body: JSON.stringify({
-        model:       'gpt-4o-mini',
-        messages,
-        max_tokens:  350,
-        temperature: 0.75,
-      }),
+    // ── Forward to OpenAI (retry once on geo-block) ──────
+    const openaiBody = JSON.stringify({
+      model:       'gpt-4o-mini',
+      messages,
+      max_tokens:  350,
+      temperature: 0.75,
     });
+    const openaiHeaders = {
+      'Content-Type':  'application/json',
+      'Authorization': 'Bearer ' + env.OPENAI_API_KEY,
+    };
 
-    const data = await openaiResp.json();
+    let openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST', headers: openaiHeaders, body: openaiBody,
+    });
+    let data = await openaiResp.json();
+
+    // Retry once if geo-blocked (different edge node may not be restricted)
+    if (!openaiResp.ok && data.error?.message?.includes('not supported')) {
+      openaiResp = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST', headers: openaiHeaders, body: openaiBody,
+      });
+      data = await openaiResp.json();
+    }
 
     if (!openaiResp.ok) {
       return new Response(
