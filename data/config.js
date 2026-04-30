@@ -7,7 +7,7 @@
 window.SiteConfig = {
 
   /* ── PERSONAL INFO ──────────────────────────────────── */
-  name:     'Mayur Bheramil',
+  name:     'Mike Bheramil',
   title:    'Web Developer & Digital Architect',
   email:    'contactme@mbheramil.com',
   location: 'Available Worldwide · Remote',
