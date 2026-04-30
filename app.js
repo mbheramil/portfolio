@@ -142,26 +142,26 @@
       btn.disabled = true;
       btn.querySelector('.btn-text').textContent = 'Sending…';
 
-      const data = { name, email, message, service: form.service.value };
+      const now = new Date();
+      const time = now.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+      const service = form.service.value || 'Not specified';
 
-      fetch('https://formspree.io/f/mqenzowe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(json => {
-          if (json.ok) {
-            note.textContent = '✓ Message sent! I\'ll be in touch within 24 hours.';
-            note.className   = 'form-note success';
-            form.reset();
-          } else {
-            note.textContent = 'Something went wrong. Please try again.';
-            note.className   = 'form-note error';
-          }
+      const incomingParams = { name, email, message, time, service };
+      const autoReplyParams = { name, email, title: service };
+
+      emailjs.init('UULH9QgHeTzlkTg9k');
+
+      Promise.all([
+        emailjs.send('mysite', 'template_xhg31tn', incomingParams),
+        emailjs.send('mysite', 'template_7a5ksoj', autoReplyParams)
+      ])
+        .then(() => {
+          note.textContent = '✓ Message sent! I\'ll be in touch within 24 hours.';
+          note.className   = 'form-note success';
+          form.reset();
         })
         .catch(() => {
-          note.textContent = 'Network error. Please try again.';
+          note.textContent = 'Something went wrong. Please try again.';
           note.className   = 'form-note error';
         })
         .finally(() => {
