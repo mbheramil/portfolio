@@ -358,7 +358,7 @@ const ITEM_FIELDS = {
   skill:       [{ name: 'name', label: 'Skill' }],
   testimonial: [
     { name: 'quote', label: 'Quote', type: 'textarea' },
-    { name: 'name',  label: 'Person\'s name' },
+    { name: 'name',  label: "Person's name" },
     { name: 'role',  label: 'Role / company' },
     { name: 'avatar', label: 'Avatar', type: 'image' },
   ],
