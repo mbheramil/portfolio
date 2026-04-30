@@ -1,6 +1,7 @@
 /* ─── js/chat.js ──────────────────────────────────────────
-   AI chat widget powered by OpenAI API.
-   Reads key and quick questions from window.SiteConfig.ai.
+   AI chat widget.
+   Calls the Cloudflare Worker proxy — API key is NEVER
+   exposed in client-side code.
    ─────────────────────────────────────────────────────── */
 
 (function () {
@@ -9,10 +10,8 @@
   const C = window.SiteConfig;
   if (!C || !C.ai) return;
 
-  // API key (split to avoid static scanners on public repos)
-  const _k = ['sk-proj-TnuiD-ij2rp6yEar-uItxkgBB3UIpFHWM4WlR27M3_FJWn',
-               'XmsXwMCKBaavT3BlbkFJANxMC9hnvH1N5UQoqnQVuuFIjeCL-St-c',
-               'UAeOhpZ2QI94DOe4Ig6HzTJMA'].join('');
+  // ← Paste your Cloudflare Worker URL here after deploying
+  const WORKER_URL = 'https://ai-proxy.mbheramil.workers.dev';
 
   /* ── DOM REFS ─────────────────────────────────────────── */
   const fab      = document.getElementById('aiFab');
@@ -109,23 +108,15 @@ Strict rules:
     const typingEl = showTyping();
 
     try {
-      const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      const resp = await fetch(WORKER_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + _k,
-        },
-        body: JSON.stringify({
-          model:       'gpt-4o-mini',
-          messages:    history,
-          max_tokens:  350,
-          temperature: 0.75,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
       });
 
-      if (!resp.ok) throw new Error('API error ' + resp.status);
-
       const json = await resp.json();
+      if (!resp.ok) throw new Error(json.error || 'Worker error ' + resp.status);
+
       const reply = json.choices[0].message.content.trim();
 
       history.push({ role: 'assistant', content: reply });
