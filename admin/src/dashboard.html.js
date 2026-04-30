@@ -178,7 +178,10 @@ export const dashboardHTML = `<!doctype html>
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script src="/dashboard.js"></script>
+</body></html>`;
+
+export const dashboardJS = `
 // ─── State ──────────────────────────────────────────────────
 const API = location.origin;
 const FRONTEND_URL = 'https://mbheramil.com';
@@ -1143,5 +1146,4 @@ document.querySelectorAll('.preview-head__device button[data-d]').forEach(btn =>
     $('#content').innerHTML = '<div class="empty">Failed to load: ' + e.message + '</div>';
   }
 })();
-</script>
-</body></html>`;
+`;

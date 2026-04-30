@@ -4,7 +4,7 @@
  * Secrets: GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, ALLOWED_GITHUB_USER, SESSION_SECRET
  */
 
-import { dashboardHTML } from './dashboard.html.js';
+import { dashboardHTML, dashboardJS } from './dashboard.html.js';
 
 const ALLOWED_ORIGINS = [
   'https://mbheramil.com',
@@ -702,6 +702,12 @@ export default {
         const session = await requireAuth(req, env);
         if (!session) return html(loginPageHTML());
         return html(dashboardHTML);
+      }
+
+      if (path === '/dashboard.js') {
+        const session = await requireAuth(req, env);
+        if (!session) return new Response('// unauthorized', { status: 401, headers: { 'Content-Type': 'application/javascript; charset=utf-8' } });
+        return new Response(dashboardJS, { headers: { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'no-store' } });
       }
 
       return new Response('Not found', { status: 404 });
