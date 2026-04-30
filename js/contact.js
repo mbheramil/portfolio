@@ -33,10 +33,12 @@
     btn.textContent = 'Sending…';
     setStatus('', 'info');
 
+    const serviceVal = (form.querySelector('[name="service"]') || {}).value || 'Not specified';
     const data = {
       name:    form.querySelector('[name="name"]').value.trim(),
       email:   form.querySelector('[name="email"]').value.trim(),
-      subject: (form.querySelector('[name="service"]') || {}).value || '(no subject)',
+      service: serviceVal,
+      subject: serviceVal,
       message: form.querySelector('[name="message"]').value.trim(),
     };
 
