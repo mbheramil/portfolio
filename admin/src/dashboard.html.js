@@ -245,6 +245,15 @@ const SECTIONS = [
       { name: 'availableForWork', label: 'Available for work', type: 'checkbox' },
     ]
   },
+  { group: 'Site Content', id: 'header', label: 'Header / Navigation', icon: '🧭', kind: 'setting', key: 'header',
+    fields: [
+      { name: 'brand',     label: 'Brand / logo text' },
+      { name: 'cta_text',  label: 'CTA button text', placeholder: 'Get in touch' },
+      { name: 'cta_href',  label: 'CTA button link', placeholder: '#contact' },
+    ],
+    extras: ['nav_link'],
+    description: 'Edit the top navigation. Nav links and mobile menu update from this list.',
+  },
   { group: 'Site Content', id: 'hero', label: 'Hero Section', icon: '🎯', kind: 'setting', key: 'hero',
     fields: [
       { name: 'tagline',  label: 'Tagline (line 1)' },
@@ -272,7 +281,21 @@ const SECTIONS = [
       { name: 'sub',     label: 'Sub-heading' },
     ]
   },
+  { group: 'Site Content', id: 'footer', label: 'Footer', icon: '🦶', kind: 'setting', key: 'footer',
+    fields: [
+      { name: 'tagline',   label: 'Tagline / sub-text', placeholder: 'Web Developer · Available worldwide' },
+      { name: 'copyright', label: 'Copyright line', placeholder: '© {year} Mike Bheramil. All rights reserved.' },
+    ],
+    description: 'Use {year} for the current year. Social icons are managed under Social Links.',
+  },
   { group: 'Site Content', id: 'posts',     label: 'Blog Posts', icon: '📝', kind: 'posts' },
+
+  { group: 'Layout', id: 'page_sections', label: 'Page Sections', icon: '📐', kind: 'items', type: 'page_section',
+    description: 'Toggle and reorder homepage sections. Drag to reorder.',
+  },
+  { group: 'Layout', id: 'custom_sections', label: 'Custom Sections', icon: '✨', kind: 'items', type: 'custom_section',
+    description: 'Free-form sections inserted into the homepage. Set position relative to standard sections.',
+  },
 
   { group: 'Settings', id: 'theme', label: 'Theme & Colours', icon: '🎨', kind: 'theme' },
   { group: 'Settings', id: 'seo',   label: 'SEO',   icon: '🔍', kind: 'setting', key: 'seo',
@@ -384,6 +407,31 @@ const ITEM_FIELDS = {
     { name: 'cta',      label: 'Button label', placeholder: 'Get started' },
     { name: 'featured', label: 'Featured (highlighted)', type: 'checkbox' },
   ],
+  nav_link: [
+    { name: 'label', label: 'Link label', placeholder: 'About' },
+    { name: 'url',   label: 'URL or anchor', placeholder: '#about or /blog.html' },
+  ],
+  page_section: [
+    { name: 'key',     label: 'Section', type: 'select', options: [
+      ['about','About'], ['services','Services'], ['tools','Tech Stack'],
+      ['work','Projects'], ['process','Process'], ['testimonials','Testimonials'],
+      ['pricing','Pricing'], ['faq','FAQ'], ['newsletter','Newsletter'], ['contact','Contact'],
+    ] },
+    { name: 'enabled', label: 'Show on homepage', type: 'checkbox' },
+  ],
+  custom_section: [
+    { name: 'heading',   label: 'Heading' },
+    { name: 'label',     label: 'Small label above heading', placeholder: 'Highlights' },
+    { name: 'sub',       label: 'Sub-heading / intro', type: 'textarea' },
+    { name: 'body_html', label: 'Body content (HTML allowed)', type: 'textarea' },
+    { name: 'image',     label: 'Optional image', type: 'image' },
+    { name: 'alt_bg',    label: 'Alternate background (light grey)', type: 'checkbox' },
+    { name: 'after',     label: 'Insert after section', type: 'select', options: [
+      ['hero','Hero'], ['about','About'], ['services','Services'], ['tools','Tech Stack'],
+      ['work','Projects'], ['process','Process'], ['testimonials','Testimonials'],
+      ['pricing','Pricing'], ['faq','FAQ'], ['newsletter','Newsletter'], ['contact','Contact'],
+    ] },
+  ],
 };
 
 const ITEM_LABELS = {
@@ -400,6 +448,9 @@ const ITEM_LABELS = {
   testimonial: { single: 'Testimonial', titleField: 'name' },
   faq:         { single: 'FAQ', titleField: 'q' },
   pricing:     { single: 'Pricing tier', titleField: 'name' },
+  nav_link:    { single: 'Nav link', titleField: 'label' },
+  page_section: { single: 'Section', titleField: 'key' },
+  custom_section: { single: 'Custom section', titleField: 'heading' },
 };
 
 // ─── Render sidebar ─────────────────────────────────────────
@@ -613,6 +664,16 @@ function editItem(type, item) {
       cb.addEventListener('change', () => data[f.name] = cb.checked);
       wrap.append(cb, document.createTextNode(' enabled'));
       input = wrap;
+    } else if (f.type === 'select') {
+      input = h('select');
+      for (const opt of (f.options || [])) {
+        const [val, lbl] = Array.isArray(opt) ? opt : [opt, opt];
+        const o = h('option', { value: val }, lbl);
+        if (data[f.name] === val) o.selected = true;
+        input.appendChild(o);
+      }
+      if (!data[f.name] && f.options?.[0]) data[f.name] = Array.isArray(f.options[0]) ? f.options[0][0] : f.options[0];
+      input.addEventListener('change', () => data[f.name] = input.value);
     } else {
       input = h('input', { type: f.type || 'text', value: data[f.name] ?? '', placeholder: f.placeholder || '' });
       input.addEventListener('input', () => {

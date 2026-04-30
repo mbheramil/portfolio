@@ -224,18 +224,25 @@ async function notifyContactSubmission(env, sub) {
 }
 
 async function sendEmail(env, { to, subject, html }) {
-  const from = 'noreply@mbheramil.com';
-  const res = await fetch('https://api.mailchannels.net/tx/v1/send', {
+  const apiKey = env.BREVO_API_KEY;
+  if (!apiKey) throw new Error('BREVO_API_KEY not set');
+  const from = env.BREVO_FROM_EMAIL || 'noreply@mbheramil.com';
+  const fromName = env.BREVO_FROM_NAME || 'mbheramil.com';
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey,
+      'accept': 'application/json',
+    },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: to }] }],
-      from: { email: from, name: 'mbheramil.com' },
+      sender: { email: from, name: fromName },
+      to: [{ email: to }],
       subject,
-      content: [{ type: 'text/html', value: html }],
+      htmlContent: html,
     }),
   });
-  if (!res.ok) throw new Error('mail: ' + res.status + ' ' + (await res.text()));
+  if (!res.ok) throw new Error('brevo: ' + res.status + ' ' + (await res.text()));
 }
 
 // ─── AI chat with system prompt ────────────────────────────
@@ -693,8 +700,18 @@ export default {
 
         // Trigger digest manually
         if (path === '/api/admin/test-digest' && req.method === 'POST') {
-          await dailyDigest(env);
-          return withCors(json({ ok: true }), origin);
+          try {
+            const cfg = await getSetting(env, 'admin');
+            if (!cfg?.email) return withCors(json({ error: 'No admin email set in Settings → Admin' }, { status: 400 }), origin);
+            await sendEmail(env, {
+              to: cfg.email,
+              subject: 'mbheramil.com — test email',
+              html: '<h2>Test email</h2><p>If you received this, Brevo is working.</p><p><a href="https://admin.mbheramil.com/">Open dashboard →</a></p>',
+            });
+            return withCors(json({ ok: true, sent_to: cfg.email }), origin);
+          } catch (e) {
+            return withCors(json({ error: e.message }, { status: 500 }), origin);
+          }
         }
       }
 

@@ -223,13 +223,108 @@ $('#contactForm').addEventListener('submit', async e => {
   }
 });
 
+// ─── Header / nav ──────────────────────────────────────────
+function renderHeader(s, items) {
+  const brand = (s.header?.brand || s.personal?.name || '').trim();
+  if (brand) $('#navLogo').textContent = brand;
+
+  const cta = $('.nav__cta');
+  if (cta) {
+    if (s.header?.cta_text)  cta.textContent = s.header.cta_text;
+    if (s.header?.cta_href)  cta.setAttribute('href', s.header.cta_href);
+  }
+
+  // Replace nav links + mobile menu when the CMS has nav_link items
+  const links = items.nav_link || [];
+  if (links.length) {
+    const nav = document.querySelector('.nav__links');
+    const mob = document.getElementById('mobileMenu');
+    if (nav) {
+      nav.innerHTML = '';
+      for (const l of links) nav.appendChild(h('a', { href: l.url || '#' }, l.label || ''));
+    }
+    if (mob) {
+      mob.innerHTML = '';
+      for (const l of links) mob.appendChild(h('a', { href: l.url || '#' }, l.label || ''));
+    }
+  }
+}
+
+// ─── Page sections: hide/show + reorder ────────────────────
+function applyPageLayout(items) {
+  const list = items.page_section || [];
+  if (!list.length) return; // No CMS overrides → keep defaults
+  // Build a map of section key -> { enabled, position }
+  const map = {};
+  list.forEach((row, idx) => {
+    if (!row.key) return;
+    map[row.key] = { enabled: row.enabled !== false, order: idx };
+  });
+  for (const [key, cfg] of Object.entries(map)) {
+    const el = document.getElementById(key);
+    if (!el) continue;
+    if (!cfg.enabled) { el.hidden = true; el.style.display = 'none'; }
+    else el.style.order = cfg.order;
+  }
+  // Make body a flex column so 'order' works
+  document.body.style.display = 'flex';
+  document.body.style.flexDirection = 'column';
+}
+
+// ─── Custom sections ───────────────────────────────────────
+function renderCustomSections(items) {
+  const list = items.custom_section || [];
+  if (!list.length) return;
+  const escapeText = s => (s || '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  for (const cs of list) {
+    const sec = h('section', {
+      class: 'section' + (cs.alt_bg ? ' section--alt' : ''),
+      id: 'custom-' + cs.id,
+    });
+    const wrap = h('div', { class: 'container' });
+    const head = h('div', { class: 'section__head' });
+    if (cs.label)   head.appendChild(h('span', { class: 'section__label' }, cs.label));
+    if (cs.heading) head.appendChild(h('h2', { class: 'section__title' }, cs.heading));
+    if (cs.sub)     head.appendChild(h('p', { class: 'section__sub' }, cs.sub));
+    wrap.appendChild(head);
+    if (cs.image) wrap.appendChild(h('img', { src: cs.image, style: 'max-width:100%;border-radius:12px;margin-bottom:24px', alt: '' }));
+    if (cs.body_html) {
+      const body = h('div', { class: 'custom-body', style: 'max-width:760px;margin:0 auto;color:var(--muted);font-size:1.05rem;line-height:1.7' });
+      body.innerHTML = cs.body_html;
+      wrap.appendChild(body);
+    }
+    sec.appendChild(wrap);
+    // Insert after the named anchor
+    const anchorId = cs.after || 'hero';
+    const anchorEl = document.getElementById(anchorId === 'hero' ? 'home' : anchorId);
+    if (anchorEl && anchorEl.parentNode) {
+      anchorEl.parentNode.insertBefore(sec, anchorEl.nextSibling);
+    } else {
+      document.body.appendChild(sec);
+    }
+  }
+}
+
 // ─── Footer + social ───────────────────────────────────────
 function renderFooter(s, items) {
-  if (s.personal?.name) {
-    $('#footerName').textContent = s.personal.name;
-    $('#navLogo').textContent    = s.personal.name;
+  const brand = s.header?.brand || s.personal?.name || '';
+  if (brand) {
+    $('#footerName').textContent = brand;
+    if (!s.header?.brand) $('#navLogo').textContent = brand; // fallback
   }
-  if (s.personal?.email) $('#footerEmail').textContent = s.personal.email;
+  const tagline = s.footer?.tagline || s.personal?.email || '';
+  if (tagline) $('#footerEmail').textContent = tagline;
+
+  // Optional copyright line
+  if (s.footer?.copyright) {
+    let cp = document.getElementById('footerCopyright');
+    if (!cp) {
+      cp = h('div', { id: 'footerCopyright', class: 'footer__sub', style: 'flex-basis:100%;text-align:center;margin-top:14px' });
+      document.querySelector('.footer__inner')?.appendChild(cp);
+    }
+    cp.textContent = (s.footer.copyright || '').replace(/\{year\}/g, new Date().getFullYear());
+  }
+
   const soc = $('#footerSocial');
   soc.innerHTML = '';
   if (s.personal?.email) {
@@ -484,6 +579,7 @@ function track() {
 
     applyTheme(settings.theme);
     applySeo(settings);
+    renderHeader(settings, items);
     renderHero(settings, items);
     startTypewriter(items);
     renderAbout(settings, items);
@@ -497,6 +593,8 @@ function track() {
     renderContact(settings, items);
     setupNewsletter(settings.features);
     renderFooter(settings, items);
+    renderCustomSections(items);
+    applyPageLayout(items);
     if (settings.features?.chat !== false) setupChat(items);
     setupTheme();
     setupScrollProgress();
