@@ -142,14 +142,32 @@
       btn.disabled = true;
       btn.querySelector('.btn-text').textContent = 'Sending…';
 
-      // Simulate async send (replace with real fetch/API call)
-      setTimeout(() => {
-        note.textContent = '✓ Message sent! I\'ll be in touch within 24 hours.';
-        note.className   = 'form-note';
-        form.reset();
-        btn.disabled = false;
-        btn.querySelector('.btn-text').textContent = 'Send Message';
-      }, 1600);
+      const data = { name, email, message, service: form.service.value };
+
+      fetch('https://formspree.io/f/mqenzowe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(json => {
+          if (json.ok) {
+            note.textContent = '✓ Message sent! I\'ll be in touch within 24 hours.';
+            note.className   = 'form-note success';
+            form.reset();
+          } else {
+            note.textContent = 'Something went wrong. Please try again.';
+            note.className   = 'form-note error';
+          }
+        })
+        .catch(() => {
+          note.textContent = 'Network error. Please try again.';
+          note.className   = 'form-note error';
+        })
+        .finally(() => {
+          btn.disabled = false;
+          btn.querySelector('.btn-text').textContent = 'Send Message';
+        });
     });
   }
 
