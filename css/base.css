@@ -184,12 +184,21 @@ input, textarea, select { font: inherit; }
 .work__grid     { perspective: 1200px; }
 .service-card, .project-card { transform-style: preserve-3d; will-change: transform; }
 
-/* ── TOUCH DEVICES: restore cursor so iOS tap events work ── */
+/* ── TOUCH DEVICES: restore cursor + neutralize custom cursors ── */
 @media (hover: none), (pointer: coarse) {
-  body    { cursor: auto; }
-  button  { cursor: pointer; }
-  a       { cursor: pointer; }
-  select, input, textarea { cursor: auto; }
+  body, button, a, select, input, textarea,
+  .ai-fab, .ai-send, .ai-panel__close, .ai-quick,
+  .nav__burger, .mobile-link, .nav__link,
+  .btn, .filter-btn, .project-card, .service-card,
+  .form-group select, .form__submit {
+    cursor: auto !important;
+  }
+  button, a, .btn, .ai-fab, .ai-send, .ai-panel__close, .ai-quick,
+  .nav__burger, .mobile-link, .nav__link, .filter-btn, .form__submit {
+    cursor: pointer !important;
+  }
+  /* Hide the desktop custom cursor entirely on touch */
+  .cursor, .cursor-follower { display: none !important; }
 }
 
 /* ── RESPONSIVE BASE ─────────────────────────────────────── */
