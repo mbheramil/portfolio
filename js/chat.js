@@ -11,7 +11,7 @@
   if (!C || !C.ai) return;
 
   // ← Your Cloudflare Worker URL
-  const WORKER_URL = 'https://my-site.mbheramil.workers.dev';
+  const WORKER_URL = 'https://ai-proxy.mbheramil.workers.dev';
 
   /* ── DOM REFS ─────────────────────────────────────────── */
   const fab      = document.getElementById('aiFab');
