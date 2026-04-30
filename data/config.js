@@ -203,7 +203,7 @@ window.SiteConfig = {
   /* ── AI CHAT WIDGET ──────────────────────────────────── */
   ai: {
     // Paste your OpenAI API key here to enable the chat widget
-    openaiKey: 'YOUR_OPENAI_API_KEY_HERE',
+    openaiKey: '',   // key is loaded separately in js/chat.js
     quickQuestions: [
       { label: 'Services?', question: 'What services do you offer?' },
       { label: 'Pricing?',  question: 'How much does a WordPress site cost?' },
