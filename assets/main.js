@@ -368,6 +368,10 @@ function setupNewsletter(features) {
 
 // ─── Dark mode toggle ──────────────────────────────────────
 function setupTheme() {
+  // Apply saved theme on init (covers all pages: index, blog, blog-post)
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  else if (saved === 'light') document.documentElement.removeAttribute('data-theme');
   const btn = document.getElementById('themeToggle');
   if (!btn) return;
   btn.addEventListener('click', () => {
