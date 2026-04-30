@@ -1,0 +1,48 @@
+/* ─── css/preloader.css ───────────────────────────────────
+   Page preloader styles.
+   ─────────────────────────────────────────────────────── */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .5s ease, visibility .5s ease;
+}
+.preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader__inner { text-align: center; }
+.preloader__logo {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 36px;
+  animation: logoPulse 1s ease-in-out infinite alternate;
+}
+@keyframes logoPulse {
+  from { opacity: .4; }
+  to   { opacity: 1; text-shadow: 0 0 40px rgba(0,212,255,.7); }
+}
+.preloader__track {
+  width: 200px;
+  height: 2px;
+  background: rgba(255,255,255,.07);
+  border-radius: 2px;
+  margin: 0 auto 14px;
+  overflow: hidden;
+}
+.preloader__fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  transition: width .08s linear;
+}
+.preloader__pct {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text-muted);
+  letter-spacing: .12em;
+}

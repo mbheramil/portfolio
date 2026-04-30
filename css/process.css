@@ -1,0 +1,52 @@
+/* ─── css/process.css ─────────────────────────────────────
+   Process / how I work section styles.
+   ─────────────────────────────────────────────────────── */
+
+.process { background: var(--bg); }
+.process__steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.process-step {
+  flex: 1;
+  padding: 36px 30px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: var(--transition);
+}
+.process-step:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0,212,255,.06);
+}
+.process-step__num {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cyan);
+  opacity: .2;
+  margin-bottom: 16px;
+}
+.process-step h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.process-step p { font-size: .875rem; color: var(--text-muted); line-height: 1.7; }
+.process-step__arrow {
+  padding: 20px 16px;
+  color: var(--cyan);
+  font-size: 1.5rem;
+  opacity: .3;
+  flex-shrink: 0;
+  margin-top: 40px;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .process__steps { flex-direction: column; }
+  .process-step__arrow { transform: rotate(90deg); align-self: center; margin: 0; }
+}
