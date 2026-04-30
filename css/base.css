@@ -38,12 +38,11 @@ body {
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none;
 }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; }
-button { cursor: none; border: none; background: none; font: inherit; }
+button { border: none; background: none; font: inherit; cursor: pointer; }
 input, textarea, select { font: inherit; }
 
 /* ── SCROLLBAR ─────────────────────────────────────────── */
@@ -184,21 +183,10 @@ input, textarea, select { font: inherit; }
 .work__grid     { perspective: 1200px; }
 .service-card, .project-card { transform-style: preserve-3d; will-change: transform; }
 
-/* ── TOUCH DEVICES: restore cursor + neutralize custom cursors ── */
-@media (hover: none), (pointer: coarse) {
-  body, button, a, select, input, textarea,
-  .ai-fab, .ai-send, .ai-panel__close, .ai-quick,
-  .nav__burger, .mobile-link, .nav__link,
-  .btn, .filter-btn, .project-card, .service-card,
-  .form-group select, .form__submit {
-    cursor: auto !important;
-  }
-  button, a, .btn, .ai-fab, .ai-send, .ai-panel__close, .ai-quick,
-  .nav__burger, .mobile-link, .nav__link, .filter-btn, .form__submit {
-    cursor: pointer !important;
-  }
-  /* Hide the desktop custom cursor entirely on touch */
-  .cursor, .cursor-follower { display: none !important; }
+/* ── DESKTOP ONLY: custom cursor (hover-capable devices) ── */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  button { cursor: none; }
 }
 
 /* ── RESPONSIVE BASE ─────────────────────────────────────── */
