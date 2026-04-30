@@ -5,6 +5,9 @@
 (function () {
   'use strict';
 
+  // Don't run custom cursor on touch devices
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
   const cursor   = document.getElementById('cursor');
   const follower = document.getElementById('cursorFollower');
   if (!cursor || !follower) return;

@@ -184,6 +184,14 @@ input, textarea, select { font: inherit; }
 .work__grid     { perspective: 1200px; }
 .service-card, .project-card { transform-style: preserve-3d; will-change: transform; }
 
+/* ── TOUCH DEVICES: restore cursor so iOS tap events work ── */
+@media (hover: none), (pointer: coarse) {
+  body    { cursor: auto; }
+  button  { cursor: pointer; }
+  a       { cursor: pointer; }
+  select, input, textarea { cursor: auto; }
+}
+
 /* ── RESPONSIVE BASE ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .section { padding-block: 80px; }
