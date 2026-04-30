@@ -10,8 +10,8 @@
   const C = window.SiteConfig;
   if (!C || !C.ai) return;
 
-  // ← Paste your Cloudflare Worker URL here after deploying
-  const WORKER_URL = 'https://ai-proxy.mbheramil.workers.dev';
+  // ← Your Cloudflare Worker URL
+  const WORKER_URL = 'https://my-site.mbheramil.workers.dev';
 
   /* ── DOM REFS ─────────────────────────────────────────── */
   const fab      = document.getElementById('aiFab');
