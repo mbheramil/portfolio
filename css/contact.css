@@ -161,7 +161,7 @@
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--text-muted); }
 .form-group textarea { resize: vertical; min-height: 120px; }
-.form-group select { cursor: none; }
+.form-group select { cursor: pointer; }
 .form-note {
   text-align: center;
   margin-top: 16px;

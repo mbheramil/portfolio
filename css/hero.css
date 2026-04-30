@@ -63,6 +63,11 @@
   max-width: 480px;
   height: auto;
   cursor: crosshair;
+  touch-action: pan-y;
+}
+@media (max-width: 768px) {
+  #heroGlobe { pointer-events: none; }
+  .hero__right { display: none; }
 }
 
 /* ── HERO CONTENT ────────────────────────────────────────── */
