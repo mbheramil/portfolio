@@ -35,11 +35,12 @@
 
     const serviceVal = (form.querySelector('[name="service"]') || {}).value || 'Not specified';
     const data = {
-      name:    form.querySelector('[name="name"]').value.trim(),
-      email:   form.querySelector('[name="email"]').value.trim(),
-      service: serviceVal,
-      subject: serviceVal,
-      message: form.querySelector('[name="message"]').value.trim(),
+      name:         form.querySelector('[name="name"]').value.trim(),
+      email:        form.querySelector('[name="email"]').value.trim(),
+      service_type: serviceVal,
+      service:      serviceVal,
+      subject:      serviceVal,
+      message:      form.querySelector('[name="message"]').value.trim(),
     };
 
     try {
