@@ -14,7 +14,7 @@ export const dashboardHTML = `<!doctype html>
     --border: #e2e8f0; --accent: #2563eb; --accent2: #7c3aed;
     --green: #10b981; --red: #ef4444; --amber: #f59e0b;
   }
-  html, body { height: 100%; overflow: hidden }
+  html, body { min-height: 100% }
   body { font: 14px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; background: var(--bg); color: var(--text); }
   a { color: var(--accent); text-decoration: none }
   button { font: inherit; cursor: pointer; border: none; background: none; color: inherit }
@@ -22,10 +22,10 @@ export const dashboardHTML = `<!doctype html>
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.12) }
   textarea { resize: vertical; min-height: 70px; font-family: inherit }
 
-  .layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+  .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 
   /* Sidebar */
-  .sidebar { background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+  .sidebar { background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; align-self: start; }
   .sidebar__brand { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px }
   .sidebar__brand img { width: 32px; height: 32px; border-radius: 50% }
   .sidebar__brand b { font-size: .95rem }
@@ -42,8 +42,8 @@ export const dashboardHTML = `<!doctype html>
   .btn-logout { background: #fef2f2; color: var(--red) } .btn-logout:hover { background: #fee2e2 }
 
   /* Main */
-  .main { display: flex; flex-direction: column; overflow: hidden }
-  .topbar { padding: 14px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--panel) }
+  .main { display: flex; flex-direction: column; min-width: 0 }
+  .topbar { padding: 14px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--panel); position: sticky; top: 0; z-index: 5 }
   .topbar h1 { font-size: 1.05rem; font-weight: 600 }
   .topbar__actions { display: flex; gap: 8px }
   .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 18px; background: var(--text); color: #fff; border-radius: 8px; font-size: .85rem; box-shadow: 0 10px 25px rgba(0,0,0,.15); transform: translateY(100px); opacity: 0; transition: .3s; z-index: 1000 }
@@ -51,7 +51,7 @@ export const dashboardHTML = `<!doctype html>
   .toast.error { background: var(--red) }
   .toast.success { background: var(--green) }
 
-  .content { flex: 1; overflow-y: auto; padding: 24px 32px 64px; max-width: 1100px; width: 100%; margin: 0 auto }
+  .content { padding: 24px 32px 80px; max-width: 1100px; width: 100%; margin: 0 auto }
   .page-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 4px }
   .page-sub { color: var(--muted); margin-bottom: 24px; font-size: .9rem }
 
@@ -130,6 +130,15 @@ export const dashboardHTML = `<!doctype html>
   .loading { display: grid; place-items: center; padding: 60px; color: var(--muted) }
   .spinner { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite }
   @keyframes spin { to { transform: rotate(360deg) } }
+  /* Mobile responsive */
+  @media (max-width: 820px) {
+    .layout { grid-template-columns: 1fr }
+    .sidebar { position: static; height: auto; max-height: none; border-right: none; border-bottom: 1px solid var(--border) }
+    .sidebar__nav { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 4px }
+    .sidebar__group { grid-column: 1 / -1 }
+    .content { padding: 20px 16px 80px }
+    .topbar { padding: 12px 16px }
+  }
 </style>
 </head>
 <body>

@@ -366,21 +366,10 @@ function setupNewsletter(features) {
   });
 }
 
-// ─── Dark mode toggle ──────────────────────────────────────
+// ─── Dark mode (disabled — keep light only) ────────────────
 function setupTheme() {
-  // Apply saved theme on init (covers all pages: index, blog, blog-post)
-  const saved = localStorage.getItem('theme');
-  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-  else if (saved === 'light') document.documentElement.removeAttribute('data-theme');
-  const btn = document.getElementById('themeToggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    const next = cur === 'dark' ? 'light' : 'dark';
-    if (next === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-    else document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('theme', next);
-  });
+  document.documentElement.removeAttribute('data-theme');
+  try { localStorage.removeItem('theme'); } catch(e) {}
 }
 
 // ─── Scroll progress ───────────────────────────────────────
