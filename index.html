@@ -6,12 +6,43 @@
 <meta name="theme-color" content="#ffffff">
 <title>Loading…</title>
 <meta name="description" content="">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232563eb'/%3E%3Ctext x='50' y='68' font-size='60' font-family='system-ui' font-weight='800' fill='white' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mbheramil.com/">
+<meta property="og:title" content="" id="ogTitle">
+<meta property="og:description" content="" id="ogDesc">
+<meta property="og:image" content="" id="ogImage">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="" id="twTitle">
+<meta name="twitter:description" content="" id="twDesc">
+<meta name="twitter:image" content="" id="twImage">
+<script type="application/ld+json" id="jsonld">{}</script>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://admin.mbheramil.com/rss.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/main.css">
+<script>
+  // Apply dark mode early to avoid flash
+  (function(){
+    var t = localStorage.getItem('theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (t === 'dark') document.documentElement.setAttribute('data-theme','dark');
+  })();
+</script>
 </head>
 <body>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Loading skeleton -->
+<div class="page-skeleton" id="pageSkeleton">
+  <div class="skel skel--bar"></div>
+  <div class="skel skel--title"></div>
+  <div class="skel skel--line"></div>
+  <div class="skel skel--line short"></div>
+</div>
 
 <!-- Nav -->
 <header class="nav" id="nav">
@@ -21,9 +52,14 @@
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#work">Work</a>
-      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="blog.html">Blog</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <a href="#contact" class="btn btn--primary nav__cta">Get in touch</a>
     <button class="nav__burger" id="navBurger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -36,7 +72,8 @@
   <a href="#about">About</a>
   <a href="#services">Services</a>
   <a href="#work">Work</a>
-  <a href="#process">Process</a>
+  <a href="#pricing">Pricing</a>
+  <a href="blog.html">Blog</a>
   <a href="#contact">Contact</a>
 </div>
 
@@ -117,6 +154,57 @@
   </div>
 </section>
 
+<!-- Testimonials -->
+<section class="section section--alt" id="testimonials" hidden>
+  <div class="container">
+    <div class="section__head">
+      <span class="section__label">Testimonials</span>
+      <h2 class="section__title">What clients say</h2>
+    </div>
+    <div class="grid grid--3" id="testimonialsGrid"></div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing" hidden>
+  <div class="container">
+    <div class="section__head">
+      <span class="section__label">Pricing</span>
+      <h2 class="section__title">Simple, transparent pricing</h2>
+      <p class="section__sub">Pick the package that fits. Custom quotes available.</p>
+    </div>
+    <div class="grid grid--3" id="pricingGrid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section--alt" id="faq" hidden>
+  <div class="container">
+    <div class="section__head">
+      <span class="section__label">FAQ</span>
+      <h2 class="section__title">Frequently asked</h2>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section" id="newsletter" hidden>
+  <div class="container">
+    <div class="newsletter">
+      <div>
+        <h2 class="newsletter__title">Get tips by email</h2>
+        <p class="newsletter__sub">Occasional notes on building fast, beautiful sites. No spam.</p>
+      </div>
+      <form class="newsletter__form" id="newsletterForm">
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <button type="submit" class="btn btn--primary">Subscribe</button>
+        <div class="newsletter__status" id="newsletterStatus" hidden></div>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- Contact -->
 <section class="section section--alt" id="contact">
   <div class="container">
@@ -126,6 +214,7 @@
       <p class="section__sub" id="contactSub">Got a project in mind? Drop me a line.</p>
     </div>
     <form class="contact-form" id="contactForm">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none">
       <div class="form-row">
         <label><span>Your name</span><input name="name" type="text" required></label>
         <label><span>Email</span><input name="email" type="email" required></label>

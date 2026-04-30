@@ -250,6 +250,9 @@ const SECTIONS = [
   { group: 'Site Content', id: 'tools',     label: 'Tech Stack', icon: '⚡', kind: 'items', type: 'tool' },
   { group: 'Site Content', id: 'projects',  label: 'Projects',   icon: '💼', kind: 'items', type: 'project' },
   { group: 'Site Content', id: 'process',   label: 'Process',    icon: '🔄', kind: 'items', type: 'process' },
+  { group: 'Site Content', id: 'testimonials', label: 'Testimonials', icon: '⭐', kind: 'items', type: 'testimonial' },
+  { group: 'Site Content', id: 'pricing',   label: 'Pricing',    icon: '💰', kind: 'items', type: 'pricing' },
+  { group: 'Site Content', id: 'faq',       label: 'FAQ',        icon: '❓', kind: 'items', type: 'faq' },
   { group: 'Site Content', id: 'social',    label: 'Social Links', icon: '🔗', kind: 'items', type: 'social' },
   { group: 'Site Content', id: 'contact',   label: 'Contact', icon: '✉️', kind: 'setting', key: 'contact',
     fields: [
@@ -257,6 +260,7 @@ const SECTIONS = [
       { name: 'sub',     label: 'Sub-heading' },
     ]
   },
+  { group: 'Site Content', id: 'posts',     label: 'Blog Posts', icon: '📝', kind: 'posts' },
 
   { group: 'Settings', id: 'theme', label: 'Theme & Colours', icon: '🎨', kind: 'theme' },
   { group: 'Settings', id: 'seo',   label: 'SEO',   icon: '🔍', kind: 'setting', key: 'seo',
@@ -265,13 +269,44 @@ const SECTIONS = [
       { name: 'description', label: 'Meta description', type: 'textarea' },
     ]
   },
-  { group: 'Settings', id: 'ai',    label: 'AI Chat', icon: '🤖', kind: 'items', type: 'quick_question',
+  { group: 'Settings', id: 'og', label: 'Social Image (OG)', icon: '🖼', kind: 'setting', key: 'og',
+    fields: [
+      { name: 'image', label: 'OG image URL', type: 'image' },
+      { name: 'twitter', label: 'Twitter handle' },
+    ]
+  },
+  { group: 'Settings', id: 'features', label: 'Features', icon: '🎛', kind: 'setting', key: 'features',
+    fields: [
+      { name: 'chat',       label: 'AI chat widget',  type: 'checkbox' },
+      { name: 'newsletter', label: 'Newsletter signup', type: 'checkbox' },
+      { name: 'blog',       label: 'Blog enabled',    type: 'checkbox' },
+      { name: 'darkMode',   label: 'Dark mode toggle', type: 'checkbox' },
+    ]
+  },
+  { group: 'Settings', id: 'admin', label: 'Admin & Email', icon: '📧', kind: 'setting', key: 'admin',
+    fields: [
+      { name: 'email',                label: 'Notification email', type: 'email' },
+      { name: 'notify_on_submit',     label: 'Email me on contact form submit', type: 'checkbox' },
+      { name: 'notify_daily_digest',  label: 'Send daily digest at 14:00 UTC',  type: 'checkbox' },
+    ]
+  },
+  { group: 'Settings', id: 'ai',    label: 'AI Quick Questions', icon: '🤖', kind: 'items', type: 'quick_question',
     description: 'Quick-question buttons shown in the AI chat widget.'
+  },
+  { group: 'Settings', id: 'ai_prompt', label: 'AI System Prompt', icon: '✨', kind: 'setting', key: 'ai_prompt',
+    fields: [
+      { name: 'system',      label: 'System prompt template (use {name} and {title})', type: 'textarea' },
+      { name: 'temperature', label: 'Temperature (0-1)', type: 'number' },
+    ]
   },
 
   { group: 'Insights', id: 'submissions', label: 'Submissions', icon: '📥', kind: 'submissions' },
   { group: 'Insights', id: 'chats',       label: 'Chat Logs',   icon: '💬', kind: 'chats' },
+  { group: 'Insights', id: 'subscribers', label: 'Newsletter',  icon: '📬', kind: 'subscribers' },
   { group: 'Insights', id: 'analytics',   label: 'Analytics',   icon: '📊', kind: 'analytics' },
+  { group: 'Insights', id: 'audit',       label: 'Audit Log',   icon: '📋', kind: 'audit' },
+  { group: 'Insights', id: 'sessions',    label: 'Sessions',    icon: '🔑', kind: 'sessions' },
+  { group: 'Insights', id: 'export',      label: 'Export Data', icon: '⬇️', kind: 'export' },
 ];
 
 // Item field schemas
@@ -318,6 +353,25 @@ const ITEM_FIELDS = {
   ],
   about_para:  [{ name: 'text', label: 'Paragraph', type: 'textarea' }],
   skill:       [{ name: 'name', label: 'Skill' }],
+  testimonial: [
+    { name: 'quote', label: 'Quote', type: 'textarea' },
+    { name: 'name',  label: 'Person\'s name' },
+    { name: 'role',  label: 'Role / company' },
+    { name: 'avatar', label: 'Avatar', type: 'image' },
+  ],
+  faq: [
+    { name: 'q', label: 'Question' },
+    { name: 'a', label: 'Answer', type: 'textarea' },
+  ],
+  pricing: [
+    { name: 'name',     label: 'Tier name', placeholder: 'Starter / Growth / Custom' },
+    { name: 'price',    label: 'Price (digits or text like "Quote")' },
+    { name: 'unit',     label: 'Unit (e.g. USD, /mo)', placeholder: 'USD' },
+    { name: 'desc',     label: 'Short description' },
+    { name: 'features', label: 'Features (one per line)', type: 'lines' },
+    { name: 'cta',      label: 'Button label', placeholder: 'Get started' },
+    { name: 'featured', label: 'Featured (highlighted)', type: 'checkbox' },
+  ],
 };
 
 const ITEM_LABELS = {
@@ -331,6 +385,9 @@ const ITEM_LABELS = {
   stat:        { single: 'Stat', titleField: 'label' },
   about_para:  { single: 'Paragraph', titleField: 'text' },
   skill:       { single: 'Skill', titleField: 'name' },
+  testimonial: { single: 'Testimonial', titleField: 'name' },
+  faq:         { single: 'FAQ', titleField: 'q' },
+  pricing:     { single: 'Pricing tier', titleField: 'name' },
 };
 
 // ─── Render sidebar ─────────────────────────────────────────
@@ -374,6 +431,11 @@ function renderPage() {
   else if (sec.kind === 'submissions') renderSubmissions(c);
   else if (sec.kind === 'chats') renderChats(c);
   else if (sec.kind === 'analytics') renderAnalytics(c);
+  else if (sec.kind === 'posts') renderPosts(c);
+  else if (sec.kind === 'subscribers') renderSubscribers(c);
+  else if (sec.kind === 'audit') renderAudit(c);
+  else if (sec.kind === 'sessions') renderSessions(c);
+  else if (sec.kind === 'export') renderExport(c);
 
   if (sec.extras) {
     for (const t of sec.extras) {
@@ -406,11 +468,16 @@ function renderSetting(sec, c) {
       ta.addEventListener('input', () => data[f.name] = ta.value);
       lab.appendChild(ta);
       row.appendChild(lab);
+    } else if (f.type === 'image') {
+      const lab = h('label', {});
+      lab.appendChild(h('span', {}, f.label));
+      lab.appendChild(renderImageInput(data, f.name));
+      row.appendChild(lab);
     } else {
       const lab = h('label', {});
       lab.appendChild(h('span', {}, f.label));
       const inp = h('input', { type: f.type || 'text', value: data[f.name] || '', placeholder: f.placeholder || '' });
-      inp.addEventListener('input', () => data[f.name] = inp.value);
+      inp.addEventListener('input', () => data[f.name] = f.type === 'number' ? (parseFloat(inp.value) || 0) : inp.value);
       lab.appendChild(inp);
       row.appendChild(lab);
     }
@@ -506,38 +573,88 @@ function editItem(type, item) {
   const data   = item ? { ...item } : {};
 
   const overlay = h('div', { class: 'preview-overlay open', style: 'background:rgba(15,23,42,.5)' });
-  const form = h('div', { class: 'card', style: 'width:520px;max-width:90vw;max-height:90vh;overflow-y:auto;background:#fff' });
+  const form = h('div', { class: 'card', style: 'width:560px;max-width:90vw;max-height:90vh;overflow-y:auto;background:#fff' });
   form.appendChild(h('h3', {}, (isNew ? 'New ' : 'Edit ') + (ITEM_LABELS[type]?.single || type)));
 
   for (const f of fields) {
     const lab = h('label', {});
-    lab.appendChild(h('span', {}, f.label));
+    const labelRow = h('div', { style: 'display:flex;align-items:center;justify-content:space-between;gap:8px' },
+      h('span', {}, f.label)
+    );
+    lab.appendChild(labelRow);
     let input;
     if (f.type === 'textarea') {
       input = h('textarea', { rows: 3 }, data[f.name] || '');
       input.addEventListener('input', () => data[f.name] = input.value);
+      labelRow.appendChild(makeAiImproveBtn(f.label, () => input.value, v => { input.value = v; data[f.name] = v; }));
     } else if (f.type === 'tags') {
       input = renderTagsInput(data, f.name);
     } else if (f.type === 'image') {
       input = renderImageInput(data, f.name);
+    } else if (f.type === 'lines') {
+      data[f.name] = data[f.name] || [];
+      input = h('textarea', { rows: 5, placeholder: 'One per line' }, (data[f.name] || []).join('\\n'));
+      input.addEventListener('input', () => data[f.name] = input.value.split('\\n').map(x => x.trim()).filter(Boolean));
+    } else if (f.type === 'checkbox') {
+      const wrap = h('label', { class: 'checkbox', style: 'margin-top:4px' });
+      const cb = h('input', { type: 'checkbox', checked: !!data[f.name] });
+      cb.addEventListener('change', () => data[f.name] = cb.checked);
+      wrap.append(cb, document.createTextNode(' enabled'));
+      input = wrap;
     } else {
       input = h('input', { type: f.type || 'text', value: data[f.name] ?? '', placeholder: f.placeholder || '' });
       input.addEventListener('input', () => {
         data[f.name] = f.type === 'number' ? parseFloat(input.value) || 0 : input.value;
       });
+      if (f.name === 'url' && type === 'project') {
+        labelRow.appendChild(h('button', {
+          class: 'btn btn-secondary btn-small',
+          onclick: async () => {
+            if (!input.value) return toast('Enter a URL first', 'error');
+            toast('Generating from URL…');
+            try {
+              const j = await api('/api/admin/ai/project', { method: 'POST', body: JSON.stringify({ url: input.value }) });
+              if (j.title) { const t = form.querySelector('input[placeholder=""]'); }
+              for (const [k, v] of Object.entries(j)) {
+                data[k] = v;
+                const el = form.querySelector('[data-field="' + k + '"]');
+                if (el) el.value = Array.isArray(v) ? v.join(', ') : v;
+              }
+              toast('Filled from URL — review & save', 'success');
+              overlay.remove();
+              editItem(type, { ...data });
+            } catch (e) { toast('AI: ' + e.message, 'error'); }
+          }
+        }, '✨ Generate from URL'));
+      }
+      if (f.type !== 'number' && f.type !== 'email' && (f.name === 'title' || f.name === 'desc' || f.name === 'q' || f.name === 'a' || f.name === 'quote')) {
+        labelRow.appendChild(makeAiImproveBtn(f.label, () => input.value, v => { input.value = v; data[f.name] = v; }));
+      }
     }
+    if (input.setAttribute && f.name) input.setAttribute('data-field', f.name);
     lab.appendChild(input);
     form.appendChild(lab);
     form.appendChild(h('div', { style: 'height:10px' }));
   }
 
+  // Schedule field
+  const schedLab = h('label', {});
+  schedLab.appendChild(h('span', {}, 'Schedule publish (optional, leave empty for immediate)'));
+  const dt = data.publishAt ? new Date(data.publishAt * 1000).toISOString().slice(0,16) : '';
+  const schedInp = h('input', { type: 'datetime-local', value: dt });
+  schedInp.addEventListener('input', () => {
+    data.publishAt = schedInp.value ? Math.floor(new Date(schedInp.value).getTime() / 1000) : undefined;
+  });
+  schedLab.appendChild(schedInp);
+  form.appendChild(schedLab);
+
   const actions = h('div', { style: 'display:flex;gap:8px;justify-content:flex-end;margin-top:18px' });
   actions.appendChild(h('button', { class: 'btn btn-secondary', onclick: () => overlay.remove() }, 'Cancel'));
   actions.appendChild(h('button', { class: 'btn btn-primary', onclick: async () => {
     try {
-      // Strip internal fields
       const payload = { ...data };
       delete payload.id; delete payload.position;
+      if (payload.publishAt === undefined || payload.publishAt === '' || isNaN(payload.publishAt)) delete payload.publishAt;
       if (isNew) {
         await api('/api/admin/items', { method: 'POST', body: JSON.stringify({ type, data: payload }) });
       } else {
@@ -554,6 +671,23 @@ function editItem(type, item) {
   overlay.appendChild(form);
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   document.body.appendChild(overlay);
+}
+
+function makeAiImproveBtn(label, getter, setter) {
+  return h('button', {
+    class: 'btn btn-secondary btn-small',
+    style: 'font-size:.72rem',
+    onclick: async () => {
+      const text = getter();
+      if (!text || !text.trim()) return toast('Type something first', 'error');
+      toast('Improving…');
+      try {
+        const j = await api('/api/admin/ai/improve', { method: 'POST', body: JSON.stringify({ text, label }) });
+        setter(j.text || text);
+        toast('Done', 'success');
+      } catch (e) { toast('AI: ' + e.message, 'error'); }
+    }
+  }, '✨ AI');
 }
 
 // ─── Tags input ─────────────────────────────────────────────
@@ -756,6 +890,230 @@ async function renderAnalytics(c) {
       c.appendChild(card);
     }
   } catch (e) { c.innerHTML = ''; c.appendChild(h('div', { class: 'empty' }, 'Error: ' + e.message)); }
+}
+
+// ─── Blog Posts ─────────────────────────────────────────────
+async function renderPosts(c) {
+  c.appendChild(h('div', { class: 'loading' }, h('div', { class: 'spinner' })));
+  try {
+    const rows = await api('/api/admin/posts');
+    c.innerHTML = '';
+    c.appendChild(h('div', { class: 'page-title' }, 'Blog posts'));
+    c.appendChild(h('div', { class: 'page-sub' }, rows.length + ' posts'));
+    c.appendChild(h('button', { class: 'btn btn-primary', style: 'margin-bottom:18px', onclick: () => editPost(null) }, '+ New post'));
+    if (!rows.length) { c.appendChild(h('div', { class: 'empty' }, 'No posts yet.')); return; }
+    const list = h('div', { class: 'item-list' });
+    for (const p of rows) {
+      const status = p.status === 'published' ? '<span style="color:var(--green);font-size:.75rem">● Published</span>' : '<span style="color:var(--amber);font-size:.75rem">● Draft</span>';
+      const sched = p.publish_at ? ' · scheduled ' + new Date(p.publish_at * 1000).toLocaleString() : '';
+      const it = h('div', { class: 'item' },
+        h('span', { class: 'item__drag' }, '📝'),
+        h('div', {},
+          h('div', { class: 'item__title' }, p.title || '(untitled)'),
+          h('div', { class: 'item__sub', html: '/' + (p.slug||'') + ' · ' + status + sched })
+        ),
+        h('div', { class: 'item__actions' },
+          h('button', { class: 'btn btn-secondary btn-small', onclick: () => editPost(p) }, 'Edit'),
+          h('button', { class: 'btn btn-danger btn-small', onclick: async () => {
+            if (!confirm('Delete post "' + p.title + '"?')) return;
+            await api('/api/admin/posts/' + p.id, { method: 'DELETE' });
+            renderPage();
+          }}, 'Delete'),
+        )
+      );
+      list.appendChild(it);
+    }
+    c.appendChild(list);
+  } catch (e) { c.innerHTML = ''; c.appendChild(h('div', { class: 'empty' }, 'Error: ' + e.message)); }
+}
+
+function editPost(post) {
+  const isNew = !post;
+  const data = post ? {
+    ...post,
+    tags: Array.isArray(post.tags) ? post.tags : (post.tags ? post.tags.split(',').map(t=>t.trim()).filter(Boolean) : []),
+  } : { status: 'draft', tags: [] };
+
+  const overlay = h('div', { class: 'preview-overlay open', style: 'background:rgba(15,23,42,.5)' });
+  const form = h('div', { class: 'card', style: 'width:760px;max-width:95vw;max-height:92vh;overflow-y:auto;background:#fff' });
+  form.appendChild(h('h3', {}, isNew ? 'New post' : 'Edit post'));
+
+  const titleInp = h('input', { type:'text', value: data.title || '', placeholder: 'Post title' });
+  titleInp.addEventListener('input', () => { data.title = titleInp.value; if (isNew && !data.slug) slugInp.value = slugify(titleInp.value), data.slug = slugInp.value; });
+  const slugInp = h('input', { type:'text', value: data.slug || '', placeholder: 'url-slug' });
+  slugInp.addEventListener('input', () => data.slug = slugInp.value);
+  const excerptInp = h('textarea', { rows: 2, placeholder: 'Short summary' }, data.excerpt || '');
+  excerptInp.addEventListener('input', () => data.excerpt = excerptInp.value);
+  const bodyInp = h('textarea', { rows: 18, placeholder: '# Heading\\nMarkdown body…' }, data.body_md || '');
+  bodyInp.addEventListener('input', () => data.body_md = bodyInp.value);
+  const coverInp = renderImageInput(data, 'cover');
+
+  const tagsLab = h('label', {}, h('span', {}, 'Tags'));
+  tagsLab.appendChild(renderTagsInput(data, 'tags'));
+
+  const statusInp = h('select', {}, h('option', { value: 'draft' }, 'Draft'), h('option', { value: 'published' }, 'Published'));
+  statusInp.value = data.status || 'draft';
+  statusInp.addEventListener('change', () => data.status = statusInp.value);
+
+  const dt = data.publish_at ? new Date(data.publish_at * 1000).toISOString().slice(0,16) : '';
+  const schedInp = h('input', { type:'datetime-local', value: dt });
+  schedInp.addEventListener('input', () => data.publish_at = schedInp.value ? Math.floor(new Date(schedInp.value).getTime()/1000) : null);
+
+  const titleLab = h('label', {});
+  const titleRow = h('div', { style:'display:flex;align-items:center;justify-content:space-between' }, h('span', {}, 'Title'));
+  titleRow.appendChild(makeAiImproveBtn('post title', () => titleInp.value, v => { titleInp.value = v; data.title = v; }));
+  titleLab.append(titleRow, titleInp);
+
+  const excerptLab = h('label', {});
+  const excerptRow = h('div', { style:'display:flex;align-items:center;justify-content:space-between' }, h('span', {}, 'Excerpt'));
+  excerptRow.appendChild(makeAiImproveBtn('post excerpt', () => excerptInp.value, v => { excerptInp.value = v; data.excerpt = v; }));
+  excerptLab.append(excerptRow, excerptInp);
+
+  form.append(
+    titleLab, h('div', { style:'height:10px' }),
+    h('label', {}, h('span', {}, 'Slug'), slugInp), h('div', { style:'height:10px' }),
+    excerptLab, h('div', { style:'height:10px' }),
+    h('label', {}, h('span', {}, 'Cover image'), coverInp), h('div', { style:'height:10px' }),
+    h('label', {}, h('span', {}, 'Body (Markdown)'), bodyInp), h('div', { style:'height:10px' }),
+    tagsLab, h('div', { style:'height:10px' }),
+    h('div', { class: 'row' },
+      h('label', {}, h('span', {}, 'Status'), statusInp),
+      h('label', {}, h('span', {}, 'Schedule (optional)'), schedInp)
+    )
+  );
+
+  const actions = h('div', { style: 'display:flex;gap:8px;justify-content:flex-end;margin-top:18px' });
+  actions.appendChild(h('button', { class: 'btn btn-secondary', onclick: () => overlay.remove() }, 'Cancel'));
+  actions.appendChild(h('button', { class: 'btn btn-primary', onclick: async () => {
+    if (!data.title) return toast('Title required', 'error');
+    if (!data.slug) data.slug = slugify(data.title);
+    try {
+      const url = isNew ? '/api/admin/posts' : '/api/admin/posts/' + post.id;
+      await api(url, { method: isNew ? 'POST' : 'PUT', body: JSON.stringify(data) });
+      overlay.remove();
+      renderPage();
+      toast(isNew ? 'Created' : 'Saved', 'success');
+    } catch (e) { toast(e.message, 'error'); }
+  }}, 'Save'));
+  form.appendChild(actions);
+
+  overlay.appendChild(form);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+function slugify(s) { return (s||'').toString().toLowerCase().trim().replace(/[^\\w\\s-]/g, '').replace(/[\\s_-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80); }
+
+// ─── Newsletter subscribers ─────────────────────────────────
+async function renderSubscribers(c) {
+  c.appendChild(h('div', { class: 'loading' }, h('div', { class: 'spinner' })));
+  try {
+    const rows = await api('/api/admin/subscribers');
+    c.innerHTML = '';
+    c.appendChild(h('div', { class: 'page-title' }, 'Newsletter subscribers'));
+    c.appendChild(h('div', { class: 'page-sub' }, rows.length + ' subscribers'));
+    if (!rows.length) { c.appendChild(h('div', { class: 'empty' }, 'No subscribers yet.')); return; }
+    const table = h('table');
+    table.innerHTML = '<thead><tr><th>Email</th><th>Status</th><th>Source</th><th>Joined</th><th></th></tr></thead>';
+    const tb = h('tbody');
+    for (const r of rows) {
+      tb.appendChild(h('tr', {},
+        h('td', {}, h('a', { href: 'mailto:' + r.email }, r.email)),
+        h('td', {}, r.status),
+        h('td', {}, r.source || '-'),
+        h('td', {}, new Date(r.created_at * 1000).toLocaleDateString()),
+        h('td', {}, h('button', { class: 'btn btn-danger btn-small', onclick: async () => {
+          if (!confirm('Remove ' + r.email + '?')) return;
+          await api('/api/admin/subscribers/' + r.id, { method: 'DELETE' });
+          renderPage();
+        }}, 'Remove')),
+      ));
+    }
+    table.appendChild(tb);
+    c.appendChild(table);
+    // Export CSV
+    c.appendChild(h('button', { class: 'btn btn-secondary', style: 'margin-top:14px', onclick: () => {
+      const csv = 'email,status,source,joined\\n' + rows.map(r => r.email + ',' + r.status + ',' + (r.source||'') + ',' + new Date(r.created_at*1000).toISOString()).join('\\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'subscribers.csv'; a.click();
+    }}, '⬇ Export CSV'));
+  } catch (e) { c.innerHTML = ''; c.appendChild(h('div', { class: 'empty' }, 'Error: ' + e.message)); }
+}
+
+// ─── Audit log ──────────────────────────────────────────────
+async function renderAudit(c) {
+  c.appendChild(h('div', { class: 'loading' }, h('div', { class: 'spinner' })));
+  try {
+    const rows = await api('/api/admin/audit');
+    c.innerHTML = '';
+    c.appendChild(h('div', { class: 'page-title' }, 'Audit log'));
+    c.appendChild(h('div', { class: 'page-sub' }, 'Last 200 actions'));
+    if (!rows.length) { c.appendChild(h('div', { class: 'empty' }, 'No actions logged.')); return; }
+    const table = h('table');
+    table.innerHTML = '<thead><tr><th>When</th><th>User</th><th>Action</th><th>Resource</th><th>IP</th></tr></thead>';
+    const tb = h('tbody');
+    for (const r of rows) {
+      tb.appendChild(h('tr', {},
+        h('td', {}, new Date(r.created_at * 1000).toLocaleString()),
+        h('td', {}, r.user || '-'),
+        h('td', {}, r.action || '-'),
+        h('td', { style: 'font-family:ui-monospace,monospace;font-size:.78rem' }, r.resource || '-'),
+        h('td', { style: 'color:var(--muted);font-size:.78rem' }, r.ip || '-'),
+      ));
+    }
+    table.appendChild(tb);
+    c.appendChild(table);
+  } catch (e) { c.innerHTML = ''; c.appendChild(h('div', { class: 'empty' }, 'Error: ' + e.message)); }
+}
+
+// ─── Sessions ───────────────────────────────────────────────
+async function renderSessions(c) {
+  c.appendChild(h('div', { class: 'loading' }, h('div', { class: 'spinner' })));
+  try {
+    const rows = await api('/api/admin/sessions');
+    c.innerHTML = '';
+    c.appendChild(h('div', { class: 'page-title' }, 'Active sessions'));
+    c.appendChild(h('div', { class: 'page-sub' }, rows.length + ' active session(s). Revoke to log out a device.'));
+    const table = h('table');
+    table.innerHTML = '<thead><tr><th>Started</th><th>User Agent</th><th>IP</th><th></th></tr></thead>';
+    const tb = h('tbody');
+    for (const r of rows) {
+      tb.appendChild(h('tr', {},
+        h('td', {}, new Date(r.iat).toLocaleString() + (r.current ? ' (this device)' : '')),
+        h('td', { style: 'max-width:340px;font-size:.78rem;color:var(--muted)' }, (r.ua || '').slice(0, 90)),
+        h('td', {}, r.ip || '-'),
+        h('td', {}, r.current ? '—' : h('button', { class: 'btn btn-danger btn-small', onclick: async () => {
+          if (!confirm('Revoke this session?')) return;
+          await api('/api/admin/sessions/' + r.id, { method: 'DELETE' });
+          renderPage();
+        }}, 'Revoke')),
+      ));
+    }
+    table.appendChild(tb);
+    c.appendChild(table);
+  } catch (e) { c.innerHTML = ''; c.appendChild(h('div', { class: 'empty' }, 'Error: ' + e.message)); }
+}
+
+// ─── Export ─────────────────────────────────────────────────
+function renderExport(c) {
+  c.innerHTML = '';
+  c.appendChild(h('div', { class: 'page-title' }, 'Export & maintenance'));
+  c.appendChild(h('div', { class: 'page-sub' }, 'Download a full JSON backup of all CMS data.'));
+  const card = h('div', { class: 'card' });
+  card.appendChild(h('h3', {}, 'Backup'));
+  card.appendChild(h('p', { style: 'color:var(--muted);font-size:.9rem;margin-bottom:14px' }, 'Includes settings, items, posts, submissions, and subscribers.'));
+  card.appendChild(h('a', { class: 'btn btn-primary', href: API + '/api/admin/export', target: '_blank' }, '⬇ Download JSON backup'));
+  c.appendChild(card);
+
+  const card2 = h('div', { class: 'card' });
+  card2.appendChild(h('h3', {}, 'Daily digest'));
+  card2.appendChild(h('p', { style: 'color:var(--muted);font-size:.9rem;margin-bottom:14px' }, 'Send a test digest email now (uses settings → Admin & Email config).'));
+  card2.appendChild(h('button', { class: 'btn btn-secondary', onclick: async () => {
+    try { await api('/api/admin/test-digest', { method: 'POST' }); toast('Digest sent', 'success'); }
+    catch (e) { toast(e.message, 'error'); }
+  }}, '✉ Send test digest'));
+  c.appendChild(card2);
 }
 
 // ─── Preview overlay ────────────────────────────────────────

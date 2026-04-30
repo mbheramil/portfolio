@@ -23,6 +23,9 @@ id      = "1237009db98f458e98a564fe87642525"
 [ai]
 binding = "AI"
 
+[triggers]
+crons = ["0 14 * * *"]
+
 # Secrets (set via `wrangler secret put` or dashboard):
 #   GITHUB_CLIENT_ID
 #   GITHUB_CLIENT_SECRET

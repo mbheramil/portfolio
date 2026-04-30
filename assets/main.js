@@ -161,7 +161,7 @@ function drawProjects(cat) {
       ? { backgroundImage: `url(${p.image})` }
       : { background: `linear-gradient(135deg, hsl(${p.hue||220},70%,60%), hsl(${(p.hue||220)+40},70%,55%))` };
     const card = h('a', { class: 'project reveal', href: p.url || '#', target: p.url ? '_blank' : '_self', rel: 'noopener' },
-      h('div', { class: 'project__img', style: imgStyle }),
+      h('div', { class: 'project__img', style: imgStyle, loading: 'lazy' }),
       h('div', { class: 'project__body' },
         p.category ? h('div', { class: 'project__cat' }, p.category) : null,
         h('h3', { class: 'project__title' }, p.title || ''),
@@ -251,6 +251,145 @@ function applySeo(s) {
     const m = document.querySelector('meta[name="description"]');
     if (m) m.setAttribute('content', s.seo.description);
   }
+  // OG / Twitter
+  const title = s.seo?.title || s.personal?.name || '';
+  const desc  = s.seo?.description || '';
+  const img   = s.og?.image || '';
+  const set = (id, attr, v) => { const el = document.getElementById(id); if (el && v) el.setAttribute(attr, v); };
+  set('ogTitle','content', title); set('ogDesc','content', desc); set('ogImage','content', img);
+  set('twTitle','content', title); set('twDesc','content', desc); set('twImage','content', img);
+  // JSON-LD
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'Person',
+    name: s.personal?.name || '', jobTitle: s.personal?.title || '',
+    email: s.personal?.email ? 'mailto:' + s.personal.email : undefined,
+    url: s.personal?.website || 'https://mbheramil.com',
+    address: s.personal?.location ? { '@type': 'PostalAddress', addressLocality: s.personal.location } : undefined,
+  };
+  const ldEl = document.getElementById('jsonld');
+  if (ldEl) ldEl.textContent = JSON.stringify(ld);
+}
+
+// ─── Testimonials ──────────────────────────────────────────
+function renderTestimonials(items) {
+  const list = items.testimonial || [];
+  const sec = document.getElementById('testimonials');
+  if (!list.length) return;
+  sec.hidden = false;
+  const g = document.getElementById('testimonialsGrid');
+  g.innerHTML = '';
+  for (const t of list) {
+    const initials = (t.name || '?').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+    g.appendChild(h('div', { class: 'testimonial reveal' },
+      h('p', { class: 'testimonial__quote' }, t.quote || ''),
+      h('div', { class: 'testimonial__who' },
+        h('div', { class: 'testimonial__avatar', style: t.avatar ? { backgroundImage: `url(${t.avatar})` } : {} }, t.avatar ? '' : initials),
+        h('div', {},
+          h('div', { class: 'testimonial__name' }, t.name || ''),
+          h('div', { class: 'testimonial__role' }, t.role || '')
+        )
+      )
+    ));
+  }
+}
+
+// ─── Pricing ───────────────────────────────────────────────
+function renderPricing(items) {
+  const list = items.pricing || [];
+  const sec = document.getElementById('pricing');
+  if (!list.length) return;
+  sec.hidden = false;
+  const g = document.getElementById('pricingGrid');
+  g.innerHTML = '';
+  for (const p of list) {
+    const featured = p.featured === true || p.featured === 'true';
+    const card = h('div', { class: 'pricing-card reveal' + (featured ? ' pricing-card--featured' : '') });
+    if (featured) card.appendChild(h('div', { class: 'pricing-card__badge' }, 'Most popular'));
+    card.appendChild(h('div', { class: 'pricing-card__name' }, p.name || ''));
+    card.appendChild(h('div', { class: 'pricing-card__desc' }, p.desc || ''));
+    card.appendChild(h('div', { class: 'pricing-card__price' },
+      (typeof p.price === 'string' && /\d/.test(p.price)) ? '$' + p.price : (p.price || ''),
+      p.unit ? h('small', {}, ' ' + p.unit) : null
+    ));
+    const ul = h('ul', { class: 'pricing-card__features' });
+    for (const f of (p.features || [])) ul.appendChild(h('li', {}, f));
+    card.appendChild(ul);
+    card.appendChild(h('a', { class: 'btn ' + (featured ? 'btn--primary' : 'btn--ghost'), href: '#contact' }, p.cta || 'Get started'));
+    g.appendChild(card);
+  }
+}
+
+// ─── FAQ ───────────────────────────────────────────────────
+function renderFAQ(items) {
+  const list = items.faq || [];
+  const sec = document.getElementById('faq');
+  if (!list.length) return;
+  sec.hidden = false;
+  const g = document.getElementById('faqList');
+  g.innerHTML = '';
+  for (const f of list) {
+    const item = h('div', { class: 'faq-item reveal' });
+    const q = h('button', { class: 'faq-item__q' }, f.q || '');
+    const a = h('div', { class: 'faq-item__a' }, f.a || '');
+    q.addEventListener('click', () => item.classList.toggle('open'));
+    item.append(q, a);
+    g.appendChild(item);
+  }
+}
+
+// ─── Newsletter ────────────────────────────────────────────
+function setupNewsletter(features) {
+  if (features?.newsletter === false) return;
+  const sec = document.getElementById('newsletter');
+  sec.hidden = false;
+  const form = document.getElementById('newsletterForm');
+  const status = document.getElementById('newsletterStatus');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = form.email.value.trim();
+    status.hidden = false;
+    status.className = 'newsletter__status';
+    status.textContent = 'Subscribing…';
+    try {
+      const res = await fetch(API_BASE + '/api/newsletter', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'site' }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      status.classList.add('success');
+      status.textContent = 'Thanks! You\'re subscribed.';
+      form.reset();
+    } catch {
+      status.classList.add('error');
+      status.textContent = 'Could not subscribe. Try again.';
+    }
+  });
+}
+
+// ─── Dark mode toggle ──────────────────────────────────────
+function setupTheme() {
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    if (next === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('theme', next);
+  });
+}
+
+// ─── Scroll progress ───────────────────────────────────────
+function setupScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  const tick = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    bar.style.width = max > 0 ? ((h.scrollTop / max) * 100) + '%' : '0%';
+  };
+  document.addEventListener('scroll', tick, { passive: true });
+  tick();
 }
 
 // ─── Reveal-on-scroll ──────────────────────────────────────
@@ -359,15 +498,26 @@ function track() {
     renderTools(items);
     renderProjects(items);
     renderProcess(items);
+    renderTestimonials(items);
+    renderPricing(items);
+    renderFAQ(items);
     renderContact(settings, items);
+    setupNewsletter(settings.features);
     renderFooter(settings, items);
-    setupChat(items);
+    if (settings.features?.chat !== false) setupChat(items);
+    setupTheme();
+    setupScrollProgress();
     observeReveal();
     track();
+    // Hide skeleton
+    const skel = document.getElementById('pageSkeleton');
+    if (skel) { skel.classList.add('hide'); setTimeout(() => skel.remove(), 400); }
   } catch (e) {
     console.error('Failed to load site content:', e);
     $('#heroTagline').textContent = 'Site is loading…';
     $('#heroHeadline').textContent = 'Please refresh';
     $('#heroSubline').textContent = '';
+    const skel = document.getElementById('pageSkeleton');
+    if (skel) skel.classList.add('hide');
   }
 })();
