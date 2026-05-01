@@ -8,22 +8,23 @@ export const site = {
   resumeUrl: '/resume.pdf', // drop your file in /public/resume.pdf
 
   hero: {
-    sub: 'I design and build fast, interactive, well-crafted websites and web apps — from idea to production.'
+    sub: 'I build fast, beautiful websites on WordPress & Shopify — and everything in between. From landing pages to full e-commerce stores.'
   },
 
   marquee: [
-    'typescript',
-    'react',
-    'node',
-    'postgres',
-    'three.js',
-    'tailwind',
-    'cloudflare',
-    'shaders',
-    'design systems',
+    'wordpress',
+    'shopify',
+    'wix',
+    'duda',
+    'full-stack dev',
+    'e-commerce',
+    'custom themes',
     'performance',
-    'a11y',
-    'ux'
+    'woocommerce',
+    'liquid',
+    'php',
+    'typescript',
+    'ui/ux'
   ],
 
   socials: [
@@ -115,20 +116,20 @@ export const site = {
   // ───────── Stack ─────────
   stack: [
     {
-      group: 'frontend',
-      items: ['typescript', 'react', 'next.js', 'svelte', 'tailwind', 'vite']
+      group: 'wordpress',
+      items: ['custom themes', 'plugins', 'woocommerce', 'gutenberg blocks', 'ACF', 'php', 'multisite']
     },
     {
-      group: 'backend',
-      items: ['node', 'hono', 'postgres', 'redis', 'drizzle', 'rest + rpc']
+      group: 'shopify',
+      items: ['custom themes', 'liquid', 'shopify plus', 'app integrations', 'metafields', 'storefront API']
     },
     {
-      group: 'infra',
-      items: ['cloudflare', 'workers', 'd1', 'r2', 'github actions', 'docker']
+      group: 'other platforms',
+      items: ['wix', 'duda', 'webflow', 'squarespace']
     },
     {
-      group: 'craft',
-      items: ['three.js', 'glsl shaders', 'gsap', 'figma', 'a11y', 'design systems']
+      group: 'development',
+      items: ['typescript', 'javascript', 'react', 'node', 'tailwind', 'rest APIs', 'git']
     }
   ],
 
