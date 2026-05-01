@@ -8,13 +8,13 @@ export const site = {
   resumeUrl: '/resume.pdf', // drop your file in /public/resume.pdf
 
   // ───────── Contact form (EmailJS) ─────────
-  // Sign in at https://emailjs.com → Email Services → copy your service ID
-  // Email Templates → copy template ID. Account → API Keys → copy Public Key.
-  // If any field is empty, the form falls back to a mailto: link.
+  // Public Key + Service ID + Template IDs only. Never paste your Private Key here.
+  // Get Service ID from EmailJS → Email Services.
   emailjs: {
-    publicKey:  '',  // e.g. 'aBcD1234EfGh5678'
-    serviceId:  '',  // e.g. 'service_xxxxxxx'
-    templateId: ''   // e.g. 'template_xxxxxxx'
+    publicKey:           'UULH9QgHeTzlkTg9k',
+    serviceId:           '',                    // ← paste your service_xxxxx here
+    templateId:          'template_xhg31tn',    // Contact Us (notification → you)
+    autoReplyTemplateId: 'template_7a5ksoj'     // Auto-Reply → sender
   },
 
   hero: {

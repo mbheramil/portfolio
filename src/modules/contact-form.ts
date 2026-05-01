@@ -61,6 +61,27 @@ export function initContactForm() {
     const budget  = String(data.get('budget') || '');
     const message = String(data.get('message') || '');
 
+    // Map UI values → friendlier service labels for the email
+    const serviceLabel: Record<string, string> = {
+      wordpress: 'WordPress site',
+      shopify:   'Shopify store',
+      wix:       'Wix site',
+      duda:      'Duda site',
+      ai:        'AI integration / chatbot',
+      cloud:     'Cloud setup (GCP / AWS)',
+      custom:    'Custom build',
+      other:     'Something else'
+    };
+    const service = serviceLabel[ptype] || ptype;
+    const time = new Date().toLocaleString(undefined, {
+      dateStyle: 'medium', timeStyle: 'short'
+    });
+
+    // Inject template variables as hidden fields so EmailJS sendForm picks them up
+    setHidden(form, 'service',      service);
+    setHidden(form, 'service_type', service);
+    setHidden(form, 'time',         time);
+
     form.classList.add('is-loading');
     setStatus('sending…', 'loading');
 
@@ -85,7 +106,16 @@ export function initContactForm() {
       await loadEmailJS();
       if (!window.emailjs) throw new Error('emailjs unavailable');
       window.emailjs.init({ publicKey: cfg.publicKey });
+
+      // 1. Send notification to me
       await window.emailjs.sendForm(cfg.serviceId, cfg.templateId, form);
+
+      // 2. Send auto-reply to the sender (if configured) — non-blocking
+      if (cfg.autoReplyTemplateId) {
+        window.emailjs.sendForm(cfg.serviceId, cfg.autoReplyTemplateId, form)
+          .catch((e) => console.warn('auto-reply failed:', e));
+      }
+
       form.reset();
       setStatus('message sent. i\'ll be in touch within 24 hours.', 'ok');
     } catch (err: unknown) {
@@ -95,4 +125,15 @@ export function initContactForm() {
       form.classList.remove('is-loading');
     }
   });
+}
+
+function setHidden(form: HTMLFormElement, name: string, value: string) {
+  let input = form.querySelector<HTMLInputElement>(`input[type="hidden"][name="${name}"]`);
+  if (!input) {
+    input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    form.appendChild(input);
+  }
+  input.value = value;
 }
