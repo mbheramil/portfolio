@@ -1,11 +1,41 @@
-// Contact form handler. Submits to Formspree if site.formEndpoint is set,
-// otherwise falls back to a mailto: link.
+// Contact form handler — uses EmailJS browser SDK.
+// Falls back to a mailto: link if EmailJS isn't fully configured.
 import { site } from '../content';
+
+declare global {
+  interface Window {
+    emailjs?: {
+      init: (opts: { publicKey: string }) => void;
+      sendForm: (serviceId: string, templateId: string, form: HTMLFormElement) => Promise<{ status: number; text: string }>;
+      send:     (serviceId: string, templateId: string, params: Record<string, unknown>) => Promise<{ status: number; text: string }>;
+    };
+  }
+}
+
+const EMAILJS_SDK = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+
+let sdkLoading: Promise<void> | null = null;
+function loadEmailJS(): Promise<void> {
+  if (window.emailjs) return Promise.resolve();
+  if (sdkLoading) return sdkLoading;
+  sdkLoading = new Promise<void>((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = EMAILJS_SDK;
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Failed to load EmailJS SDK'));
+    document.head.appendChild(s);
+  });
+  return sdkLoading;
+}
 
 export function initContactForm() {
   const form = document.getElementById('contactForm') as HTMLFormElement | null;
   const status = document.getElementById('cformStatus') as HTMLElement | null;
   if (!form || !status) return;
+
+  const cfg = site.emailjs;
+  const useEmailJS = !!(cfg.publicKey && cfg.serviceId && cfg.templateId);
 
   const setStatus = (msg: string, kind: 'idle' | 'ok' | 'err' | 'loading' = 'idle') => {
     status.textContent = msg;
@@ -15,11 +45,10 @@ export function initContactForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Honeypot
+    // Honeypot — bots fill this, humans don't
     const hp = (form.elements.namedItem('_gotcha') as HTMLInputElement)?.value;
     if (hp) return;
 
-    // Native validation
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
@@ -35,8 +64,8 @@ export function initContactForm() {
     form.classList.add('is-loading');
     setStatus('sending…', 'loading');
 
-    // ── Mailto fallback (no endpoint configured) ──
-    if (!site.formEndpoint) {
+    // ── Mailto fallback ──
+    if (!useEmailJS) {
       const subject = `New project enquiry — ${name}`;
       const body =
         `Name: ${name}\n` +
@@ -51,23 +80,17 @@ export function initContactForm() {
       return;
     }
 
-    // ── Formspree submission ──
+    // ── EmailJS submission ──
     try {
-      const res = await fetch(site.formEndpoint, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: data
-      });
-      if (res.ok) {
-        form.reset();
-        setStatus('message sent. i\'ll be in touch within 24 hours.', 'ok');
-      } else {
-        const j = await res.json().catch(() => ({}));
-        const msg = (j && (j.error || (j.errors && j.errors[0]?.message))) || 'something went wrong. try email instead.';
-        setStatus(msg, 'err');
-      }
-    } catch {
-      setStatus('network error. try email instead.', 'err');
+      await loadEmailJS();
+      if (!window.emailjs) throw new Error('emailjs unavailable');
+      window.emailjs.init({ publicKey: cfg.publicKey });
+      await window.emailjs.sendForm(cfg.serviceId, cfg.templateId, form);
+      form.reset();
+      setStatus('message sent. i\'ll be in touch within 24 hours.', 'ok');
+    } catch (err: unknown) {
+      const msg = err instanceof Error && err.message ? err.message : 'something went wrong. try email instead.';
+      setStatus(msg.toLowerCase(), 'err');
     } finally {
       form.classList.remove('is-loading');
     }

@@ -7,11 +7,15 @@ export const site = {
   status: 'available · q3 2026',
   resumeUrl: '/resume.pdf', // drop your file in /public/resume.pdf
 
-  // Contact form endpoint. Two options:
-  //   1. Formspree: sign up free at https://formspree.io → paste your form URL here
-  //      (looks like 'https://formspree.io/f/xxxxxxxx')
-  //   2. Leave empty string '' — the form falls back to a mailto: link instead.
-  formEndpoint: '',
+  // ───────── Contact form (EmailJS) ─────────
+  // Sign in at https://emailjs.com → Email Services → copy your service ID
+  // Email Templates → copy template ID. Account → API Keys → copy Public Key.
+  // If any field is empty, the form falls back to a mailto: link.
+  emailjs: {
+    publicKey:  '',  // e.g. 'aBcD1234EfGh5678'
+    serviceId:  '',  // e.g. 'service_xxxxxxx'
+    templateId: ''   // e.g. 'template_xxxxxxx'
+  },
 
   hero: {
     sub: 'I build fast, beautiful websites on WordPress & Shopify — and everything in between. From landing pages to full e-commerce stores.'
