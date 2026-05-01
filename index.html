@@ -134,21 +134,78 @@
       <h2 class="section__title">let's <em>build</em> something</h2>
       <p class="section__sub">Available for select projects. The fastest way to reach me:</p>
     </header>
-    <div class="contact-grid">
-      <a class="contact-card" id="contactEmail" data-cursor="link">
-        <span class="contact-card__label">email</span>
-        <span class="contact-card__val" id="contactEmailVal">—</span>
-        <span class="contact-card__hint">click to copy</span>
-      </a>
-      <a class="contact-card" id="contactResume" data-cursor="link" download>
-        <span class="contact-card__label">résumé</span>
-        <span class="contact-card__val">download.pdf</span>
-        <span class="contact-card__hint">latest version</span>
-      </a>
-      <div class="contact-card contact-card--socials">
-        <span class="contact-card__label">elsewhere</span>
-        <div class="contact-card__socials" id="contactSocials"></div>
-      </div>
+
+    <div class="contact-wrap">
+      <form class="cform" id="contactForm" novalidate>
+        <div class="cform__row">
+          <label class="cform__field">
+            <span class="cform__label">name</span>
+            <input type="text" name="name" required autocomplete="name" data-cursor="link" />
+            <span class="cform__line"></span>
+          </label>
+          <label class="cform__field">
+            <span class="cform__label">email</span>
+            <input type="email" name="email" required autocomplete="email" data-cursor="link" />
+            <span class="cform__line"></span>
+          </label>
+        </div>
+        <label class="cform__field">
+          <span class="cform__label">project type</span>
+          <select name="project_type" data-cursor="link">
+            <option value="wordpress">WordPress site</option>
+            <option value="shopify">Shopify store</option>
+            <option value="wix">Wix site</option>
+            <option value="duda">Duda site</option>
+            <option value="custom">Custom build</option>
+            <option value="other">Something else</option>
+          </select>
+          <span class="cform__line"></span>
+        </label>
+        <label class="cform__field cform__field--budget">
+          <span class="cform__label">budget (optional)</span>
+          <div class="cform__chips">
+            <input type="radio" name="budget" id="b1" value="<$1k"  /><label for="b1">&lt; $1k</label>
+            <input type="radio" name="budget" id="b2" value="$1k–3k"/><label for="b2">$1k–3k</label>
+            <input type="radio" name="budget" id="b3" value="$3k–8k"/><label for="b3">$3k–8k</label>
+            <input type="radio" name="budget" id="b4" value="$8k+"  /><label for="b4">$8k+</label>
+            <input type="radio" name="budget" id="b5" value="not sure" checked /><label for="b5">not sure</label>
+          </div>
+        </label>
+        <label class="cform__field">
+          <span class="cform__label">tell me about your project</span>
+          <textarea name="message" rows="5" required data-cursor="link" placeholder="what are you trying to build? any links, references, or deadlines?"></textarea>
+          <span class="cform__line"></span>
+        </label>
+
+        <!-- honeypot — bots fill this, humans don't see it -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="cform__hp" aria-hidden="true" />
+
+        <div class="cform__foot">
+          <button type="submit" class="btn btn--primary cform__submit" data-cursor="link">
+            <span class="cform__btn-label">send message</span>
+            <span class="cform__btn-spinner" aria-hidden="true"></span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="cform__status" id="cformStatus" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <aside class="contact-grid">
+        <a class="contact-card" id="contactEmail" data-cursor="link">
+          <span class="contact-card__label">or email directly</span>
+          <span class="contact-card__val" id="contactEmailVal">—</span>
+          <span class="contact-card__hint">click to copy</span>
+        </a>
+        <a class="contact-card" id="contactResume" data-cursor="link" download>
+          <span class="contact-card__label">résumé</span>
+          <span class="contact-card__val">download.pdf</span>
+          <span class="contact-card__hint">latest version</span>
+        </a>
+        <div class="contact-card contact-card--socials">
+          <span class="contact-card__label">elsewhere</span>
+          <div class="contact-card__socials" id="contactSocials"></div>
+        </div>
+      </aside>
     </div>
   </section>
 

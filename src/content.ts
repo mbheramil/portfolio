@@ -7,6 +7,12 @@ export const site = {
   status: 'available · q3 2026',
   resumeUrl: '/resume.pdf', // drop your file in /public/resume.pdf
 
+  // Contact form endpoint. Two options:
+  //   1. Formspree: sign up free at https://formspree.io → paste your form URL here
+  //      (looks like 'https://formspree.io/f/xxxxxxxx')
+  //   2. Leave empty string '' — the form falls back to a mailto: link instead.
+  formEndpoint: '',
+
   hero: {
     sub: 'I build fast, beautiful websites on WordPress & Shopify — and everything in between. From landing pages to full e-commerce stores.'
   },

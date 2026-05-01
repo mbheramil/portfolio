@@ -6,6 +6,7 @@ import { initScroll } from './modules/scroll';
 import { initPalette } from './modules/palette';
 import { initTerminal } from './modules/terminal';
 import { initEaster } from './modules/easter';
+import { initContactForm } from './modules/contact-form';
 
 // Boot sequence
 const boot     = document.getElementById('boot');
@@ -29,6 +30,7 @@ async function boot_() {
   initPalette();
   initTerminal();
   initEaster();
+  initContactForm();
   await loadProgress(80, 200);
   initHero();
   await loadProgress(100, 220);

@@ -809,3 +809,198 @@ article.case-body { /* override .case-body class collision */ }
   .case-meta { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .case-cover { margin: 40px 0; }
 }
+
+
+/* ---------------------------------------------------------
+   CONTACT FORM
+   --------------------------------------------------------- */
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+}
+
+.cform {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 36px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(0,255,209,.02), transparent 30%),
+    var(--bg-2);
+  position: relative;
+  overflow: hidden;
+}
+.cform::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: .4;
+}
+
+.cform__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 600px) {
+  .cform__row { grid-template-columns: 1fr; }
+  .cform { padding: 24px; }
+}
+
+.cform__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.cform__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cform__field input,
+.cform__field textarea,
+.cform__field select {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 0 12px;
+  outline: none;
+  width: 100%;
+  border-radius: 0;
+  transition: border-color .3s var(--ease);
+  resize: vertical;
+}
+.cform__field textarea { min-height: 120px; line-height: 1.5; }
+.cform__field input::placeholder,
+.cform__field textarea::placeholder { color: var(--fg-mute); }
+
+.cform__field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+                    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 50%, calc(100% - 8px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  padding-right: 24px;
+}
+.cform__field select option { background: var(--bg-2); color: var(--fg); }
+
+.cform__line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: var(--accent);
+  transition: width .35s var(--ease);
+  pointer-events: none;
+}
+.cform__field input:focus ~ .cform__line,
+.cform__field textarea:focus ~ .cform__line,
+.cform__field select:focus ~ .cform__line { width: 100%; }
+.cform__field input:focus,
+.cform__field textarea:focus,
+.cform__field select:focus { border-bottom-color: transparent; }
+
+.cform__field input:invalid:not(:placeholder-shown),
+.cform__field textarea:invalid:not(:placeholder-shown) {
+  border-bottom-color: #ff6584;
+}
+
+/* budget chips */
+.cform__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cform__chips input { position: absolute; opacity: 0; pointer-events: none; }
+.cform__chips label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  cursor: pointer;
+  color: var(--fg-dim);
+  transition: all .2s var(--ease);
+  user-select: none;
+}
+.cform__chips label:hover { border-color: var(--fg-dim); color: var(--fg); }
+.cform__chips input:checked + label {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 255, 209, 0.06);
+}
+
+/* honeypot */
+.cform__hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* footer / submit */
+.cform__foot {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.cform__submit {
+  position: relative;
+  min-width: 180px;
+  justify-content: center;
+}
+.cform__btn-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0,0,0,.25);
+  border-top-color: var(--bg);
+  border-radius: 50%;
+  animation: cform-spin .7s linear infinite;
+}
+.cform.is-loading .cform__btn-spinner { display: inline-block; }
+.cform.is-loading .cform__btn-label { opacity: .55; }
+.cform.is-loading .cform__submit { pointer-events: none; }
+@keyframes cform-spin { to { transform: rotate(360deg); } }
+
+.cform__status {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--fg-mute);
+  flex: 1;
+  min-width: 0;
+}
+.cform__status[data-state="ok"]  { color: var(--accent); }
+.cform__status[data-state="err"] { color: #ff6584; }
+.cform__status[data-state="loading"] { color: var(--fg-dim); }
+
+/* keep contact-grid aside slim on the form layout */
+.contact-wrap .contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
