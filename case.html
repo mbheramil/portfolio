@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#05060a" />
+<title id="caseTitle">Case study — mbheramil</title>
+<meta name="description" content="" id="caseMeta" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2305060a'/%3E%3Ctext x='50' y='66' font-size='52' font-family='ui-monospace,monospace' font-weight='700' fill='%2300ffd1' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+</head>
+<body class="case-body">
+
+<div class="noise" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"></div>
+</div>
+
+<header class="nav scrolled" id="nav">
+  <a href="/" class="nav__logo" data-cursor="link">
+    <span class="nav__logo-mark">m.</span>
+    <span class="nav__logo-name">mbheramil</span>
+  </a>
+  <nav class="nav__links">
+    <a href="/#work" data-cursor="link"><span class="nav__num">01</span>work</a>
+    <a href="/#stack" data-cursor="link"><span class="nav__num">02</span>stack</a>
+    <a href="/#process" data-cursor="link"><span class="nav__num">03</span>process</a>
+    <a href="/#contact" data-cursor="link"><span class="nav__num">04</span>contact</a>
+  </nav>
+  <button class="nav__cmd" id="navCmd" data-cursor="link" aria-label="Open command palette">
+    <span class="kbd">⌘</span><span class="kbd">K</span>
+  </button>
+  <button class="nav__burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="mm" id="mm">
+  <a href="/#work">work</a>
+  <a href="/#stack">stack</a>
+  <a href="/#process">process</a>
+  <a href="/#contact">contact</a>
+</div>
+
+<main class="case" id="caseRoot">
+  <!-- rendered by /src/case.ts -->
+</main>
+
+<footer class="foot">
+  <div class="foot__row">
+    <span>© <span id="footYear"></span> mbheramil</span>
+    <a href="/" data-cursor="link">← back home</a>
+  </div>
+</footer>
+
+<!-- COMMAND PALETTE (shared shell) -->
+<div class="palette" id="palette" hidden>
+  <div class="palette__back" id="paletteBack"></div>
+  <div class="palette__panel" role="dialog" aria-label="Command palette">
+    <div class="palette__head">
+      <span class="palette__prompt">›</span>
+      <input id="paletteInput" type="text" placeholder="type a command or search…" autocomplete="off" spellcheck="false" />
+      <span class="palette__esc kbd">esc</span>
+    </div>
+    <ul class="palette__list" id="paletteList"></ul>
+    <div class="palette__foot">
+      <span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span>
+      <span><span class="kbd">↵</span> select</span>
+      <span><span class="kbd">esc</span> close</span>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/case.ts"></script>
+</body>
+</html>

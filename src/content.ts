@@ -44,7 +44,21 @@ export const site = {
       cover: '#0a1118', // hex color or url('/...')
       url: '#',
       summary:
-        'Replace this with a real description. Talk about the problem, the constraint, and the outcome — not the tools.'
+        'Replace this with a real description. Talk about the problem, the constraint, and the outcome — not the tools.',
+      // ─── case-study fields (optional; project links to /case.html?p=<id> when present) ───
+      caseStudy: {
+        client: 'Self-initiated',
+        timeline: '6 weeks',
+        team: 'solo',
+        live: '#',
+        repo: '#',
+        gallery: ['#0a1118', '#11161e', '#0a1118'], // hex or '/cover.png'
+        sections: [
+          { heading: 'context', body: 'What was the problem we were solving? Replace this paragraph in src/content.ts when you have real content. Talk about the user, the constraint, and what success looked like.' },
+          { heading: 'approach', body: 'How did you tackle it? Describe the design and engineering moves you made — and the tradeoffs you accepted.' },
+          { heading: 'outcome', body: 'What shipped? What changed? Numbers help: latency, conversion, time saved, anything measurable.' }
+        ]
+      }
     },
     {
       id: 'project-two',
@@ -56,7 +70,20 @@ export const site = {
       cover: '#0e1a14',
       url: '#',
       summary:
-        'A second placeholder project. Edit src/content.ts to swap in real work.'
+        'A second placeholder project. Edit src/content.ts to swap in real work.',
+      caseStudy: {
+        client: 'Acme Co.',
+        timeline: '3 months',
+        team: '2 engineers + 1 designer',
+        live: '#',
+        repo: '#',
+        gallery: ['#0e1a14', '#0c1c16', '#0e1a14'],
+        sections: [
+          { heading: 'context', body: 'Placeholder.' },
+          { heading: 'approach', body: 'Placeholder.' },
+          { heading: 'outcome', body: 'Placeholder.' }
+        ]
+      }
     },
     {
       id: 'project-three',
@@ -68,7 +95,20 @@ export const site = {
       cover: '#181029',
       url: '#',
       summary:
-        'Third placeholder. The site is wired so adding a project = adding an entry here.'
+        'Third placeholder. The site is wired so adding a project = adding an entry here.',
+      caseStudy: {
+        client: 'Internal tool',
+        timeline: '2 weeks',
+        team: 'solo',
+        live: '#',
+        repo: '#',
+        gallery: ['#181029', '#1c1230', '#181029'],
+        sections: [
+          { heading: 'context', body: 'Placeholder.' },
+          { heading: 'approach', body: 'Placeholder.' },
+          { heading: 'outcome', body: 'Placeholder.' }
+        ]
+      }
     }
   ],
 

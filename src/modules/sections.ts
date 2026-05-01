@@ -34,7 +34,7 @@ export function renderContent() {
   const work = $('workList');
   if (work) {
     work.innerHTML = site.projects.map((p, i) => `
-      <article class="work-item reveal" data-cursor="link">
+      <a class="work-item reveal" href="/case.html?p=${encodeURIComponent(p.id)}" data-cursor="link">
         <span class="work-item__num">0${i + 1}</span>
         <div>
           <h3 class="work-item__title">${escapeHtml(p.title)} <em>—</em> ${escapeHtml(p.tagline)}</h3>
@@ -44,7 +44,7 @@ export function renderContent() {
         <span class="work-item__role">${escapeHtml(p.role)}</span>
         <span class="work-item__year">${escapeHtml(p.year)}</span>
         <div class="work-item__hover" style="background:${p.cover.startsWith('#') ? p.cover : `center/cover no-repeat ${p.cover}`}"></div>
-      </article>
+      </a>
     `).join('');
 
     // Floating preview follows cursor inside hovered item
