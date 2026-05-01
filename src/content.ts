@@ -18,7 +18,7 @@ export const site = {
   },
 
   hero: {
-    sub: 'I build fast, beautiful websites on WordPress & Shopify — and everything in between. From landing pages to full e-commerce stores.'
+    sub: 'I build fast, beautiful websites on WordPress & Shopify — with cloud infrastructure (Google Cloud, AWS) and AI integrations baked in when you need them.'
   },
 
   marquee: [
@@ -26,15 +26,16 @@ export const site = {
     'shopify',
     'wix',
     'duda',
-    'full-stack dev',
+    'google cloud',
+    'aws',
+    'AI integration',
     'e-commerce',
     'custom themes',
-    'performance',
     'woocommerce',
     'liquid',
     'php',
     'typescript',
-    'ui/ux'
+    'automation'
   ],
 
   socials: [
@@ -140,6 +141,14 @@ export const site = {
     {
       group: 'development',
       items: ['typescript', 'javascript', 'react', 'node', 'tailwind', 'rest APIs', 'git']
+    },
+    {
+      group: 'cloud',
+      items: ['google cloud', 'aws', 'cloud functions', 'storage buckets', 'cloud DNS', 'IAM', 'CI/CD']
+    },
+    {
+      group: 'AI integration',
+      items: ['openai API', 'gemini API', 'claude API', 'chatbots', 'RAG / embeddings', 'AI workflows', 'automation']
     }
   ],
 
