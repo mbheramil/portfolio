@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#05060a" />
+<title>mbheramil — full-stack developer</title>
+<meta name="description" content="Portfolio of a full-stack web developer building fast, interactive, well-crafted web experiences." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2305060a'/%3E%3Ctext x='50' y='66' font-size='52' font-family='ui-monospace,monospace' font-weight='700' fill='%2300ffd1' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="mbheramil — full-stack developer" />
+<meta property="og:description" content="Portfolio of a full-stack web developer." />
+</head>
+<body>
+
+<!-- preload state -->
+<div class="boot" id="boot">
+  <div class="boot__bar"><div class="boot__fill" id="bootFill"></div></div>
+  <div class="boot__txt" id="bootTxt">booting<span class="dots">...</span></div>
+</div>
+
+<!-- WebGL hero canvas -->
+<canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+<!-- noise overlay -->
+<div class="noise" aria-hidden="true"></div>
+
+<!-- custom cursor -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"></div>
+</div>
+
+<!-- nav -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-cursor="link">
+    <span class="nav__logo-mark">m.</span>
+    <span class="nav__logo-name">mbheramil</span>
+  </a>
+  <nav class="nav__links">
+    <a href="#work" data-cursor="link"><span class="nav__num">01</span>work</a>
+    <a href="#stack" data-cursor="link"><span class="nav__num">02</span>stack</a>
+    <a href="#process" data-cursor="link"><span class="nav__num">03</span>process</a>
+    <a href="#contact" data-cursor="link"><span class="nav__num">04</span>contact</a>
+  </nav>
+  <button class="nav__cmd" id="navCmd" data-cursor="link" aria-label="Open command palette">
+    <span class="kbd">⌘</span><span class="kbd">K</span>
+  </button>
+  <button class="nav__burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<!-- mobile menu -->
+<div class="mm" id="mm">
+  <a href="#work">work</a>
+  <a href="#stack">stack</a>
+  <a href="#process">process</a>
+  <a href="#contact">contact</a>
+  <button id="mmCmd" class="mm__cmd">⌘K · command palette</button>
+</div>
+
+<main id="top">
+
+  <!-- HERO ────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__meta">
+      <span class="dot dot--live"></span>
+      <span id="statusText">available · q3 2026</span>
+    </div>
+    <h1 class="hero__title">
+      <span class="hero__line"><span class="reveal-text">full-stack</span></span>
+      <span class="hero__line"><em class="reveal-text">developer</em></span>
+      <span class="hero__line hero__line--small"><span class="reveal-text">building things on the web.</span></span>
+    </h1>
+    <p class="hero__sub" id="heroSub"></p>
+    <div class="hero__actions">
+      <a href="#work" class="btn btn--primary" data-cursor="link">
+        <span>view work</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#contact" class="btn btn--ghost" data-cursor="link">
+        <span>get in touch</span>
+      </a>
+    </div>
+    <div class="hero__hint">
+      <span class="hero__hint-line"></span>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE ──────────────────────────────────────── -->
+  <section class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack"></div>
+  </section>
+
+  <!-- WORK ─────────────────────────────────────────── -->
+  <section class="section" id="work">
+    <header class="section__head">
+      <span class="section__num">01 / work</span>
+      <h2 class="section__title">selected <em>case studies</em></h2>
+      <p class="section__sub">A few recent things I've shipped. Click any project to see details.</p>
+    </header>
+    <div class="work" id="workList"></div>
+  </section>
+
+  <!-- STACK ────────────────────────────────────────── -->
+  <section class="section" id="stack">
+    <header class="section__head">
+      <span class="section__num">02 / stack</span>
+      <h2 class="section__title">tools of the <em>trade</em></h2>
+      <p class="section__sub">What I reach for. Curated, not exhaustive.</p>
+    </header>
+    <div class="stack-grid" id="stackGrid"></div>
+  </section>
+
+  <!-- PROCESS ──────────────────────────────────────── -->
+  <section class="section" id="process">
+    <header class="section__head">
+      <span class="section__num">03 / process</span>
+      <h2 class="section__title">how it <em>works</em></h2>
+      <p class="section__sub">Small loops, fast feedback, ship early.</p>
+    </header>
+    <div class="process" id="processList"></div>
+  </section>
+
+  <!-- CONTACT ──────────────────────────────────────── -->
+  <section class="section section--contact" id="contact">
+    <header class="section__head">
+      <span class="section__num">04 / contact</span>
+      <h2 class="section__title">let's <em>build</em> something</h2>
+      <p class="section__sub">Available for select projects. The fastest way to reach me:</p>
+    </header>
+    <div class="contact-grid">
+      <a class="contact-card" id="contactEmail" data-cursor="link">
+        <span class="contact-card__label">email</span>
+        <span class="contact-card__val" id="contactEmailVal">—</span>
+        <span class="contact-card__hint">click to copy</span>
+      </a>
+      <a class="contact-card" id="contactResume" data-cursor="link" download>
+        <span class="contact-card__label">résumé</span>
+        <span class="contact-card__val">download.pdf</span>
+        <span class="contact-card__hint">latest version</span>
+      </a>
+      <div class="contact-card contact-card--socials">
+        <span class="contact-card__label">elsewhere</span>
+        <div class="contact-card__socials" id="contactSocials"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__row">
+    <span>© <span id="footYear"></span> mbheramil</span>
+    <span>built from scratch · vite · three.js</span>
+    <button id="footCmd" class="foot__cmd" data-cursor="link"><span class="kbd">⌘</span><span class="kbd">K</span></button>
+  </div>
+</footer>
+
+<!-- COMMAND PALETTE ────────────────────────────────── -->
+<div class="palette" id="palette" hidden>
+  <div class="palette__back" id="paletteBack"></div>
+  <div class="palette__panel" role="dialog" aria-label="Command palette">
+    <div class="palette__head">
+      <span class="palette__prompt">›</span>
+      <input id="paletteInput" type="text" placeholder="type a command or search…" autocomplete="off" spellcheck="false" />
+      <span class="palette__esc kbd">esc</span>
+    </div>
+    <ul class="palette__list" id="paletteList"></ul>
+    <div class="palette__foot">
+      <span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span>
+      <span><span class="kbd">↵</span> select</span>
+      <span><span class="kbd">esc</span> close</span>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL EASTER EGG ────────────────────────────── -->
+<div class="term" id="term" hidden>
+  <div class="term__head">
+    <span class="term__dots"><i></i><i></i><i></i></span>
+    <span class="term__title">guest@mbheramil:~</span>
+    <button id="termClose" aria-label="Close terminal">×</button>
+  </div>
+  <div class="term__body" id="termBody"></div>
+  <form class="term__form" id="termForm">
+    <span class="term__prompt">$</span>
+    <input id="termInput" type="text" autocomplete="off" spellcheck="false" />
+  </form>
+</div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
