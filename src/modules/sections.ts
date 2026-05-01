@@ -82,12 +82,16 @@ export function renderContent() {
     `).join('');
   }
 
-  // Socials
+  // Socials — hide the whole card if there are none
   const socials = $('contactSocials');
   if (socials) {
-    socials.innerHTML = site.socials.map(s =>
-      `<a href="${s.url}" target="_blank" rel="noopener" data-cursor="link">${escapeHtml(s.label)} ↗</a>`
-    ).join('');
+    if (site.socials.length === 0) {
+      socials.closest('.contact-card')?.remove();
+    } else {
+      socials.innerHTML = site.socials.map(s =>
+        `<a href="${s.url}" target="_blank" rel="noopener" data-cursor="link">${escapeHtml(s.label)} ↗</a>`
+      ).join('');
+    }
   }
 }
 

@@ -34,15 +34,10 @@ export const site = {
     'woocommerce',
     'liquid',
     'php',
-    'typescript',
     'automation'
   ],
 
-  socials: [
-    { label: 'github',   url: 'https://github.com/mbheramil' },
-    { label: 'twitter',  url: 'https://twitter.com/' },
-    { label: 'linkedin', url: 'https://www.linkedin.com/' }
-  ],
+  socials: [] as { label: string; url: string }[],
 
   // ───────── Projects ─────────
   projects: [
@@ -132,7 +127,7 @@ export const site = {
     },
     {
       group: 'shopify',
-      items: ['custom themes', 'liquid', 'shopify plus', 'app integrations', 'metafields', 'storefront API']
+      items: ['liquid', 'shopify plus', 'app integrations', 'metafields', 'storefront API']
     },
     {
       group: 'other platforms',
@@ -140,7 +135,7 @@ export const site = {
     },
     {
       group: 'development',
-      items: ['typescript', 'javascript', 'react', 'node', 'tailwind', 'rest APIs', 'git']
+      items: ['javascript', 'react', 'node', 'rest APIs', 'git']
     },
     {
       group: 'cloud',
