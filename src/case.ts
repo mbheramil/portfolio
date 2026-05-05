@@ -76,8 +76,8 @@ if (!project) {
         ${metaRow('team',     cs?.team)}
       </dl>
       <div class="case-hero__cta">
-        ${cs?.live && cs.live !== '#' ? `<a href="${escapeAttr(cs.live)}" target="_blank" rel="noopener" class="btn btn--primary" data-cursor="link"><span>view live ↗</span></a>` : ''}
-        ${cs?.repo && cs.repo !== '#' ? `<a href="${escapeAttr(cs.repo)}" target="_blank" rel="noopener" class="btn btn--ghost" data-cursor="link"><span>source ↗</span></a>` : ''}
+        ${hasLink(cs?.live) ? `<a href="${escapeAttr(cs!.live!)}" target="_blank" rel="noopener" class="btn btn--primary" data-cursor="link"><span>view live ↗</span></a>` : ''}
+        ${hasLink(cs?.repo) ? `<a href="${escapeAttr(cs!.repo!)}" target="_blank" rel="noopener" class="btn btn--ghost" data-cursor="link"><span>source ↗</span></a>` : ''}
       </div>
     </header>
 
@@ -158,6 +158,12 @@ function initLightbox(images: string[]) {
 function metaRow(label: string, value: string | undefined): string {
   if (!value) return '';
   return `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`;
+}
+
+function hasLink(v: string | undefined | null): boolean {
+  if (!v) return false;
+  const t = v.trim();
+  return t.length > 0 && t !== '#';
 }
 
 function escapeHtml(s: string) {
