@@ -31,10 +31,12 @@ export function initPalette(extra: Cmd[] = []) {
     }
   };
 
+  const hasTools = (((site as any).tools as unknown[]) || []).length > 0;
+
   commands = [
     { id: 'g-work', label: 'Go to Work', hint: 'section', icon: '→', run: goto('work') },
     { id: 'g-stack', label: 'Go to Stack', hint: 'section', icon: '→', run: goto('stack') },
-    { id: 'g-lab', label: 'Go to Lab', hint: 'section', icon: '→', run: goto('lab') },
+    ...(hasTools ? [{ id: 'g-lab', label: 'Go to Lab', hint: 'section', icon: '→', run: goto('lab') }] : []),
     { id: 'g-scale', label: 'Go to Scale', hint: 'section', icon: '→', run: goto('scale') },
     { id: 'g-contact', label: 'Go to Contact', hint: 'section', icon: '→', run: goto('contact') },
     { id: 'a-email', label: `Email ${site.email}`, hint: 'action', icon: '✉', run: () => { window.location.href = `mailto:${site.email}`; close(); } },

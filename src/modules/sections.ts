@@ -96,6 +96,8 @@ export function renderContent() {
   if (lab) {
     if (tools.length === 0) {
       lab.closest('.section')?.remove();
+      // Also hide the nav links pointing to #lab (desktop + mobile menus)
+      document.querySelectorAll('a[href="#lab"], a[href="/#lab"]').forEach(a => a.remove());
     } else {
       lab.innerHTML = tools.map(t => {
         const coverStyle = t.cover
