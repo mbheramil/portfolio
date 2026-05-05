@@ -160,6 +160,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
   <aside class="sidebar">
     <div class="sidebar-logo">m. admin</div>
     <button class="nav-btn active" data-s="projects">📋 Projects</button>
+    <button class="nav-btn" data-s="lab">🧪 Lab</button>
     <button class="nav-btn" data-s="settings">⚙️ Settings</button>
     <button class="nav-btn" data-s="marquee">🏷️ Marquee</button>
     <button class="nav-btn" data-s="stack">🛠️ Stack</button>
@@ -324,7 +325,7 @@ function showSec(name) {
   document.querySelectorAll('.nav-btn[data-s]').forEach(b => b.classList.toggle('active', b.dataset.s === name));
   const fns = { projects: renderProjects, settings: renderSettings, marquee: renderMarquee,
                 stack: renderStack, scale: renderScale, emailjs: renderEmailJS, socials: renderSocials,
-                palette: renderPalette };
+                palette: renderPalette, lab: renderLab };
   fns[name]?.();
 }
 
@@ -567,11 +568,14 @@ function openModal(idx) {
 }
 
 function closeModal() {
-  document.getElementById('projectModal').classList.add('hide');
+  const m = document.getElementById('projectModal');
+  m.classList.add('hide');
+  m._isLab = false;
 }
 
 function saveModal() {
   const modal = document.getElementById('projectModal');
+  if (modal._isLab) { saveLabModal(); return; }
   const stackArr = modal._stackArr || [];
   const gallArr  = modal._gallArr  || [];
   const secCount = modal._secCount || 0;
@@ -612,6 +616,156 @@ function saveModal() {
   closeModal();
   renderProjects();
   toast(editIdx >= 0 ? 'Project updated.' : 'Project added.');
+}
+
+// ══════════════════════════════════════════════
+// LAB (custom plugins & builds)
+// ══════════════════════════════════════════════
+let labEditIdx = -1;
+
+function renderLab() {
+  if (!S.tools) S.tools = [];
+  const c = document.getElementById('content');
+  const rows = S.tools.map((t, i) => `
+    <div class="row-item">
+      <div class="row-info">
+        <h4>${esc(t.icon || '⚡')} ${esc(t.name)} <span style="color:var(--muted);font-size:11px;margin-left:6px">${esc(t.type || 'tool')}</span></h4>
+        <p>${esc(t.tagline || '')}</p>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-ghost btn-sm" data-labedit="${i}">Edit</button>
+        <button class="btn btn-danger btn-sm" data-labdel="${i}">Delete</button>
+      </div>
+    </div>`).join('');
+
+  c.innerHTML = `
+    <div class="page-hd">
+      <div class="page-hd-text"><h2>Lab</h2><p>Custom plugins, programs, and tools shown in the Lab section (03).</p></div>
+      <button class="btn btn-accent" id="addLab">+ Add Tool</button>
+    </div>
+    ${rows || '<p style="color:var(--muted);padding:20px 0">No tools yet. Click "Add Tool" to create one.</p>'}`;
+
+  document.getElementById('addLab').addEventListener('click', () => openLabModal(-1));
+  c.querySelectorAll('[data-labedit]').forEach(b => b.addEventListener('click', () => openLabModal(+b.dataset.labedit)));
+  c.querySelectorAll('[data-labdel]').forEach(b => b.addEventListener('click', () => {
+    if (!confirm('Delete this tool?')) return;
+    S.tools.splice(+b.dataset.labdel, 1);
+    renderLab();
+    toast('Tool deleted.');
+  }));
+}
+
+function openLabModal(idx) {
+  labEditIdx = idx;
+  const t = idx >= 0 ? S.tools[idx] : {
+    id: '', name: '', type: 'plugin', tagline: '', description: '',
+    stack: [], icon: '⚡', cover: '', demoUrl: '', demoNote: '', repoUrl: ''
+  };
+
+  document.getElementById('modalTitle').textContent = idx >= 0 ? 'Edit Tool' : 'Add Tool';
+
+  const stackArr = [...(t.stack || [])];
+  const stackChip = chipEditor(stackArr, 'lt');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Name</span><input type="text" id="lt_name" value="${esc(t.name)}" placeholder="WP Hub"></label></div>
+      <div class="field"><label><span class="lbl">ID (URL slug)</span><input type="text" id="lt_id" value="${esc(t.id)}" placeholder="auto from name"></label></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Type</span>
+        <select id="lt_type" style="width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--txt);border-radius:7px;padding:10px 14px;font:inherit">
+          <option value="plugin"${t.type === 'plugin' ? ' selected' : ''}>plugin</option>
+          <option value="program"${t.type === 'program' ? ' selected' : ''}>program</option>
+          <option value="widget"${t.type === 'widget' ? ' selected' : ''}>widget</option>
+          <option value="tool"${t.type === 'tool' ? ' selected' : ''}>tool</option>
+          <option value="script"${t.type === 'script' ? ' selected' : ''}>script</option>
+        </select>
+      </label></div>
+      <div class="field"><label><span class="lbl">Icon (emoji or 1 char)</span><input type="text" id="lt_icon" value="${esc(t.icon)}" placeholder="🔌 ⚡ 🛠 ✨" maxlength="4"></label></div>
+    </div>
+    <div class="field"><label><span class="lbl">Tagline</span><input type="text" id="lt_tagline" value="${esc(t.tagline)}" placeholder="One-line description"></label></div>
+    <div class="field"><label><span class="lbl">Description</span><textarea id="lt_desc" rows="3">${esc(t.description)}</textarea></label></div>
+    <div class="field">
+      <span class="lbl">Cover (optional — falls back to icon)</span>
+      <div class="cover-row">
+        <input type="text" id="lt_cover" value="${esc(t.cover)}" placeholder="#0a1118 or /screenshots/img.png">
+        <button type="button" class="btn btn-ghost btn-sm" id="lt_cover_up">📤 Upload</button>
+        <div class="cover-preview" id="lt_cover_preview" style="${coverPreviewStyle(t.cover)}"></div>
+      </div>
+    </div>
+    <div class="field">
+      <span class="lbl">Stack</span>
+      ${stackChip.html}
+    </div>
+
+    <div class="sec-label">Links</div>
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Demo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "try demo" button</span></span><input type="url" id="lt_demo" value="${esc(t.demoUrl)}" placeholder="https://...  (leave blank to hide button)"></label></div>
+      <div class="field"><label><span class="lbl">Repo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "source" button</span></span><input type="url" id="lt_repo" value="${esc(t.repoUrl)}" placeholder="https://github.com/... (leave blank to hide)"></label></div>
+    </div>
+    <div class="field"><label><span class="lbl">Demo Note (optional)</span><input type="text" id="lt_note" value="${esc(t.demoNote)}" placeholder="e.g. demo password: admin123"></label></div>`;
+
+  stackChip.bind();
+
+  document.getElementById('lt_cover').addEventListener('input', e => {
+    document.getElementById('lt_cover_preview').style.cssText = coverPreviewStyle(e.target.value);
+  });
+
+  document.getElementById('lt_cover_up').addEventListener('click', async () => {
+    const btn = document.getElementById('lt_cover_up');
+    try {
+      const path = await pickAndUpload(busy => {
+        btn.disabled = busy;
+        btn.textContent = busy ? 'Uploading…' : '📤 Upload';
+      });
+      if (path) {
+        document.getElementById('lt_cover').value = path;
+        document.getElementById('lt_cover_preview').style.cssText = coverPreviewStyle(path);
+        toast('Image uploaded.');
+      }
+    } catch (e) { toast('Upload failed: ' + e.message, 'err'); }
+  });
+
+  // Auto-id from name
+  document.getElementById('lt_name').addEventListener('input', e => {
+    const idEl = document.getElementById('lt_id');
+    if (labEditIdx < 0 || !idEl.value) {
+      idEl.value = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+  });
+
+  // Re-purpose the existing modal save button for lab when labEditIdx is active
+  document.getElementById('projectModal')._isLab = true;
+  document.getElementById('projectModal')._labStack = stackArr;
+  document.getElementById('projectModal').classList.remove('hide');
+}
+
+function saveLabModal() {
+  const stackArr = document.getElementById('projectModal')._labStack || [];
+  const tool = {
+    id:          document.getElementById('lt_id').value.trim() || document.getElementById('lt_name').value.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    name:        document.getElementById('lt_name').value.trim(),
+    type:        document.getElementById('lt_type').value,
+    icon:        document.getElementById('lt_icon').value.trim(),
+    tagline:     document.getElementById('lt_tagline').value.trim(),
+    description: document.getElementById('lt_desc').value.trim(),
+    stack:       [...stackArr],
+    cover:       document.getElementById('lt_cover').value.trim(),
+    demoUrl:     document.getElementById('lt_demo').value.trim(),
+    demoNote:    document.getElementById('lt_note').value.trim(),
+    repoUrl:     document.getElementById('lt_repo').value.trim()
+  };
+
+  if (!tool.name) { toast('Name is required.', 'err'); return; }
+
+  if (labEditIdx >= 0) S.tools[labEditIdx] = tool;
+  else                 S.tools.push(tool);
+
+  document.getElementById('projectModal')._isLab = false;
+  closeModal();
+  renderLab();
+  toast(labEditIdx >= 0 ? 'Tool updated.' : 'Tool added.');
 }
 
 // ══════════════════════════════════════════════

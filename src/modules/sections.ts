@@ -1,6 +1,26 @@
 // Renders content sections from src/content.ts so future edits = edit content.ts.
 import { site } from '../content';
 
+interface Tool {
+  id?: string;
+  name: string;
+  type?: string;
+  tagline?: string;
+  description?: string;
+  stack?: string[];
+  icon?: string;
+  cover?: string;
+  demoUrl?: string;
+  demoNote?: string;
+  repoUrl?: string;
+}
+
+function hasLink(v: string | undefined | null): boolean {
+  if (!v) return false;
+  const t = v.trim();
+  return t.length > 0 && t !== '#';
+}
+
 export function renderContent() {
   const $ = (id: string) => document.getElementById(id);
 
@@ -70,6 +90,46 @@ export function renderContent() {
     `).join('');
   }
 
+  // Lab — custom plugins & builds
+  const lab = $('labGrid');
+  const tools = ((site as unknown) as { tools?: Tool[] }).tools || [];
+  if (lab) {
+    if (tools.length === 0) {
+      lab.closest('.section')?.remove();
+    } else {
+      lab.innerHTML = tools.map(t => {
+        const coverStyle = t.cover
+          ? (t.cover.startsWith('#') ? `background:${t.cover}` : `background:url('${t.cover}') center/cover no-repeat`)
+          : '';
+        const stackHtml = (t.stack || []).map(s => `<span>${escapeHtml(s)}</span>`).join('');
+        const demoBtn = hasLink(t.demoUrl)
+          ? `<a href="${escapeAttr(t.demoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn lab-card__btn--primary" data-cursor="link"><span>try demo</span><span class="lab-card__arrow">↗</span></a>`
+          : '';
+        const repoBtn = hasLink(t.repoUrl)
+          ? `<a href="${escapeAttr(t.repoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn" data-cursor="link"><span>source</span><span class="lab-card__arrow">↗</span></a>`
+          : '';
+        const note = t.demoNote ? `<p class="lab-card__note">${escapeHtml(t.demoNote)}</p>` : '';
+        const typeLabel = t.type ? escapeHtml(t.type) : 'tool';
+        const cover = coverStyle
+          ? `<div class="lab-card__cover" style="${coverStyle}"></div>`
+          : `<div class="lab-card__cover lab-card__cover--icon">${escapeHtml(t.icon || '⚡')}</div>`;
+        return `
+          <article class="lab-card reveal">
+            ${cover}
+            <div class="lab-card__body">
+              <span class="lab-card__type">${typeLabel}</span>
+              <h3 class="lab-card__title">${escapeHtml(t.name)}</h3>
+              <p class="lab-card__tag">${escapeHtml(t.tagline || '')}</p>
+              ${t.description ? `<p class="lab-card__desc">${escapeHtml(t.description)}</p>` : ''}
+              ${stackHtml ? `<div class="lab-card__stack">${stackHtml}</div>` : ''}
+              ${(demoBtn || repoBtn) ? `<div class="lab-card__actions">${demoBtn}${repoBtn}</div>` : ''}
+              ${note}
+            </div>
+          </article>`;
+      }).join('');
+    }
+  }
+
   // Process
   const process = $('processList');
   if (process) {
@@ -100,3 +160,4 @@ function escapeHtml(s: string) {
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   } as Record<string, string>)[c]!);
 }
+function escapeAttr(s: string) { return escapeHtml(s); }
