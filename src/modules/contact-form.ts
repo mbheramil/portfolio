@@ -34,6 +34,35 @@ export function initContactForm() {
   const status = document.getElementById('cformStatus') as HTMLElement | null;
   if (!form || !status) return;
 
+  // Custom project-type dropdown
+  const dd      = document.getElementById('projectTypeDropdown');
+  const ddBtn   = document.getElementById('projectTypeBtn');
+  const ddList  = document.getElementById('projectTypeList');
+  const ddVal   = document.getElementById('projectTypeVal');
+  const ddInput = form.querySelector<HTMLInputElement>('input[name="project_type"]');
+  if (dd && ddBtn && ddList && ddVal && ddInput) {
+    ddBtn.addEventListener('click', () => {
+      const open = dd.classList.toggle('open');
+      ddBtn.setAttribute('aria-expanded', String(open));
+    });
+    ddList.addEventListener('click', (e) => {
+      const li = (e.target as HTMLElement).closest<HTMLLIElement>('li');
+      if (!li) return;
+      ddVal.textContent = li.textContent || '';
+      ddInput.value = li.dataset.value || '';
+      ddList.querySelectorAll('li').forEach(l => l.removeAttribute('aria-selected'));
+      li.setAttribute('aria-selected', 'true');
+      dd.classList.remove('open');
+      ddBtn.setAttribute('aria-expanded', 'false');
+    });
+    document.addEventListener('click', (e) => {
+      if (!dd.contains(e.target as Node)) {
+        dd.classList.remove('open');
+        ddBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   const cfg = site.emailjs;
   const useEmailJS = !!(cfg.publicKey && cfg.serviceId && cfg.templateId);
 

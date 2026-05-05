@@ -149,26 +149,27 @@
             <span class="cform__line"></span>
           </label>
         </div>
-        <label class="cform__field">
+        <div class="cform__field">
           <span class="cform__label">project type</span>
-          <select name="project_type" data-cursor="link">
-            <option value="wordpress">WordPress site</option>
-            <option value="shopify">Shopify store</option>
-            <option value="wix">Wix site</option>
-            <option value="duda">Duda site</option>
-            <option value="ai">AI integration / chatbot</option>
-            <option value="cloud">Cloud setup (GCP / AWS)</option>
-            <option value="custom">Custom build</option>
-            <option value="other">Something else</option>
-          </select>
+          <div class="cform__dropdown" id="projectTypeDropdown">
+            <button type="button" class="cform__dropdown-btn" aria-haspopup="listbox" aria-expanded="false" id="projectTypeBtn" data-cursor="link">
+              <span id="projectTypeVal">WordPress site</span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="cform__dropdown-list" role="listbox" id="projectTypeList">
+              <li role="option" data-value="wordpress" aria-selected="true">WordPress site</li>
+              <li role="option" data-value="shopify">Shopify store</li>
+              <li role="option" data-value="wix">Wix site</li>
+              <li role="option" data-value="duda">Duda site</li>
+              <li role="option" data-value="ai">AI integration / chatbot</li>
+              <li role="option" data-value="cloud">Cloud setup (GCP / AWS)</li>
+              <li role="option" data-value="custom">Custom build</li>
+              <li role="option" data-value="other">Something else</li>
+            </ul>
+            <input type="hidden" name="project_type" value="wordpress" />
+          </div>
           <span class="cform__line"></span>
-        </label>
-        <label class="cform__field">
-          <span class="cform__label cform__label--mute">tell me about your project</span>
-          <textarea name="message" rows="5" required data-cursor="link" placeholder="what are you trying to build? any links, references, or deadlines?"></textarea>
-          <span class="cform__line"></span>
-        </label>
-
+        </div>
         <!-- honeypot — bots fill this, humans don't see it -->
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="cform__hp" aria-hidden="true" />
 

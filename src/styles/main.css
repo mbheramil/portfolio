@@ -889,20 +889,58 @@ article.case-body { /* override .case-body class collision */ }
 .cform__field input::placeholder,
 .cform__field textarea::placeholder { color: var(--fg-mute); }
 
-.cform__field select {
-  appearance: none;
-  -webkit-appearance: none;
-  color-scheme: dark;
-  background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%),
-                    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
-  background-position: calc(100% - 14px) 50%, calc(100% - 8px) 50%;
-  background-size: 6px 6px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  padding-right: 24px;
-}
-.cform__field select option { background: var(--bg-2); color: var(--fg); }
 .cform__label--mute { color: var(--fg-mute); }
+
+/* custom dropdown */
+.cform__dropdown { position: relative; }
+.cform__dropdown-btn {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 0 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+  transition: border-color .3s var(--ease);
+}
+.cform__dropdown-btn svg { color: var(--accent); flex-shrink: 0; transition: transform .2s var(--ease); }
+.cform__dropdown.open .cform__dropdown-btn svg { transform: rotate(180deg); }
+.cform__dropdown.open .cform__dropdown-btn { border-bottom-color: transparent; }
+.cform__dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.cform__dropdown.open .cform__dropdown-list { display: block; }
+.cform__dropdown-list li {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--fg-dim);
+  font-size: 15px;
+  transition: background .15s, color .15s;
+}
+.cform__dropdown-list li:hover { background: rgba(0,255,209,.08); color: var(--fg); }
+.cform__dropdown-list li[aria-selected="true"] { color: var(--accent); }
+.cform__dropdown.open ~ .cform__line,
+.cform__dropdown:focus-within ~ .cform__line { width: 100%; }
 
 .cform__line {
   position: absolute;
