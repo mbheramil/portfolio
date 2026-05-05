@@ -48,7 +48,7 @@ export const site = {
       year: '2025',
       role: 'design + build',
       stack: ['wordpress', 'php', 'javascript', 'REST API', 'mysql', 'cloudfront', 'aws'],
-      cover: '#0a1118',
+      cover: '/screenshots/wphub-sites.png',
       url: 'https://d3bonyep772hyo.cloudfront.net/',
       summary:
         'A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface — replacing manual per-site work with centralised ops.',
@@ -123,7 +123,7 @@ export const site = {
       year: '2025',
       role: 'build',
       stack: ['javascript', 'node', 'REST API', 'cron', 'cloudfront', 'aws'],
-      cover: '#0a1420',
+      cover: '/screenshots/server-checker-top.png',
       url: 'https://d2taomg22q1lhs.cloudfront.net/',
       summary:
         'An internal server and uptime monitoring tool built to watch over 500+ client sites — alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.',

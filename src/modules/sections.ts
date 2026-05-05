@@ -43,7 +43,7 @@ export function renderContent() {
         </div>
         <span class="work-item__role">${escapeHtml(p.role)}</span>
         <span class="work-item__year">${escapeHtml(p.year)}</span>
-        <div class="work-item__hover" style="background:${p.cover.startsWith('#') ? p.cover : `center/cover no-repeat ${p.cover}`}"></div>
+        <div class="work-item__hover" style="background:${p.cover.startsWith('#') ? p.cover : `url('${p.cover}') center/cover no-repeat`}"></div>
       </a>
     `).join('');
 

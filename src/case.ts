@@ -37,7 +37,7 @@ if (!project) {
   const cs = project.caseStudy;
   const cover = project.cover.startsWith('#')
     ? `background:${project.cover}`
-    : `background:center/cover no-repeat ${project.cover}`;
+    : `background:url('${project.cover}') center/cover no-repeat`;
 
   const idx = site.projects.findIndex((p) => p.id === slug);
   const next = site.projects[(idx + 1) % site.projects.length];
@@ -45,7 +45,7 @@ if (!project) {
   const galleryHtml = cs?.gallery?.map((g) => {
     const style = g.startsWith('#')
       ? `background:${g}`
-      : `background:center/cover no-repeat ${g}`;
+      : `background:url('${g}') center/cover no-repeat`;
     return `<figure class="case-gallery__item" style="${style}"></figure>`;
   }).join('') || '';
 
