@@ -11,7 +11,7 @@
     "autoReplyTemplateId": "template_7a5ksoj"
   },
   "hero": {
-    "sub": "I manage 500+ WordPress & Shopify sites â and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
+    "sub": "I manage 500+ WordPress & Shopify sites and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
   },
   "marquee": [
     "wordpress",
@@ -281,22 +281,22 @@
     {
       "n": "500+",
       "title": "sites managed",
-      "body": "A live fleet across WordPress, Shopify, Wix and Duda â not one-off builds, but ongoing operations at scale."
+      "body": "A live fleet across WordPress, Shopify, Wix and Duda not one-off builds, but ongoing operations at scale."
     },
     {
       "n": "70/20",
       "title": "wordpress Â· shopify",
-      "body": "WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest â right tool for the job."
+      "body": "WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest right tool for the job."
     },
     {
-      "n": "â",
+      "n": "-",
       "title": "custom tooling",
       "body": "Built WP Hub, Server Checker, and bespoke client dashboards to manage this many sites without losing the plot."
     },
     {
-      "n": "â",
+      "n": "-",
       "title": "full lifecycle",
-      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations â I handle the whole stack long-term."
+      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations I handle the whole stack long-term."
     }
   ]
 }
