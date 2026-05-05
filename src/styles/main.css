@@ -115,7 +115,7 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-s
 
 /* ───── Cursor ───── */
 .cursor {
-  position: fixed; top: 0; left: 0; z-index: 999;
+  position: fixed; top: 0; left: 0; z-index: 100000;
   pointer-events: none; mix-blend-mode: difference;
   transform: translate3d(-100px,-100px,0);
 }
