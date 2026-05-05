@@ -42,12 +42,19 @@ if (!project) {
   const idx = site.projects.findIndex((p) => p.id === slug);
   const next = site.projects[(idx + 1) % site.projects.length];
 
-  const galleryHtml = cs?.gallery?.map((g) => {
-    const style = g.startsWith('#')
-      ? `background:${g}`
-      : `background:url('${g}') center/cover no-repeat`;
-    return `<figure class="case-gallery__item" style="${style}"></figure>`;
-  }).join('') || '';
+  const galleryItems = cs?.gallery || [];
+  let imgIdx = -1;
+  const galleryHtml = galleryItems.map((g) => {
+    const isImg = !g.startsWith('#');
+    const style = isImg
+      ? `background:url('${g}') center/cover no-repeat`
+      : `background:${g}`;
+    if (isImg) imgIdx++;
+    const cls = isImg ? 'case-gallery__item case-gallery__item--clickable' : 'case-gallery__item';
+    const cursor = isImg ? ' data-cursor="link"' : '';
+    const lb = isImg ? ` data-lb="${imgIdx}"` : '';
+    return `<figure class="${cls}" style="${style}"${cursor}${lb}></figure>`;
+  }).join('');
 
   const sectionsHtml = cs?.sections?.map((s, i) => `
     <section class="case-section">
@@ -98,6 +105,54 @@ if (!project) {
       </a>
     </nav>
   `;
+
+  // ── Lightbox ──
+  initLightbox(galleryItems.filter(g => !g.startsWith('#')));
+}
+
+function initLightbox(images: string[]) {
+  if (!images.length) return;
+
+  const lb = document.createElement('div');
+  lb.className = 'lb';
+  lb.innerHTML = `
+    <button class="lb__close" aria-label="Close" data-cursor="link">×</button>
+    <button class="lb__nav lb__nav--prev" aria-label="Previous" data-cursor="link">‹</button>
+    <button class="lb__nav lb__nav--next" aria-label="Next" data-cursor="link">›</button>
+    <img class="lb__img" alt="">
+    <span class="lb__count"></span>
+  `;
+  document.body.appendChild(lb);
+
+  const img   = lb.querySelector('.lb__img') as HTMLImageElement;
+  const count = lb.querySelector('.lb__count') as HTMLElement;
+  let cur = 0;
+
+  function show(i: number) {
+    cur = (i + images.length) % images.length;
+    img.src = images[cur];
+    count.textContent = `${cur + 1} / ${images.length}`;
+  }
+  function open(i: number) { show(i); lb.classList.add('lb--open'); document.body.style.overflow = 'hidden'; }
+  function close() { lb.classList.remove('lb--open'); document.body.style.overflow = ''; }
+
+  document.querySelectorAll<HTMLElement>('.case-gallery__item--clickable').forEach((el) => {
+    el.addEventListener('click', () => {
+      open(Number(el.dataset.lb || 0));
+    });
+  });
+
+  lb.querySelector('.lb__close')!.addEventListener('click', close);
+  lb.querySelector('.lb__nav--prev')!.addEventListener('click', (e) => { e.stopPropagation(); show(cur - 1); });
+  lb.querySelector('.lb__nav--next')!.addEventListener('click', (e) => { e.stopPropagation(); show(cur + 1); });
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('lb--open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowLeft')  show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
 }
 
 function metaRow(label: string, value: string | undefined): string {
