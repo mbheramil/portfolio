@@ -47,18 +47,18 @@ export const site = {
       tagline: 'Internal dashboard for managing 500+ WordPress sites.',
       year: '2025',
       role: 'design + build',
-      stack: ['wordpress', 'php', 'javascript', 'mysql', 'REST API'],
+      stack: ['wordpress', 'php', 'javascript', 'REST API', 'mysql', 'cloudfront', 'aws'],
       cover: '#0a1118',
-      url: '#',
+      url: 'https://d3bonyep772hyo.cloudfront.net/',
       summary:
         'A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface — replacing manual per-site work with centralised ops.',
       caseStudy: {
         client: 'Internal tool',
         timeline: 'ongoing',
         team: 'solo',
-        live: '#',
+        live: 'https://d3bonyep772hyo.cloudfront.net/',
         repo: '#',
-        gallery: ['#0a1118', '#11161e', '#0a1118'],
+        gallery: ['/screenshots/wphub-sites.png', '/screenshots/wphub-health.png', '/screenshots/wphub-sites.png'],
         sections: [
           { heading: 'context', body: 'Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin — doing this one-by-one was hours of overhead daily.' },
           { heading: 'approach', body: 'Built a centralised dashboard that aggregates all sites via the WP REST API. One login to see plugin/theme update status, server health, last-login activity, and quick-jump links to any admin panel.' },
@@ -72,7 +72,7 @@ export const site = {
       tagline: 'Custom admissions & student management dashboard.',
       year: '2024',
       role: 'full stack',
-      stack: ['wordpress', 'php', 'javascript', 'custom plugin', 'ACF'],
+      stack: ['wordpress', 'php', 'django', 'python', 'javascript', 'aws', 'iframe', 'payments'],
       cover: '#0e1a14',
       url: 'https://earlybirdcollege.com/',
       summary:
@@ -86,7 +86,7 @@ export const site = {
         gallery: ['#0e1a14', '#0c1c16', '#0e1a14'],
         sections: [
           { heading: 'context', body: 'The client needed a centralised place to manage student enrolments and track application progress — existing plugins couldn\'t handle their specific workflow.' },
-          { heading: 'approach', body: 'Built a custom WordPress plugin with a bespoke admin dashboard, tailored role permissions, and an application tracking flow that matched the college\'s exact process.' },
+          { heading: 'approach', body: 'WordPress handles the student-facing frontend — data collection forms, user accounts, and content. Django runs the backend: payment processing, enrolment logic, and the iframe management layer that ties both systems together.' },
           { heading: 'outcome', body: 'Replaced a manual spreadsheet-based process with a live dashboard — saving staff hours per week and reducing enrolment errors.' }
         ]
       }
@@ -97,7 +97,7 @@ export const site = {
       tagline: 'Custom business tracking dashboard for Identity Theft Business Solutions.',
       year: '2024',
       role: 'full stack',
-      stack: ['wordpress', 'php', 'javascript', 'custom plugin'],
+      stack: ['duda', 'github pages', 'aws amplify', 'javascript', 'custom dashboard'],
       cover: '#181029',
       url: 'https://www.identitytheftbusinesssolutions.com/business-tracking',
       summary:
@@ -111,7 +111,7 @@ export const site = {
         gallery: ['#181029', '#1c1230', '#181029'],
         sections: [
           { heading: 'context', body: 'The client needed a proprietary tracking system for business identity theft cases — no off-the-shelf CRM fit their specific service model.' },
-          { heading: 'approach', body: 'Designed and built a custom WordPress dashboard plugin with case management, status tracking, and client-facing views — integrated directly into their existing WP site.' },
+          { heading: 'approach', body: 'The public-facing site runs on Duda. The business tracking dashboard is a separate app hosted on GitHub Pages, deployed via AWS Amplify, and connected to the client\'s data layer. Fully decoupled from Duda so it can evolve independently.' },
           { heading: 'outcome', body: 'Delivered a fully operational tracking system tailored to their workflow, replacing disconnected spreadsheets and email chains.' }
         ]
       }
@@ -122,18 +122,18 @@ export const site = {
       tagline: 'Uptime & health monitoring tool for a 500-site fleet.',
       year: '2025',
       role: 'build',
-      stack: ['javascript', 'node', 'REST API', 'cron'],
+      stack: ['javascript', 'node', 'REST API', 'cron', 'cloudfront', 'aws'],
       cover: '#0a1420',
-      url: '#',
+      url: 'https://d2taomg22q1lhs.cloudfront.net/',
       summary:
         'An internal server and uptime monitoring tool built to watch over 500+ client sites — alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.',
       caseStudy: {
         client: 'Internal tool',
         timeline: 'ongoing',
         team: 'solo',
-        live: '#',
+        live: 'https://d2taomg22q1lhs.cloudfront.net/',
         repo: '#',
-        gallery: ['#0a1420', '#0c1828', '#0a1420'],
+        gallery: ['/screenshots/server-checker-top.png', '/screenshots/server-checker-2.png', '/screenshots/server-checker-top.png'],
         sections: [
           { heading: 'context', body: 'With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charged per-site — not viable at this scale.' },
           { heading: 'approach', body: 'Built a lightweight checker that pings all sites on a schedule, checks SSL validity, response codes, and server health. Alerts via email/webhook on failure.' },
