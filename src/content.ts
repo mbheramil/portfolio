@@ -12,7 +12,7 @@ export const site = {
   // Get Service ID from EmailJS → Email Services.
   emailjs: {
     publicKey:           'UULH9QgHeTzlkTg9k',
-    serviceId:           '',                    // ← paste your service_xxxxx here
+    serviceId:           'mysite',
     templateId:          'template_xhg31tn',    // Contact Us (notification → you)
     autoReplyTemplateId: 'template_7a5ksoj'     // Auto-Reply → sender
   },
