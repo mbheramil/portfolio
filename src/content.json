@@ -109,15 +109,15 @@
         "sections": [
           {
             "heading": "context",
-            "body": "The client needed a centralised place to manage student enrolments and track application progress â existing plugins couldn't handle their specific workflow."
+            "body": "The client needed a centralised place to manage student enrolments and track application progress existing plugins couldn't handle their specific workflow."
           },
           {
             "heading": "approach",
-            "body": "WordPress handles the student-facing frontend â data collection forms, user accounts, and content. Django runs the backend: payment processing, enrolment logic, and the iframe management layer that ties both systems together."
+            "body": "WordPress handles the student-facing frontend data collection forms, user accounts, and content. Django runs the backend: payment processing, enrolment logic, and the iframe management layer that ties both systems together."
           },
           {
             "heading": "outcome",
-            "body": "Replaced a manual spreadsheet-based process with a live dashboard â saving staff hours per week and reducing enrolment errors."
+            "body": "Replaced a manual spreadsheet-based process with a live dashboard saving staff hours per week and reducing enrolment errors."
           }
         ]
       }
