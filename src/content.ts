@@ -3,7 +3,7 @@
 export const site = {
   name: 'mbheramil',
   role: 'Full-stack web developer',
-  email: 'hello@mbheramil.com',
+  email: 'contactme@mbheramil.com',
   status: 'available · q3 2026',
   resumeUrl: '/resume.pdf', // drop your file in /public/resume.pdf
 

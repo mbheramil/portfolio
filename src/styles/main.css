@@ -892,6 +892,7 @@ article.case-body { /* override .case-body class collision */ }
 .cform__field select {
   appearance: none;
   -webkit-appearance: none;
+  color-scheme: dark;
   background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%),
                     linear-gradient(135deg, var(--accent) 50%, transparent 50%);
   background-position: calc(100% - 14px) 50%, calc(100% - 8px) 50%;
@@ -901,6 +902,7 @@ article.case-body { /* override .case-body class collision */ }
   padding-right: 24px;
 }
 .cform__field select option { background: var(--bg-2); color: var(--fg); }
+.cform__label--mute { color: var(--fg-mute); }
 
 .cform__line {
   position: absolute;
