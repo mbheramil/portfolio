@@ -438,10 +438,9 @@ function openModal(idx) {
       <div class="field"><label><span class="lbl">ID (URL slug)</span><input type="text" id="m_id" value="${esc(p.id)}" placeholder="auto from title"></label></div>
     </div>
     <div class="field"><label><span class="lbl">Tagline</span><input type="text" id="m_tagline" value="${esc(p.tagline)}" placeholder="One punchy sentence."></label></div>
-    <div class="grid3">
+    <div class="grid2">
       <div class="field"><label><span class="lbl">Year</span><input type="text" id="m_year" value="${esc(p.year)}"></label></div>
       <div class="field"><label><span class="lbl">Role</span><input type="text" id="m_role" value="${esc(p.role)}" placeholder="full stack"></label></div>
-      <div class="field"><label><span class="lbl">Live URL</span><input type="url" id="m_url" value="${esc(p.url)}"></label></div>
     </div>
     <div class="field">
       <span class="lbl">Cover (hex color or uploaded image)</span>
@@ -465,8 +464,8 @@ function openModal(idx) {
       <div class="field"><label><span class="lbl">Team</span><input type="text" id="m_team" value="${esc(p.caseStudy?.team)}"></label></div>
     </div>
     <div class="grid2">
-      <div class="field"><label><span class="lbl">Live URL</span><input type="url" id="m_live" value="${esc(p.caseStudy?.live)}"></label></div>
-      <div class="field"><label><span class="lbl">Repo URL</span><input type="url" id="m_repo" value="${esc(p.caseStudy?.repo)}"></label></div>
+      <div class="field"><label><span class="lbl">Live URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers the “view live” button</span></span><input type="url" id="m_live" value="${esc(p.caseStudy?.live)}" placeholder="https://...  (leave blank to hide button)"></label></div>
+      <div class="field"><label><span class="lbl">Repo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers the “source” button</span></span><input type="url" id="m_repo" value="${esc(p.caseStudy?.repo)}" placeholder="https://github.com/... (leave blank to hide)"></label></div>
     </div>
     <div class="field">
       <span class="lbl">Gallery (hex colors or uploaded images)</span>
@@ -583,6 +582,7 @@ function saveModal() {
     body: document.getElementById('m_sec_' + i)?.value.trim() || ''
   }));
 
+  const existing = editIdx >= 0 ? S.projects[editIdx] : null;
   const proj = {
     id:      document.getElementById('m_id').value.trim() || document.getElementById('m_title').value.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     title:   document.getElementById('m_title').value.trim(),
@@ -591,7 +591,7 @@ function saveModal() {
     role:    document.getElementById('m_role').value.trim(),
     stack:   [...stackArr],
     cover:   document.getElementById('m_cover').value.trim() || '#0a1118',
-    url:     document.getElementById('m_url').value.trim(),
+    url:     existing?.url || '',
     summary: document.getElementById('m_summary').value.trim(),
     caseStudy: {
       client:   document.getElementById('m_client').value.trim(),
