@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio Admin — mbheramil</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060a;--bg2:#0c0e18;--bg3:#13151f;
+  --line:rgba(255,255,255,.1);--line2:rgba(255,255,255,.18);
+  --txt:#f4f5f7;--muted:#8b8e98;--dim:#4a4d57;
+  --accent:#00ffd1;--danger:#ff5470;--warn:#f5cf00;
+  --r:10px;--ease:cubic-bezier(.22,.61,.36,1);
+}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;min-height:100vh}
+.hide{display:none!important}
+
+/* ── Login ── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:40px;width:100%;max-width:420px}
+.login-logo{font-size:36px;font-weight:800;color:var(--accent);margin-bottom:16px}
+.login-card h1{font-size:22px;margin-bottom:6px}
+.login-card p{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:24px}
+.login-card a{color:var(--accent);text-decoration:none}
+.login-err{color:var(--danger);font-size:12px;margin-top:10px;display:none}
+
+/* ── Layout ── */
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+
+/* ── Sidebar ── */
+.sidebar{background:var(--bg2);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.sidebar-logo{font-size:17px;font-weight:800;color:var(--accent);padding:4px 10px 18px;letter-spacing:-.01em}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .15s;border:none;background:none;text-align:left;width:100%}
+.nav-btn:hover{background:var(--bg3);color:var(--txt)}
+.nav-btn.active{background:rgba(0,255,209,.1);color:var(--accent)}
+.sidebar-spacer{flex:1}
+.sidebar-foot{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
+
+/* ── Main ── */
+.main{padding:36px 44px;max-width:900px}
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px}
+.page-hd-text h2{font-size:21px;letter-spacing:-.02em}
+.page-hd-text p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* ── Form ── */
+.field{margin-bottom:18px}
+.field label{display:block}
+.lbl{display:block;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.lbl-dim{color:var(--muted)!important}
+.lbl-sm{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px}
+input[type=text],input[type=password],input[type=url],input[type=email],textarea,select{
+  width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--txt);
+  border-radius:7px;padding:10px 14px;font:inherit;font-size:14px;outline:none;transition:border-color .2s
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:99px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;text-decoration:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-accent{background:var(--accent);color:#001712}
+.btn-accent:hover:not(:disabled){opacity:.85}
+.btn-ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--line2)}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid rgba(255,84,112,.3)}
+.btn-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn-sm{padding:5px 14px;font-size:12px}
+.btn-xs{padding:3px 10px;font-size:11px}
+
+/* ── Cards / rows ── */
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.card-hd h3{font-size:15px}
+.row-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;margin-bottom:8px;transition:border-color .2s;gap:12px}
+.row-item:hover{border-color:rgba(0,255,209,.25)}
+.row-info{flex:1;min-width:0}
+.row-info h4{font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-info p{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* ── Chips ── */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--line);border-radius:99px;padding:5px 11px;font-size:12px}
+.chip-del{background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px;line-height:1;padding:0}
+.chip-del:hover{color:var(--danger)}
+.chip-add-row{display:flex;gap:8px;margin-top:8px}
+.chip-add-row input{flex:1}
+
+/* ── Stack groups ── */
+.stack-grp{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:10px}
+.stack-grp-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.stack-grp-hd input{flex:1}
+
+/* ── Scale / list items ── */
+.list-item{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:8px}
+.list-item-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.list-item-hd span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+
+/* ── Section divider ── */
+.sec-label{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin:24px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,6,10,.9);display:flex;align-items:flex-start;justify-content:center;z-index:100;padding:40px 16px 80px;overflow-y:auto;backdrop-filter:blur(6px)}
+.modal{background:var(--bg2);border:1px solid var(--line);border-radius:14px;width:100%;max-width:700px;padding:32px}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.modal-hd h3{font-size:18px;letter-spacing:-.02em}
+.modal-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;padding:0}
+.modal-close:hover{color:var(--txt)}
+.modal-ft{display:flex;justify-content:flex-end;gap:10px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.cs-block{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:8px}
+.cs-block .lbl-sm{margin-bottom:6px}
+
+/* ── Cover preview ── */
+.cover-row{display:flex;align-items:center;gap:10px}
+.cover-row input{flex:1}
+.cover-preview{width:72px;height:52px;border-radius:6px;border:1px solid var(--line);flex-shrink:0;background:var(--bg3) center/cover no-repeat}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:12px 22px;font-size:13px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s var(--ease);pointer-events:none;max-width:340px}
+.toast.show{transform:none;opacity:1}
+.toast.ok{border-color:var(--accent);color:var(--accent)}
+.toast.err{border-color:var(--danger);color:var(--danger)}
+.toast.warn{border-color:var(--warn);color:var(--warn)}
+
+/* ── Deploy note ── */
+.deploy-note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.deploy-note a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- ── Login ── -->
+<div id="loginWrap" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">m.</div>
+    <h1>Portfolio Admin</h1>
+    <p>Enter a GitHub Personal Access Token with <strong>repo</strong> scope.<br>
+    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Portfolio+Admin" target="_blank" rel="noopener">Create token on GitHub ↗</a></p>
+    <div class="field">
+      <label><span class="lbl">GitHub Token</span>
+        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+      </label>
+    </div>
+    <button class="btn btn-accent" id="loginBtn" style="width:100%">Connect</button>
+    <p class="login-err" id="loginErr"></p>
+  </div>
+</div>
+
+<!-- ── Admin ── -->
+<div id="adminWrap" class="layout hide">
+  <aside class="sidebar">
+    <div class="sidebar-logo">m. admin</div>
+    <button class="nav-btn active" data-s="projects">📋 Projects</button>
+    <button class="nav-btn" data-s="settings">⚙️ Settings</button>
+    <button class="nav-btn" data-s="marquee">🏷️ Marquee</button>
+    <button class="nav-btn" data-s="stack">🛠️ Stack</button>
+    <button class="nav-btn" data-s="scale">📊 Scale</button>
+    <button class="nav-btn" data-s="emailjs">✉️ EmailJS</button>
+    <button class="nav-btn" data-s="socials">🔗 Socials</button>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-foot">
+      <button class="btn btn-accent" id="saveBtn">💾 Save &amp; Deploy</button>
+      <p class="deploy-note">Saves to GitHub → auto-deploys via Actions (~1 min).<br>
+        <a href="https://github.com/mbheramil/mbheramil.github.io/actions" target="_blank" rel="noopener">Watch deploy ↗</a>
+      </p>
+      <button class="nav-btn" id="signOutBtn">🚪 Sign out</button>
+    </div>
+  </aside>
+  <main class="main" id="content"></main>
+</div>
+
+<!-- ── Project Modal ── -->
+<div class="modal-overlay hide" id="projectModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3 id="modalTitle">Edit Project</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+      <button class="btn btn-accent" id="modalSave">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+const OWNER = 'mbheramil';
+const REPO  = 'mbheramil.github.io';
+const BRANCH = 'main';
+const FILE  = 'src/content.json';
+const SITE  = 'https://mbheramil.github.io';
+
+let S    = null;  // state = content.json
+let sha  = null;  // github file sha
+let sec  = 'projects';
+let editIdx = -1; // -1 = new project
+
+// ── Token ──────────────────────────────────────
+function tok()    { return sessionStorage.getItem('ghTok'); }
+function setTok(t){ sessionStorage.setItem('ghTok', t); }
+function clrTok() { sessionStorage.removeItem('ghTok'); }
+
+// ── GitHub API ─────────────────────────────────
+async function gh(method, path, body) {
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}${path}`, {
+    method,
+    headers: {
+      'Authorization': 'Bearer ' + tok(),
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.message || 'HTTP ' + r.status);
+  return d;
+}
+
+async function loadData() {
+  const f = await gh('GET', `/contents/${FILE}`);
+  sha = f.sha;
+  S = JSON.parse(atob(f.content.replace(/\n/g, '')));
+}
+
+async function saveData() {
+  const json = JSON.stringify(S, null, 2);
+  // btoa with full unicode support
+  const encoded = btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g,
+    (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+  const r = await gh('PUT', `/contents/${FILE}`, {
+    message: 'admin: update portfolio content',
+    content: encoded,
+    sha,
+    branch: BRANCH
+  });
+  sha = r.content.sha;
+}
+
+// ── Toast ──────────────────────────────────────
+function toast(msg, type = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast ' + type + ' show';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = 'toast'; }, 3500);
+}
+
+// ── HTML escape ────────────────────────────────
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Section nav ────────────────────────────────
+function showSec(name) {
+  sec = name;
+  document.querySelectorAll('.nav-btn[data-s]').forEach(b => b.classList.toggle('active', b.dataset.s === name));
+  const fns = { projects: renderProjects, settings: renderSettings, marquee: renderMarquee,
+                stack: renderStack, scale: renderScale, emailjs: renderEmailJS, socials: renderSocials };
+  fns[name]?.();
+}
+
+// ── Chip editor ────────────────────────────────
+// Returns { html, bind(containerId) }
+function chipEditor(arr, containerId) {
+  const chips = arr.map((v, i) => `<span class="chip">${esc(v)}<button class="chip-del" data-chip="${i}" title="Remove">×</button></span>`).join('');
+  const html = `<div class="chips-wrap" id="${containerId}_chips">${chips}</div>
+    <div class="chip-add-row">
+      <input type="text" id="${containerId}_inp" placeholder="Add item…">
+      <button class="btn btn-ghost btn-sm" id="${containerId}_add">Add</button>
+    </div>`;
+
+  function bind() {
+    const wrap = document.getElementById(containerId + '_chips');
+    const inp  = document.getElementById(containerId + '_inp');
+    const addBtn = document.getElementById(containerId + '_add');
+    if (!wrap || !inp || !addBtn) return;
+
+    wrap.addEventListener('click', e => {
+      const del = e.target.closest('[data-chip]');
+      if (!del) return;
+      arr.splice(+del.dataset.chip, 1);
+      refreshChips();
+    });
+
+    function add() {
+      const v = inp.value.trim();
+      if (!v) return;
+      arr.push(v);
+      inp.value = '';
+      refreshChips();
+    }
+    addBtn.addEventListener('click', add);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); add(); }});
+
+    function refreshChips() {
+      wrap.innerHTML = arr.map((v, i) => `<span class="chip">${esc(v)}<button class="chip-del" data-chip="${i}" title="Remove">×</button></span>`).join('');
+    }
+  }
+  return { html, bind };
+}
+
+// ── Cover preview helper ───────────────────────
+function coverPreviewStyle(val) {
+  if (!val) return '';
+  if (val.startsWith('#')) return `background:${val}`;
+  return `background:url('${SITE}${val}') center/cover no-repeat`;
+}
+
+// ══════════════════════════════════════════════
+// PROJECTS
+// ══════════════════════════════════════════════
+function renderProjects() {
+  const c = document.getElementById('content');
+  const rows = S.projects.map((p, i) => `
+    <div class="row-item">
+      <div class="row-info">
+        <h4>${esc(p.title)}</h4>
+        <p>${esc(p.tagline)} · ${esc(p.year)}</p>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-ghost btn-sm" data-edit="${i}">Edit</button>
+        <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+      </div>
+    </div>`).join('');
+
+  c.innerHTML = `
+    <div class="page-hd">
+      <div class="page-hd-text"><h2>Projects</h2><p>Manage case studies shown in the Work section.</p></div>
+      <button class="btn btn-accent" id="addProject">+ Add Project</button>
+    </div>
+    ${rows || '<p style="color:var(--muted);padding:20px 0">No projects yet. Click "Add Project" to create one.</p>'}`;
+
+  document.getElementById('addProject').addEventListener('click', () => openModal(-1));
+  c.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openModal(+b.dataset.edit)));
+  c.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => {
+    if (!confirm('Delete this project?')) return;
+    S.projects.splice(+b.dataset.del, 1);
+    renderProjects();
+    toast('Project deleted.');
+  }));
+}
+
+// ── Project Modal ─────────────────────────────
+function openModal(idx) {
+  editIdx = idx;
+  const p = idx >= 0 ? S.projects[idx] : {
+    id: '', title: '', tagline: '', year: new Date().getFullYear().toString(),
+    role: '', stack: [], cover: '#0a1118', url: '', summary: '',
+    caseStudy: { client: '', timeline: '', team: 'solo', live: '', repo: '', gallery: [],
+      sections: [
+        { heading: 'context',  body: '' },
+        { heading: 'approach', body: '' },
+        { heading: 'outcome',  body: '' }
+      ]
+    }
+  };
+
+  document.getElementById('modalTitle').textContent = idx >= 0 ? 'Edit Project' : 'Add Project';
+
+  // Stack chip editor
+  // Clone the stack array so we can edit it separately
+  const stackArr = [...(p.stack || [])];
+  const galleryArr = [...(p.caseStudy?.gallery || [])];
+  const stackChip = chipEditor(stackArr, 'ms');
+  const gallChip  = chipEditor(galleryArr, 'mg');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Title</span><input type="text" id="m_title" value="${esc(p.title)}"></label></div>
+      <div class="field"><label><span class="lbl">ID (URL slug)</span><input type="text" id="m_id" value="${esc(p.id)}" placeholder="auto from title"></label></div>
+    </div>
+    <div class="field"><label><span class="lbl">Tagline</span><input type="text" id="m_tagline" value="${esc(p.tagline)}" placeholder="One punchy sentence."></label></div>
+    <div class="grid3">
+      <div class="field"><label><span class="lbl">Year</span><input type="text" id="m_year" value="${esc(p.year)}"></label></div>
+      <div class="field"><label><span class="lbl">Role</span><input type="text" id="m_role" value="${esc(p.role)}" placeholder="full stack"></label></div>
+      <div class="field"><label><span class="lbl">Live URL</span><input type="url" id="m_url" value="${esc(p.url)}"></label></div>
+    </div>
+    <div class="field">
+      <span class="lbl">Cover (hex or /screenshots/file.png)</span>
+      <div class="cover-row">
+        <input type="text" id="m_cover" value="${esc(p.cover)}" placeholder="#0a1118 or /screenshots/img.png">
+        <div class="cover-preview" id="m_cover_preview" style="${coverPreviewStyle(p.cover)}"></div>
+      </div>
+    </div>
+    <div class="field"><label><span class="lbl">Summary</span><textarea id="m_summary" rows="3">${esc(p.summary)}</textarea></label></div>
+    <div class="field">
+      <span class="lbl">Stack</span>
+      ${stackChip.html}
+    </div>
+
+    <div class="sec-label">Case Study</div>
+    <div class="grid3">
+      <div class="field"><label><span class="lbl">Client</span><input type="text" id="m_client" value="${esc(p.caseStudy?.client)}"></label></div>
+      <div class="field"><label><span class="lbl">Timeline</span><input type="text" id="m_timeline" value="${esc(p.caseStudy?.timeline)}"></label></div>
+      <div class="field"><label><span class="lbl">Team</span><input type="text" id="m_team" value="${esc(p.caseStudy?.team)}"></label></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Live URL</span><input type="url" id="m_live" value="${esc(p.caseStudy?.live)}"></label></div>
+      <div class="field"><label><span class="lbl">Repo URL</span><input type="url" id="m_repo" value="${esc(p.caseStudy?.repo)}"></label></div>
+    </div>
+    <div class="field">
+      <span class="lbl">Gallery (hex colors or /screenshots/file.png)</span>
+      ${gallChip.html}
+    </div>
+
+    <div class="sec-label">Case Study Sections</div>
+    ${(p.caseStudy?.sections || []).map((s, i) => `
+      <div class="cs-block">
+        <span class="lbl-sm">${esc(s.heading)}</span>
+        <textarea id="m_sec_${i}" rows="3">${esc(s.body)}</textarea>
+      </div>`).join('')}`;
+
+  // Bind chip editors
+  stackChip.bind();
+  gallChip.bind();
+
+  // Cover live preview
+  document.getElementById('m_cover').addEventListener('input', e => {
+    document.getElementById('m_cover_preview').style.cssText = coverPreviewStyle(e.target.value);
+  });
+
+  // Auto-generate ID from title
+  document.getElementById('m_title').addEventListener('input', e => {
+    const idEl = document.getElementById('m_id');
+    if (idx < 0 || !idEl.value) {
+      idEl.value = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+  });
+
+  // Store refs to chip arrays on modal element for save
+  document.getElementById('projectModal')._stackArr = stackArr;
+  document.getElementById('projectModal')._gallArr  = galleryArr;
+  document.getElementById('projectModal')._secCount = (p.caseStudy?.sections || []).length;
+  document.getElementById('projectModal')._secHeadings = (p.caseStudy?.sections || []).map(s => s.heading);
+
+  document.getElementById('projectModal').classList.remove('hide');
+}
+
+function closeModal() {
+  document.getElementById('projectModal').classList.add('hide');
+}
+
+function saveModal() {
+  const modal = document.getElementById('projectModal');
+  const stackArr = modal._stackArr || [];
+  const gallArr  = modal._gallArr  || [];
+  const secCount = modal._secCount || 0;
+  const secHeadings = modal._secHeadings || [];
+
+  const sections = Array.from({ length: secCount }, (_, i) => ({
+    heading: secHeadings[i] || '',
+    body: document.getElementById('m_sec_' + i)?.value.trim() || ''
+  }));
+
+  const proj = {
+    id:      document.getElementById('m_id').value.trim() || document.getElementById('m_title').value.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    title:   document.getElementById('m_title').value.trim(),
+    tagline: document.getElementById('m_tagline').value.trim(),
+    year:    document.getElementById('m_year').value.trim(),
+    role:    document.getElementById('m_role').value.trim(),
+    stack:   [...stackArr],
+    cover:   document.getElementById('m_cover').value.trim() || '#0a1118',
+    url:     document.getElementById('m_url').value.trim(),
+    summary: document.getElementById('m_summary').value.trim(),
+    caseStudy: {
+      client:   document.getElementById('m_client').value.trim(),
+      timeline: document.getElementById('m_timeline').value.trim(),
+      team:     document.getElementById('m_team').value.trim(),
+      live:     document.getElementById('m_live').value.trim(),
+      repo:     document.getElementById('m_repo').value.trim(),
+      gallery:  [...gallArr],
+      sections
+    }
+  };
+
+  if (!proj.title) { toast('Title is required.', 'err'); return; }
+
+  if (editIdx >= 0) S.projects[editIdx] = proj;
+  else              S.projects.push(proj);
+
+  closeModal();
+  renderProjects();
+  toast(editIdx >= 0 ? 'Project updated.' : 'Project added.');
+}
+
+// ══════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════
+function renderSettings() {
+  document.getElementById('content').innerHTML = `
+    <div class="page-hd"><div class="page-hd-text"><h2>Settings</h2><p>Basic site info and hero text.</p></div></div>
+    <div class="card">
+      <div class="card-hd"><h3>Site Info</h3></div>
+      <div class="grid2">
+        <div class="field"><label><span class="lbl">Name / Handle</span><input type="text" id="s_name" value="${esc(S.name)}"></label></div>
+        <div class="field"><label><span class="lbl">Role</span><input type="text" id="s_role" value="${esc(S.role)}"></label></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label><span class="lbl">Email</span><input type="email" id="s_email" value="${esc(S.email)}"></label></div>
+        <div class="field"><label><span class="lbl">Status (shown in hero)</span><input type="text" id="s_status" value="${esc(S.status)}" placeholder="available · q3 2026"></label></div>
+      </div>
+      <div class="field"><label><span class="lbl">Résumé URL</span><input type="text" id="s_resume" value="${esc(S.resumeUrl)}" placeholder="/resume.pdf"></label></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3>Hero Sub-text</h3></div>
+      <div class="field"><label><span class="lbl lbl-dim">Typewriter text below the hero title</span><textarea id="s_sub" rows="3">${esc(S.hero.sub)}</textarea></label></div>
+    </div>`;
+
+  const binds = {
+    's_name': v => S.name = v,
+    's_role': v => S.role = v,
+    's_email': v => S.email = v,
+    's_status': v => S.status = v,
+    's_resume': v => S.resumeUrl = v,
+    's_sub': v => S.hero.sub = v
+  };
+  Object.entries(binds).forEach(([id, fn]) => {
+    document.getElementById(id)?.addEventListener('input', e => fn(e.target.value));
+  });
+}
+
+// ══════════════════════════════════════════════
+// MARQUEE
+// ══════════════════════════════════════════════
+function renderMarquee() {
+  const chip = chipEditor(S.marquee, 'mq');
+  document.getElementById('content').innerHTML = `
+    <div class="page-hd"><div class="page-hd-text"><h2>Marquee</h2><p>Scrolling ticker items below the hero.</p></div></div>
+    <div class="card">
+      <span class="lbl">Items (scroll left-to-right)</span>
+      ${chip.html}
+    </div>`;
+  chip.bind();
+}
+
+// ══════════════════════════════════════════════
+// STACK
+// ══════════════════════════════════════════════
+function renderStack() {
+  const c = document.getElementById('content');
+  function render() {
+    const groups = S.stack.map((g, gi) => {
+      const chip = chipEditor(g.items, 'sg_' + gi);
+      return `
+        <div class="stack-grp" id="stk_${gi}">
+          <div class="stack-grp-hd">
+            <input type="text" value="${esc(g.group)}" data-gi="${gi}" class="grp-name-inp" placeholder="Group name">
+            <button class="btn btn-danger btn-sm" data-delg="${gi}">Delete group</button>
+          </div>
+          ${chip.html}
+        </div>`;
+    }).join('');
+
+    c.innerHTML = `
+      <div class="page-hd">
+        <div class="page-hd-text"><h2>Stack</h2><p>Skill groups shown in the Stack section.</p></div>
+        <button class="btn btn-accent" id="addGrp">+ Add Group</button>
+      </div>
+      ${groups}`;
+
+    // bind group name inputs
+    c.querySelectorAll('.grp-name-inp').forEach(inp => {
+      inp.addEventListener('input', e => { S.stack[+e.target.dataset.gi].group = e.target.value; });
+    });
+    // bind delete group
+    c.querySelectorAll('[data-delg]').forEach(b => b.addEventListener('click', () => {
+      if (!confirm('Delete this group?')) return;
+      S.stack.splice(+b.dataset.delg, 1);
+      render();
+    }));
+    // add group
+    document.getElementById('addGrp').addEventListener('click', () => {
+      S.stack.push({ group: 'new group', items: [] });
+      render();
+    });
+    // bind all chip editors
+    S.stack.forEach((g, gi) => chipEditor(g.items, 'sg_' + gi).bind());
+  }
+  render();
+}
+
+// ══════════════════════════════════════════════
+// SCALE
+// ══════════════════════════════════════════════
+function renderScale() {
+  const c = document.getElementById('content');
+  function render() {
+    const items = S.process.map((p, i) => `
+      <div class="list-item">
+        <div class="list-item-hd"><span>Card ${i + 1}</span><button class="btn btn-danger btn-xs" data-dels="${i}">Delete</button></div>
+        <div class="grid2">
+          <div class="field"><label><span class="lbl-sm">Stat / Number</span><input type="text" data-sc="${i}" data-k="n" value="${esc(p.n)}"></label></div>
+          <div class="field"><label><span class="lbl-sm">Title</span><input type="text" data-sc="${i}" data-k="title" value="${esc(p.title)}"></label></div>
+        </div>
+        <div class="field"><label><span class="lbl-sm">Body</span><textarea data-sc="${i}" data-k="body" rows="2">${esc(p.body)}</textarea></label></div>
+      </div>`).join('');
+
+    c.innerHTML = `
+      <div class="page-hd">
+        <div class="page-hd-text"><h2>Scale</h2><p>The "operating at scale" stats cards (section 03).</p></div>
+        <button class="btn btn-accent" id="addScale">+ Add Card</button>
+      </div>
+      ${items}`;
+
+    c.querySelectorAll('[data-sc]').forEach(el => {
+      el.addEventListener('input', e => { S.process[+e.target.dataset.sc][e.target.dataset.k] = e.target.value; });
+    });
+    c.querySelectorAll('[data-dels]').forEach(b => b.addEventListener('click', () => {
+      S.process.splice(+b.dataset.dels, 1); render();
+    }));
+    document.getElementById('addScale').addEventListener('click', () => {
+      S.process.push({ n: '—', title: 'new card', body: '' }); render();
+    });
+  }
+  render();
+}
+
+// ══════════════════════════════════════════════
+// EMAILJS
+// ══════════════════════════════════════════════
+function renderEmailJS() {
+  document.getElementById('content').innerHTML = `
+    <div class="page-hd"><div class="page-hd-text"><h2>EmailJS</h2><p>Contact form email settings. Public keys only — never paste your private key here.</p></div></div>
+    <div class="card">
+      <div class="field"><label><span class="lbl">Public Key</span><input type="text" id="ej_pk" value="${esc(S.emailjs.publicKey)}"></label></div>
+      <div class="grid2">
+        <div class="field"><label><span class="lbl">Service ID</span><input type="text" id="ej_sid" value="${esc(S.emailjs.serviceId)}" placeholder="service_xxxxx"></label></div>
+        <div class="field"><label><span class="lbl">Template ID (notification)</span><input type="text" id="ej_tid" value="${esc(S.emailjs.templateId)}" placeholder="template_xxxxx"></label></div>
+      </div>
+      <div class="field"><label><span class="lbl">Auto-Reply Template ID</span><input type="text" id="ej_ar" value="${esc(S.emailjs.autoReplyTemplateId)}" placeholder="template_xxxxx"></label></div>
+    </div>`;
+
+  const b = {
+    'ej_pk':  v => S.emailjs.publicKey           = v,
+    'ej_sid': v => S.emailjs.serviceId            = v,
+    'ej_tid': v => S.emailjs.templateId           = v,
+    'ej_ar':  v => S.emailjs.autoReplyTemplateId  = v
+  };
+  Object.entries(b).forEach(([id, fn]) => document.getElementById(id)?.addEventListener('input', e => fn(e.target.value)));
+}
+
+// ══════════════════════════════════════════════
+// SOCIALS
+// ══════════════════════════════════════════════
+function renderSocials() {
+  const c = document.getElementById('content');
+  function render() {
+    const items = S.socials.map((s, i) => `
+      <div class="list-item">
+        <div class="list-item-hd"><span>Social ${i + 1}</span><button class="btn btn-danger btn-xs" data-delsoc="${i}">Delete</button></div>
+        <div class="grid2">
+          <div class="field"><label><span class="lbl-sm">Label</span><input type="text" data-soc="${i}" data-k="label" value="${esc(s.label)}"></label></div>
+          <div class="field"><label><span class="lbl-sm">URL</span><input type="url" data-soc="${i}" data-k="url" value="${esc(s.url)}"></label></div>
+        </div>
+      </div>`).join('');
+
+    c.innerHTML = `
+      <div class="page-hd">
+        <div class="page-hd-text"><h2>Socials</h2><p>Links shown in the contact section sidebar.</p></div>
+        <button class="btn btn-accent" id="addSoc">+ Add Social</button>
+      </div>
+      ${items || '<p style="color:var(--muted);padding:20px 0">No social links yet.</p>'}`;
+
+    c.querySelectorAll('[data-soc]').forEach(el => {
+      el.addEventListener('input', e => { S.socials[+e.target.dataset.soc][e.target.dataset.k] = e.target.value; });
+    });
+    c.querySelectorAll('[data-delsoc]').forEach(b => b.addEventListener('click', () => {
+      S.socials.splice(+b.dataset.delsoc, 1); render();
+    }));
+    document.getElementById('addSoc').addEventListener('click', () => {
+      if (!S.socials) S.socials = [];
+      S.socials.push({ label: '', url: '' }); render();
+    });
+  }
+  render();
+}
+
+// ══════════════════════════════════════════════
+// SAVE
+// ══════════════════════════════════════════════
+async function doSave() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    await saveData();
+    toast('Saved! Deploy started (~1 min). Watch: github.com/mbheramil/mbheramil.github.io/actions', 'ok');
+  } catch (e) {
+    toast('Save failed: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Save & Deploy';
+  }
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+async function init() {
+  // Auto-login if token in session
+  if (tok()) {
+    try {
+      await showAdmin();
+      return;
+    } catch {
+      clrTok();
+    }
+  }
+
+  // Login button
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const t = document.getElementById('tokenInput').value.trim();
+    if (!t) return;
+    setTok(t);
+    const btn = document.getElementById('loginBtn');
+    const err = document.getElementById('loginErr');
+    btn.textContent = 'Connecting…';
+    btn.disabled = true;
+    err.style.display = 'none';
+    try {
+      await showAdmin();
+    } catch (e) {
+      clrTok();
+      err.textContent = 'Failed: ' + e.message;
+      err.style.display = 'block';
+      btn.textContent = 'Connect';
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('tokenInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('loginBtn').click();
+  });
+}
+
+async function showAdmin() {
+  await loadData();
+  document.getElementById('loginWrap').classList.add('hide');
+  document.getElementById('adminWrap').classList.remove('hide');
+  showSec('projects');
+
+  // Nav
+  document.querySelectorAll('.nav-btn[data-s]').forEach(b => b.addEventListener('click', () => showSec(b.dataset.s)));
+  document.getElementById('saveBtn').addEventListener('click', doSave);
+  document.getElementById('signOutBtn').addEventListener('click', () => {
+    clrTok(); location.reload();
+  });
+
+  // Modal
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCancel').addEventListener('click', closeModal);
+  document.getElementById('modalSave').addEventListener('click', saveModal);
+  document.getElementById('projectModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
