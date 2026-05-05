@@ -46,8 +46,8 @@
         "aws"
       ],
       "cover": "/screenshots/wphub-sites.png",
-      "url": "https://d3bonyep772hyo.cloudfront.net/",
-      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface â replacing manual per-site work with centralised ops.",
+      "url": "",
+      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface replacing manual per-site work with centralised ops.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
@@ -62,7 +62,7 @@
         "sections": [
           {
             "heading": "context",
-            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin â doing this one-by-one was hours of overhead daily."
+            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin doing this one-by-one was hours of overhead daily."
           },
           {
             "heading": "approach",
@@ -137,7 +137,7 @@
       ],
       "cover": "#181029",
       "url": "https://www.identitytheftbusinesssolutions.com/business-tracking",
-      "summary": "A bespoke business tracking dashboard built into the client's WordPress site â letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
+      "summary": "A bespoke business tracking dashboard built into the client's Duda site letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
       "caseStudy": {
         "client": "Identity Theft Business Solutions",
         "timeline": "",
@@ -181,7 +181,7 @@
       ],
       "cover": "/screenshots/server-checker-top.png",
       "url": "https://d2taomg22q1lhs.cloudfront.net/",
-      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites â alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
+      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
@@ -196,7 +196,7 @@
         "sections": [
           {
             "heading": "context",
-            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charged per-site â not viable at this scale."
+            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charged per-site not viable at this scale."
           },
           {
             "heading": "approach",
