@@ -166,6 +166,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
     <button class="nav-btn" data-s="scale">📊 Scale</button>
     <button class="nav-btn" data-s="emailjs">✉️ EmailJS</button>
     <button class="nav-btn" data-s="socials">🔗 Socials</button>
+    <button class="nav-btn" data-s="palette">⌘ Palette</button>
     <div class="sidebar-spacer"></div>
     <div class="sidebar-foot">
       <button class="btn btn-accent" id="saveBtn">💾 Save &amp; Deploy</button>
@@ -322,7 +323,8 @@ function showSec(name) {
   sec = name;
   document.querySelectorAll('.nav-btn[data-s]').forEach(b => b.classList.toggle('active', b.dataset.s === name));
   const fns = { projects: renderProjects, settings: renderSettings, marquee: renderMarquee,
-                stack: renderStack, scale: renderScale, emailjs: renderEmailJS, socials: renderSocials };
+                stack: renderStack, scale: renderScale, emailjs: renderEmailJS, socials: renderSocials,
+                palette: renderPalette };
   fns[name]?.();
 }
 
@@ -766,6 +768,46 @@ function renderEmailJS() {
     'ej_ar':  v => S.emailjs.autoReplyTemplateId  = v
   };
   Object.entries(b).forEach(([id, fn]) => document.getElementById(id)?.addEventListener('input', e => fn(e.target.value)));
+}
+
+// ══════════════════════════════════════════════
+// PALETTE (⌘K command palette custom items)
+// ══════════════════════════════════════════════
+function renderPalette() {
+  if (!S.palette) S.palette = [];
+  const c = document.getElementById('content');
+  function render() {
+    const items = S.palette.map((p, i) => `
+      <div class="list-item">
+        <div class="list-item-hd"><span>Item ${i + 1}</span><button class="btn btn-danger btn-xs" data-delp="${i}">Delete</button></div>
+        <div class="grid2">
+          <div class="field"><label><span class="lbl-sm">Label</span><input type="text" data-pal="${i}" data-k="label" value="${esc(p.label)}" placeholder="View live demo"></label></div>
+          <div class="field"><label><span class="lbl-sm">URL</span><input type="url" data-pal="${i}" data-k="url" value="${esc(p.url)}" placeholder="https://..."></label></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label><span class="lbl-sm">Icon (1-3 chars)</span><input type="text" data-pal="${i}" data-k="icon" value="${esc(p.icon)}" placeholder="↗ → ✦" maxlength="3"></label></div>
+          <div class="field"><label><span class="lbl-sm">Hint (right-side label)</span><input type="text" data-pal="${i}" data-k="hint" value="${esc(p.hint)}" placeholder="link / external / demo"></label></div>
+        </div>
+      </div>`).join('');
+
+    c.innerHTML = `
+      <div class="page-hd">
+        <div class="page-hd-text"><h2>Command Palette</h2><p>Custom items for the ⌘K palette. Built-in commands (Go to Work, Email, etc.) are not editable.</p></div>
+        <button class="btn btn-accent" id="addPal">+ Add Item</button>
+      </div>
+      ${items || '<p style="color:var(--muted);padding:20px 0">No custom palette items yet.</p>'}`;
+
+    c.querySelectorAll('[data-pal]').forEach(el => {
+      el.addEventListener('input', e => { S.palette[+e.target.dataset.pal][e.target.dataset.k] = e.target.value; });
+    });
+    c.querySelectorAll('[data-delp]').forEach(b => b.addEventListener('click', () => {
+      S.palette.splice(+b.dataset.delp, 1); render();
+    }));
+    document.getElementById('addPal').addEventListener('click', () => {
+      S.palette.push({ label: '', url: '', icon: '↗', hint: 'link' }); render();
+    });
+  }
+  render();
 }
 
 // ══════════════════════════════════════════════

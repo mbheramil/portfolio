@@ -28,13 +28,23 @@ export function initPalette(extra: Cmd[] = []) {
   commands = [
     { id: 'g-work', label: 'Go to Work', hint: 'section', icon: '→', run: goto('work') },
     { id: 'g-stack', label: 'Go to Stack', hint: 'section', icon: '→', run: goto('stack') },
-    { id: 'g-process', label: 'Go to Process', hint: 'section', icon: '→', run: goto('process') },
+    { id: 'g-scale', label: 'Go to Scale', hint: 'section', icon: '→', run: goto('scale') },
     { id: 'g-contact', label: 'Go to Contact', hint: 'section', icon: '→', run: goto('contact') },
     { id: 'a-email', label: `Email ${site.email}`, hint: 'action', icon: '✉', run: () => { window.location.href = `mailto:${site.email}`; close(); } },
     { id: 'a-copy-email', label: 'Copy email address', hint: 'action', icon: '⎘', run: async () => { await navigator.clipboard.writeText(site.email); close(); } },
     { id: 'a-resume', label: 'Download résumé', hint: 'action', icon: '↓', run: () => { window.location.href = site.resumeUrl; close(); } },
     { id: 'a-source', label: 'View site source on GitHub', hint: 'external', icon: '↗', run: () => { window.open('https://github.com/mbheramil/mbheramil.github.io', '_blank'); close(); } },
     { id: 'a-terminal', label: 'Open terminal', hint: 'easter-egg', icon: '_', run: () => { close(); openTerminal(); } },
+    // Custom commands from content.json (admin-managed)
+    ...(((site as any).palette as Array<{ label: string; url: string; hint?: string; icon?: string }> | undefined) || [])
+      .filter(c => c && c.label && c.url)
+      .map((c, i) => ({
+        id: `cust-${i}`,
+        label: c.label,
+        hint: c.hint || 'link',
+        icon: c.icon || '↗',
+        run: () => { window.open(c.url, '_blank', 'noopener'); close(); }
+      } as Cmd)),
     ...extra
   ];
 
