@@ -22,7 +22,13 @@ export function initPalette(extra: Cmd[] = []) {
 
   const goto = (id: string) => () => {
     close();
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // Section not on this page (e.g. case study) — route to home page anchor.
+      window.location.href = `/#${id}`;
+    }
   };
 
   commands = [

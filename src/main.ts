@@ -40,6 +40,18 @@ async function boot_() {
     boot.classList.add('hide');
     setTimeout(() => boot.remove(), 700);
   }
+
+  // If the page was loaded with a hash (e.g. /#contact from case page),
+  // scroll to that section once content is rendered. The browser's native
+  // hash scroll fires before the boot animation finishes, so it lands on
+  // an empty/hidden page — re-scroll here.
+  if (window.location.hash) {
+    const id = window.location.hash.slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  }
 }
 
 // Mobile menu
