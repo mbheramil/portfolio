@@ -18,7 +18,7 @@ export const site = {
   },
 
   hero: {
-    sub: 'I build fast, beautiful websites on WordPress & Shopify — with cloud infrastructure (Google Cloud, AWS) and AI integrations baked in when you need them.'
+    sub: 'I manage 500+ WordPress & Shopify sites — and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it.'
   },
 
   marquee: [
@@ -42,78 +42,102 @@ export const site = {
   // ───────── Projects ─────────
   projects: [
     {
-      id: 'project-one',
-      title: 'Project One',
-      tagline: 'A short, punchy line about what it is.',
-      year: '2026',
+      id: 'wp-hub',
+      title: 'WP Hub',
+      tagline: 'Internal dashboard for managing 500+ WordPress sites.',
+      year: '2025',
       role: 'design + build',
-      stack: ['typescript', 'react', 'node', 'postgres'],
-      cover: '#0a1118', // hex color or url('/...')
+      stack: ['wordpress', 'php', 'javascript', 'mysql', 'REST API'],
+      cover: '#0a1118',
       url: '#',
       summary:
-        'Replace this with a real description. Talk about the problem, the constraint, and the outcome — not the tools.',
-      // ─── case-study fields (optional; project links to /case.html?p=<id> when present) ───
+        'A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface — replacing manual per-site work with centralised ops.',
       caseStudy: {
-        client: 'Self-initiated',
-        timeline: '6 weeks',
+        client: 'Internal tool',
+        timeline: 'ongoing',
         team: 'solo',
         live: '#',
         repo: '#',
-        gallery: ['#0a1118', '#11161e', '#0a1118'], // hex or '/cover.png'
+        gallery: ['#0a1118', '#11161e', '#0a1118'],
         sections: [
-          { heading: 'context', body: 'What was the problem we were solving? Replace this paragraph in src/content.ts when you have real content. Talk about the user, the constraint, and what success looked like.' },
-          { heading: 'approach', body: 'How did you tackle it? Describe the design and engineering moves you made — and the tradeoffs you accepted.' },
-          { heading: 'outcome', body: 'What shipped? What changed? Numbers help: latency, conversion, time saved, anything measurable.' }
+          { heading: 'context', body: 'Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin — doing this one-by-one was hours of overhead daily.' },
+          { heading: 'approach', body: 'Built a centralised dashboard that aggregates all sites via the WP REST API. One login to see plugin/theme update status, server health, last-login activity, and quick-jump links to any admin panel.' },
+          { heading: 'outcome', body: 'Reduced multi-site maintenance overhead by ~80%. Updates that used to take half a day now run in minutes from a single screen.' }
         ]
       }
     },
     {
-      id: 'project-two',
-      title: 'Project Two',
-      tagline: 'Another short, punchy summary.',
-      year: '2025',
+      id: 'earlybird-dashboard',
+      title: 'Early Bird College',
+      tagline: 'Custom admissions & student management dashboard.',
+      year: '2024',
       role: 'full stack',
-      stack: ['next.js', 'cloudflare', 'd1'],
+      stack: ['wordpress', 'php', 'javascript', 'custom plugin', 'ACF'],
       cover: '#0e1a14',
-      url: '#',
+      url: 'https://earlybirdcollege.com/',
       summary:
-        'A second placeholder project. Edit src/content.ts to swap in real work.',
+        'A fully custom WordPress-powered dashboard for Early Bird College — handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.',
       caseStudy: {
-        client: 'Acme Co.',
-        timeline: '3 months',
-        team: '2 engineers + 1 designer',
-        live: '#',
+        client: 'Early Bird College',
+        timeline: '',
+        team: 'solo',
+        live: 'https://earlybirdcollege.com/',
         repo: '#',
         gallery: ['#0e1a14', '#0c1c16', '#0e1a14'],
         sections: [
-          { heading: 'context', body: 'Placeholder.' },
-          { heading: 'approach', body: 'Placeholder.' },
-          { heading: 'outcome', body: 'Placeholder.' }
+          { heading: 'context', body: 'The client needed a centralised place to manage student enrolments and track application progress — existing plugins couldn\'t handle their specific workflow.' },
+          { heading: 'approach', body: 'Built a custom WordPress plugin with a bespoke admin dashboard, tailored role permissions, and an application tracking flow that matched the college\'s exact process.' },
+          { heading: 'outcome', body: 'Replaced a manual spreadsheet-based process with a live dashboard — saving staff hours per week and reducing enrolment errors.' }
         ]
       }
     },
     {
-      id: 'project-three',
-      title: 'Project Three',
-      tagline: 'One sentence pitch.',
-      year: '2025',
-      role: 'engineering',
-      stack: ['three.js', 'glsl', 'vite'],
+      id: 'itbs-tracking',
+      title: 'ITBS Business Tracking',
+      tagline: 'Custom business tracking dashboard for Identity Theft Business Solutions.',
+      year: '2024',
+      role: 'full stack',
+      stack: ['wordpress', 'php', 'javascript', 'custom plugin'],
       cover: '#181029',
-      url: '#',
+      url: 'https://www.identitytheftbusinesssolutions.com/business-tracking',
       summary:
-        'Third placeholder. The site is wired so adding a project = adding an entry here.',
+        'A bespoke business tracking dashboard built into the client\'s WordPress site — letting them manage and monitor business identity theft cases, client records, and service statuses in one place.',
       caseStudy: {
-        client: 'Internal tool',
-        timeline: '2 weeks',
+        client: 'Identity Theft Business Solutions',
+        timeline: '',
         team: 'solo',
-        live: '#',
+        live: 'https://www.identitytheftbusinesssolutions.com/business-tracking',
         repo: '#',
         gallery: ['#181029', '#1c1230', '#181029'],
         sections: [
-          { heading: 'context', body: 'Placeholder.' },
-          { heading: 'approach', body: 'Placeholder.' },
-          { heading: 'outcome', body: 'Placeholder.' }
+          { heading: 'context', body: 'The client needed a proprietary tracking system for business identity theft cases — no off-the-shelf CRM fit their specific service model.' },
+          { heading: 'approach', body: 'Designed and built a custom WordPress dashboard plugin with case management, status tracking, and client-facing views — integrated directly into their existing WP site.' },
+          { heading: 'outcome', body: 'Delivered a fully operational tracking system tailored to their workflow, replacing disconnected spreadsheets and email chains.' }
+        ]
+      }
+    },
+    {
+      id: 'server-checker',
+      title: 'Server Checker',
+      tagline: 'Uptime & health monitoring tool for a 500-site fleet.',
+      year: '2025',
+      role: 'build',
+      stack: ['javascript', 'node', 'REST API', 'cron'],
+      cover: '#0a1420',
+      url: '#',
+      summary:
+        'An internal server and uptime monitoring tool built to watch over 500+ client sites — alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.',
+      caseStudy: {
+        client: 'Internal tool',
+        timeline: 'ongoing',
+        team: 'solo',
+        live: '#',
+        repo: '#',
+        gallery: ['#0a1420', '#0c1828', '#0a1420'],
+        sections: [
+          { heading: 'context', body: 'With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charged per-site — not viable at this scale.' },
+          { heading: 'approach', body: 'Built a lightweight checker that pings all sites on a schedule, checks SSL validity, response codes, and server health. Alerts via email/webhook on failure.' },
+          { heading: 'outcome', body: 'Full visibility over the entire site fleet at near-zero cost. Average issue detection time dropped from hours (client complaints) to minutes (automated alert).' }
         ]
       }
     }
@@ -147,27 +171,27 @@ export const site = {
     }
   ],
 
-  // ───────── Process ─────────
+  // ───────── Scale / How I operate ─────────
   process: [
     {
-      n: '01',
-      title: 'discover',
-      body: 'Understand the goal, the constraints, and what success looks like. Asking the right questions saves weeks.'
+      n: '500+',
+      title: 'sites managed',
+      body: 'A live fleet across WordPress, Shopify, Wix and Duda — not one-off builds, but ongoing operations at scale.'
     },
     {
-      n: '02',
-      title: 'shape',
-      body: 'Sketch the smallest version that proves the idea. Wireframes, prototypes, technical spike. No big-bang plans.'
+      n: '70/20',
+      title: 'wordpress · shopify',
+      body: 'WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest — right tool for the job.'
     },
     {
-      n: '03',
-      title: 'build',
-      body: 'Ship in tight loops. Every commit deployable. Polish stays a first-class citizen, not an afterthought.'
+      n: '⚙',
+      title: 'custom tooling',
+      body: 'Built WP Hub, Server Checker, and bespoke client dashboards to manage this many sites without losing the plot.'
     },
     {
-      n: '04',
-      title: 'iterate',
-      body: 'Real users hit production. We watch what happens, learn, and tighten. The work is never finished, only released.'
+      n: '∞',
+      title: 'full lifecycle',
+      body: 'Build, migrate, maintain, monitor. Performance, uptime, integrations — I handle the whole stack long-term.'
     }
   ]
 };
