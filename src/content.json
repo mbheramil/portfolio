@@ -2,7 +2,7 @@
   "name": "mbheramil",
   "role": "Full-stack web developer",
   "email": "contactme@mbheramil.com",
-  "status": "available Â· q3 2026",
+  "status": "available ÃÂ· q3 2026",
   "resumeUrl": "/resume.pdf",
   "emailjs": {
     "publicKey": "UULH9QgHeTzlkTg9k",
@@ -11,8 +11,10 @@
     "autoReplyTemplateId": "template_7a5ksoj"
   },
   "hero": {
-    "sub": "I manage 500+ WordPress & Shopify sites â and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
-  },  "palette": [],  "marquee": [
+    "sub": "I manage 500+ WordPress & Shopify sites Ã¢ÂÂ and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
+  },
+  "palette": [],
+  "marquee": [
     "wordpress",
     "shopify",
     "wix",
@@ -151,7 +153,7 @@
         "sections": [
           {
             "heading": "context",
-            "body": "The client needed a proprietary tracking system for business identity theft cases â no off-the-shelf CRM fit their specific service model."
+            "body": "The client needed a proprietary tracking system for business identity theft cases Ã¢ÂÂ no off-the-shelf CRM fit their specific service model."
           },
           {
             "heading": "approach",
@@ -280,22 +282,22 @@
     {
       "n": "500+",
       "title": "sites managed",
-      "body": "A live fleet across WordPress, Shopify, Wix and Duda â not one-off builds, but ongoing operations at scale."
+      "body": "A live fleet across WordPress, Shopify, Wix and Duda not one-off builds, but ongoing operations at scale."
     },
     {
       "n": "70/20",
-      "title": "wordpress Â· shopify",
-      "body": "WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest â right tool for the job."
+      "title": "wordpress ÃÂ· shopify",
+      "body": "WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest right tool for the job."
     },
     {
-      "n": "â",
+      "n": "",
       "title": "custom tooling",
       "body": "Built WP Hub, Server Checker, and bespoke client dashboards to manage this many sites without losing the plot."
     },
     {
-      "n": "â",
+      "n": "",
       "title": "full lifecycle",
-      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations â I handle the whole stack long-term."
+      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations I handle the whole stack long-term."
     }
   ]
 }
