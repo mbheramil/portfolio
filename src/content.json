@@ -136,7 +136,7 @@
         "javascript",
         "custom dashboard"
       ],
-      "cover": "#181029",
+      "cover": "/screenshots/1-mosl9d3q.png",
       "url": "https://www.identitytheftbusinesssolutions.com/business-tracking",
       "summary": "A bespoke business tracking dashboard built into the client's Duda site letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
       "caseStudy": {
@@ -146,14 +146,15 @@
         "live": "https://www.identitytheftbusinesssolutions.com/business-tracking",
         "repo": "#",
         "gallery": [
-          "#181029",
-          "#1c1230",
-          "#181029"
+          "/screenshots/1-mosl9k9x.png",
+          "/screenshots/2-mosl9nj9.png",
+          "/screenshots/3-mosl9r14.png",
+          "/screenshots/4-mosl9zbe.png"
         ],
         "sections": [
           {
             "heading": "context",
-            "body": "The client needed a proprietary tracking system for business identity theft cases Ã¢ÂÂ no off-the-shelf CRM fit their specific service model."
+            "body": "The client needed a proprietary tracking system for business identity theft cases no off-the-shelf CRM fit their specific service model."
           },
           {
             "heading": "approach",
