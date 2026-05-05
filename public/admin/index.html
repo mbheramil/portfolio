@@ -118,6 +118,12 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .cover-row input{flex:1}
 .cover-preview{width:72px;height:52px;border-radius:6px;border:1px solid var(--line);flex-shrink:0;background:var(--bg3) center/cover no-repeat}
 
+/* ── Upload ── */
+.up-hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+.gal-thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gal-thumb{position:relative;width:64px;height:48px;border-radius:6px;border:1px solid var(--line);background:var(--bg3) center/cover no-repeat;flex-shrink:0}
+.gal-thumb-del{position:absolute;top:-6px;right:-6px;background:var(--danger);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center}
+
 /* ── Toast ── */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:12px 22px;font-size:13px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s var(--ease);pointer-events:none;max-width:340px}
 .toast.show{transform:none;opacity:1}
@@ -241,6 +247,60 @@ async function saveData() {
     branch: BRANCH
   });
   sha = r.content.sha;
+}
+
+// ── Upload image to public/screenshots/ ───────
+// Returns the public path like "/screenshots/myimg-1712345.png" on success.
+async function uploadImage(file) {
+  if (!file) return null;
+  if (file.size > 10 * 1024 * 1024) throw new Error('Image too large (max 10MB).');
+  if (!/^image\//.test(file.type)) throw new Error('Not an image file.');
+
+  // Generate slug filename
+  const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const baseName = file.name.replace(/\.[^.]+$/, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'image';
+  const fname = `${baseName}-${Date.now().toString(36)}.${ext}`;
+  const path  = `public/screenshots/${fname}`;
+
+  // Read as base64
+  const b64 = await new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = () => res(String(r.result).split(',')[1]);
+    r.onerror = () => rej(new Error('Read failed.'));
+    r.readAsDataURL(file);
+  });
+
+  await gh('PUT', `/contents/${path}`, {
+    message: `admin: upload ${fname}`,
+    content: b64,
+    branch: BRANCH
+  });
+
+  return `/screenshots/${fname}`;
+}
+
+// Pick a file from the OS, upload it, return the public path.
+function pickAndUpload(onProgress) {
+  return new Promise((resolve, reject) => {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.onchange = async () => {
+      const f = inp.files && inp.files[0];
+      if (!f) { resolve(null); return; }
+      try {
+        onProgress?.(true);
+        const p = await uploadImage(f);
+        resolve(p);
+      } catch (e) {
+        reject(e);
+      } finally {
+        onProgress?.(false);
+      }
+    };
+    inp.click();
+  });
 }
 
 // ── Toast ──────────────────────────────────────
@@ -369,7 +429,6 @@ function openModal(idx) {
   const stackArr = [...(p.stack || [])];
   const galleryArr = [...(p.caseStudy?.gallery || [])];
   const stackChip = chipEditor(stackArr, 'ms');
-  const gallChip  = chipEditor(galleryArr, 'mg');
 
   document.getElementById('modalBody').innerHTML = `
     <div class="grid2">
@@ -383,11 +442,13 @@ function openModal(idx) {
       <div class="field"><label><span class="lbl">Live URL</span><input type="url" id="m_url" value="${esc(p.url)}"></label></div>
     </div>
     <div class="field">
-      <span class="lbl">Cover (hex or /screenshots/file.png)</span>
+      <span class="lbl">Cover (hex color or uploaded image)</span>
       <div class="cover-row">
         <input type="text" id="m_cover" value="${esc(p.cover)}" placeholder="#0a1118 or /screenshots/img.png">
+        <button type="button" class="btn btn-ghost btn-sm" id="m_cover_up">📤 Upload</button>
         <div class="cover-preview" id="m_cover_preview" style="${coverPreviewStyle(p.cover)}"></div>
       </div>
+      <p class="up-hint">Tip: enter a hex color (e.g. <code>#0a1118</code>) for a flat tile, or upload an image.</p>
     </div>
     <div class="field"><label><span class="lbl">Summary</span><textarea id="m_summary" rows="3">${esc(p.summary)}</textarea></label></div>
     <div class="field">
@@ -406,8 +467,13 @@ function openModal(idx) {
       <div class="field"><label><span class="lbl">Repo URL</span><input type="url" id="m_repo" value="${esc(p.caseStudy?.repo)}"></label></div>
     </div>
     <div class="field">
-      <span class="lbl">Gallery (hex colors or /screenshots/file.png)</span>
-      ${gallChip.html}
+      <span class="lbl">Gallery (hex colors or uploaded images)</span>
+      <div class="gal-thumbs" id="m_gal_thumbs"></div>
+      <div class="chip-add-row">
+        <input type="text" id="m_gal_inp" placeholder="#0a1118 or /screenshots/img.png">
+        <button type="button" class="btn btn-ghost btn-sm" id="m_gal_add">Add</button>
+        <button type="button" class="btn btn-accent btn-sm" id="m_gal_up">📤 Upload</button>
+      </div>
     </div>
 
     <div class="sec-label">Case Study Sections</div>
@@ -419,7 +485,62 @@ function openModal(idx) {
 
   // Bind chip editors
   stackChip.bind();
-  gallChip.bind();
+
+  // Gallery thumbs renderer
+  function renderGallery() {
+    const wrap = document.getElementById('m_gal_thumbs');
+    if (!wrap) return;
+    wrap.innerHTML = galleryArr.map((v, i) => {
+      const isHex = v.startsWith('#');
+      const style = isHex ? `background:${v}` : `background:url('${SITE}${v}') center/cover no-repeat`;
+      return `<div class="gal-thumb" style="${style}" title="${esc(v)}"><button type="button" class="gal-thumb-del" data-galdel="${i}">×</button></div>`;
+    }).join('') || '<p class="up-hint" style="margin-top:0">No gallery items yet.</p>';
+    wrap.querySelectorAll('[data-galdel]').forEach(b => b.addEventListener('click', () => {
+      galleryArr.splice(+b.dataset.galdel, 1);
+      renderGallery();
+    }));
+  }
+  renderGallery();
+
+  // Gallery add (text)
+  document.getElementById('m_gal_add').addEventListener('click', () => {
+    const inp = document.getElementById('m_gal_inp');
+    const v = inp.value.trim();
+    if (!v) return;
+    galleryArr.push(v); inp.value = ''; renderGallery();
+  });
+  document.getElementById('m_gal_inp').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('m_gal_add').click(); }
+  });
+
+  // Gallery upload
+  document.getElementById('m_gal_up').addEventListener('click', async () => {
+    const btn = document.getElementById('m_gal_up');
+    try {
+      const path = await pickAndUpload(busy => {
+        btn.disabled = busy;
+        btn.textContent = busy ? 'Uploading…' : '📤 Upload';
+      });
+      if (path) { galleryArr.push(path); renderGallery(); toast('Image uploaded.'); }
+    } catch (e) { toast('Upload failed: ' + e.message, 'err'); }
+  });
+
+  // Cover upload
+  document.getElementById('m_cover_up').addEventListener('click', async () => {
+    const btn = document.getElementById('m_cover_up');
+    try {
+      const path = await pickAndUpload(busy => {
+        btn.disabled = busy;
+        btn.textContent = busy ? 'Uploading…' : '📤 Upload';
+      });
+      if (path) {
+        const inp = document.getElementById('m_cover');
+        inp.value = path;
+        document.getElementById('m_cover_preview').style.cssText = coverPreviewStyle(path);
+        toast('Image uploaded.');
+      }
+    } catch (e) { toast('Upload failed: ' + e.message, 'err'); }
+  });
 
   // Cover live preview
   document.getElementById('m_cover').addEventListener('input', e => {
@@ -437,6 +558,7 @@ function openModal(idx) {
   // Store refs to chip arrays on modal element for save
   document.getElementById('projectModal')._stackArr = stackArr;
   document.getElementById('projectModal')._gallArr  = galleryArr;
+  // Keep the live array reference (not a snapshot) so reads stay in sync.
   document.getElementById('projectModal')._secCount = (p.caseStudy?.sections || []).length;
   document.getElementById('projectModal')._secHeadings = (p.caseStudy?.sections || []).map(s => s.heading);
 
