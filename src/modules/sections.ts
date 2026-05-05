@@ -11,6 +11,7 @@ interface Tool {
   icon?: string;
   cover?: string;
   demoUrl?: string;
+  demoType?: 'iframe' | 'external'; // 'iframe' = embed inside site; 'external' = new tab
   demoNote?: string;
   repoUrl?: string;
 }
@@ -104,9 +105,13 @@ export function renderContent() {
           ? (t.cover.startsWith('#') ? `background:${t.cover}` : `background:url('${t.cover}') center/cover no-repeat`)
           : '';
         const stackHtml = (t.stack || []).map(s => `<span>${escapeHtml(s)}</span>`).join('');
-        const demoBtn = hasLink(t.demoUrl)
-          ? `<a href="${escapeAttr(t.demoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn lab-card__btn--primary" data-cursor="link"><span>try demo</span><span class="lab-card__arrow">↗</span></a>`
-          : '';
+        const isIframe = t.demoType === 'iframe' && hasLink(t.demoUrl);
+        const isExternal = t.demoType !== 'iframe' && hasLink(t.demoUrl);
+        const demoBtn = isIframe
+          ? `<button class="lab-card__btn lab-card__btn--primary lab-card__btn--demo" data-cursor="link" data-demo-url="${escapeAttr(t.demoUrl!)}" data-demo-name="${escapeAttr(t.name)}"><span>try demo</span><span class="lab-card__demo-icon">⧉</span></button>`
+          : isExternal
+            ? `<a href="${escapeAttr(t.demoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn lab-card__btn--primary" data-cursor="link"><span>try demo</span><span class="lab-card__arrow">↗</span></a>`
+            : '';
         const repoBtn = hasLink(t.repoUrl)
           ? `<a href="${escapeAttr(t.repoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn" data-cursor="link"><span>source</span><span class="lab-card__arrow">↗</span></a>`
           : '';
@@ -129,6 +134,9 @@ export function renderContent() {
             </div>
           </article>`;
       }).join('');
+
+      // Wire up iframe demo buttons
+      initLabDemoModal(lab);
     }
   }
 
@@ -163,3 +171,63 @@ function escapeHtml(s: string) {
   } as Record<string, string>)[c]!);
 }
 function escapeAttr(s: string) { return escapeHtml(s); }
+
+// ── Lab demo iframe modal ─────────────────────
+let labModalInitialized = false;
+function initLabDemoModal(grid: HTMLElement) {
+  // Delegate: clicks anywhere in the grid on a demo button
+  grid.addEventListener('click', e => {
+    const btn = (e.target as Element).closest<HTMLElement>('[data-demo-url]');
+    if (!btn) return;
+    openLabDemo(btn.dataset.demoUrl!, btn.dataset.demoName || 'Demo');
+  });
+
+  if (labModalInitialized) return;
+  labModalInitialized = true;
+
+  const modal  = document.getElementById('labDemoModal') as HTMLElement;
+  const frame  = document.getElementById('labDemoFrame') as HTMLIFrameElement;
+  const loader = document.getElementById('labDemoLoading') as HTMLElement;
+  const title  = document.getElementById('labDemoTitle') as HTMLElement;
+  const tabBtn = document.getElementById('labDemoOpenTab') as HTMLAnchorElement;
+  const closeBtn = document.getElementById('labDemoClose') as HTMLButtonElement;
+
+  if (!modal || !frame) return;
+
+  function open(url: string, name: string) {
+    title.textContent = name;
+    tabBtn.href = url;
+    frame.src = '';
+    loader.hidden = false;
+    frame.style.opacity = '0';
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // slight delay so the modal renders before iframe starts loading
+    requestAnimationFrame(() => { frame.src = url; });
+  }
+
+  function close() {
+    frame.src = '';           // kills WP instance immediately
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    loader.hidden = true;
+    frame.style.opacity = '1';
+  }
+
+  frame.addEventListener('load', () => {
+    loader.hidden = true;
+    frame.style.opacity = '1';
+  });
+
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) close(); });
+
+  // Expose so card buttons can call it
+  (window as unknown as Record<string, unknown>)._openLabDemo = open;
+}
+
+function openLabDemo(url: string, name: string) {
+  const fn = (window as unknown as Record<string, unknown>)._openLabDemo as ((u: string, n: string) => void) | undefined;
+  if (fn) fn(url, name);
+}

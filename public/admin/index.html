@@ -700,11 +700,29 @@ function openLabModal(idx) {
     </div>
 
     <div class="sec-label">Links</div>
-    <div class="grid2">
-      <div class="field"><label><span class="lbl">Demo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "try demo" button</span></span><input type="url" id="lt_demo" value="${esc(t.demoUrl)}" placeholder="https://...  (leave blank to hide button)"></label></div>
-      <div class="field"><label><span class="lbl">Repo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "source" button</span></span><input type="url" id="lt_repo" value="${esc(t.repoUrl)}" placeholder="https://github.com/... (leave blank to hide)"></label></div>
+    <div class="field">
+      <span class="lbl">Demo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "try demo" button (leave blank to hide)</span></span>
+      <input type="url" id="lt_demo" value="${esc(t.demoUrl)}" placeholder="https://playground.wordpress.net/?blueprint-url=... or any URL">
     </div>
-    <div class="field"><label><span class="lbl">Demo Note (optional)</span><input type="text" id="lt_note" value="${esc(t.demoNote)}" placeholder="e.g. demo password: admin123"></label></div>`;
+    <div class="field">
+      <span class="lbl">Demo type</span>
+      <div style="display:flex;gap:16px;margin-top:6px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+          <input type="radio" name="lt_demoType" id="lt_demoType_iframe" value="iframe" ${(t.demoType||'iframe')==='iframe'?'checked':''}
+            style="accent-color:var(--accent)">
+          <span><strong>⧉ Embed inside site</strong> — opens in a fullscreen modal on your portfolio (best for WP Playground)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+          <input type="radio" name="lt_demoType" id="lt_demoType_external" value="external" ${t.demoType==='external'?'checked':''}
+            style="accent-color:var(--accent)">
+          <span><strong>↗ External link</strong> — opens in a new tab</span>
+        </label>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label><span class="lbl">Repo URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— powers "source" button</span></span><input type="url" id="lt_repo" value="${esc(t.repoUrl)}" placeholder="https://github.com/... (leave blank to hide)"></label></div>
+      <div class="field"><label><span class="lbl">Demo Note (optional)</span><input type="text" id="lt_note" value="${esc(t.demoNote)}" placeholder="e.g. login: admin / demo123"></label></div>
+    </div>`;
 
   stackChip.bind();
 
@@ -753,6 +771,7 @@ function saveLabModal() {
     stack:       [...stackArr],
     cover:       document.getElementById('lt_cover').value.trim(),
     demoUrl:     document.getElementById('lt_demo').value.trim(),
+    demoType:    document.querySelector('input[name="lt_demoType"]:checked')?.value || 'iframe',
     demoNote:    document.getElementById('lt_note').value.trim(),
     repoUrl:     document.getElementById('lt_repo').value.trim()
   };

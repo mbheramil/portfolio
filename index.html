@@ -261,6 +261,24 @@
   </form>
 </div>
 
+<!-- LAB DEMO MODAL ─────────────────────────── -->
+<div class="lab-demo-modal" id="labDemoModal" hidden aria-modal="true" role="dialog" aria-label="Plugin demo">
+  <div class="lab-demo-modal__bar">
+    <span class="lab-demo-modal__title" id="labDemoTitle"></span>
+    <div class="lab-demo-modal__actions">
+      <a class="lab-demo-modal__open-tab" id="labDemoOpenTab" href="#" target="_blank" rel="noopener" data-cursor="link" title="Open in new tab">↗ open in new tab</a>
+      <button class="lab-demo-modal__close" id="labDemoClose" aria-label="Close demo" data-cursor="link">×</button>
+    </div>
+  </div>
+  <div class="lab-demo-modal__frame-wrap">
+    <div class="lab-demo-modal__loading" id="labDemoLoading">
+      <span class="lab-demo-modal__spinner"></span>
+      <span>Spinning up WordPress…</span>
+    </div>
+    <iframe id="labDemoFrame" class="lab-demo-modal__iframe" src="" allow="cross-origin-isolated" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads"></iframe>
+  </div>
+</div>
+
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

@@ -558,6 +558,111 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-s
 }
 @media (max-width: 720px) { .lab-grid { grid-template-columns: 1fr } }
 
+/* ───── Lab demo icon button variant ───── */
+.lab-card__demo-icon {
+  font-size: 12px;
+  display: inline-block;
+  transition: transform .25s var(--ease-out);
+}
+.lab-card__btn--demo:hover .lab-card__demo-icon { transform: scale(1.15); }
+
+/* ───── Lab demo iframe modal ───── */
+.lab-demo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99000;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+.lab-demo-modal[hidden] { display: none; }
+.lab-demo-modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 20px;
+  height: 50px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.lab-demo-modal__title {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .05em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lab-demo-modal__title::before {
+  content: '⧉ ';
+  color: var(--accent);
+}
+.lab-demo-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.lab-demo-modal__open-tab {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+.lab-demo-modal__open-tab:hover { color: var(--text); }
+.lab-demo-modal__close {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+  line-height: 1;
+}
+.lab-demo-modal__close:hover { background: var(--bg-elev); border-color: var(--text); }
+.lab-demo-modal__frame-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.lab-demo-modal__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  transition: opacity .3s;
+}
+.lab-demo-modal__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--f-mono);
+  font-size: 13px;
+  z-index: 2;
+}
+.lab-demo-modal__spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* ───── Process ───── */
 .process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden }
 .process-card {
