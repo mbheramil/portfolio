@@ -115,7 +115,7 @@ export function initContactForm() {
 
     // ── Mailto fallback ──
     if (!useEmailJS) {
-      const subject = `New project enquiry — ${name}`;
+      const subject = `New project enquiry from ${name}`;
       const body =
         `Name: ${name}\n` +
         `Email: ${email}\n` +

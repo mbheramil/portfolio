@@ -32,7 +32,7 @@
       "cover": "/screenshots/wphub-health.png",
       "demoUrl": "",
       "demoType": "iframe",
-      "demoNote": "Internal tool — no public demo.",
+      "demoNote": "Internal tool, no public demo.",
       "repoUrl": ""
     },
     {
@@ -71,7 +71,7 @@
       "cover": "",
       "demoUrl": "",
       "demoType": "iframe",
-      "demoNote": "Runs at /admin — needs a GitHub token, so no open demo.",
+      "demoNote": "Runs at /admin and needs a GitHub token, so no open demo.",
       "repoUrl": ""
     }
   ],
@@ -93,7 +93,7 @@
         "aws"
       ],
       "cover": "/screenshots/wphub-sites.png",
-      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface — replacing manual per-site work with centralised ops.",
+      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface, replacing manual per-site work with centralised ops.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
@@ -107,7 +107,7 @@
         "sections": [
           {
             "heading": "the problem",
-            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin — doing this one-by-one was hours of overhead daily."
+            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin. Doing this one-by-one was hours of overhead daily."
           },
           {
             "heading": "how it works",
@@ -137,7 +137,7 @@
         "payments"
       ],
       "cover": "/screenshots/5-moshd2mx.png",
-      "summary": "A fully custom WordPress-powered dashboard for Early Bird College — handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.",
+      "summary": "A fully custom WordPress-powered dashboard for Early Bird College, handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.",
       "caseStudy": {
         "client": "Early Bird College",
         "timeline": "",
@@ -157,11 +157,11 @@
           },
           {
             "heading": "two systems, one surface",
-            "body": "WordPress handles the student-facing frontend: data collection forms, user accounts, and content. Django runs the backend — payment processing, enrolment logic, and the iframe management layer that ties both systems together."
+            "body": "WordPress handles the student-facing frontend: data collection forms, user accounts, and content. Django runs the backend, covering payment processing, enrolment logic, and the iframe management layer that ties both systems together."
           },
           {
             "heading": "result",
-            "body": "A manual spreadsheet-based process became a live dashboard — saving staff hours per week and cutting enrolment errors."
+            "body": "A manual spreadsheet-based process became a live dashboard, saving staff hours per week and cutting enrolment errors."
           }
         ]
       }
@@ -196,11 +196,11 @@
         "sections": [
           {
             "heading": "the constraint",
-            "body": "The client needed a proprietary tracking system for business identity theft cases — no off-the-shelf CRM fit their service model, and the public site was locked to Duda."
+            "body": "The client needed a proprietary tracking system for business identity theft cases. No off-the-shelf CRM fit their service model, and the public site was locked to Duda."
           },
           {
             "heading": "decoupled by design",
-            "body": "The public-facing site stays on Duda. The tracking dashboard is a separate app hosted on GitHub Pages, deployed via AWS Amplify, and connected to the client's data layer — so it can evolve without touching the marketing site."
+            "body": "The public-facing site stays on Duda. The tracking dashboard is a separate app hosted on GitHub Pages, deployed via AWS Amplify, and connected to the client's data layer, so it can evolve without touching the marketing site."
           },
           {
             "heading": "result",
@@ -224,7 +224,7 @@
         "aws"
       ],
       "cover": "/screenshots/server-checker-top.png",
-      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites — alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
+      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites, alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
@@ -238,7 +238,7 @@
         "sections": [
           {
             "heading": "why build it",
-            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charge per-site — not viable at this scale."
+            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charge per-site, which isn't viable at this scale."
           },
           {
             "heading": "the checker",
@@ -246,7 +246,7 @@
           },
           {
             "heading": "where it stands",
-            "body": "Full visibility over the fleet at near-zero running cost. Average detection time went from hours — a client noticing first — to minutes."
+            "body": "Full visibility over the fleet at near-zero running cost. Average detection time went from hours (a client usually noticing first) to minutes."
           }
         ]
       }
@@ -279,9 +279,7 @@
       "group": "other platforms",
       "items": [
         "wix",
-        "duda",
-        "webflow",
-        "squarespace"
+        "duda"
       ]
     },
     {
@@ -323,12 +321,12 @@
     {
       "n": "500+",
       "title": "sites managed",
-      "body": "A live fleet across WordPress, Shopify, Wix and Duda — not one-off builds, but ongoing operations at scale."
+      "body": "A live fleet across WordPress, Shopify, Wix and Duda. Not one-off builds but ongoing operations at scale."
     },
     {
       "n": "70/20",
       "title": "wordpress & shopify",
-      "body": "WordPress is home base (70%). Shopify a close second (20%). Duda and Wix for the rest — right tool for the job."
+      "body": "WordPress is home base (70%). Shopify a close second (20%). Duda and Wix for the rest, right tool for the job."
     },
     {
       "n": "10+",
@@ -338,7 +336,7 @@
     {
       "n": "100+",
       "title": "full lifecycle",
-      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations — I handle the whole stack long-term."
+      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations. I handle the whole stack long-term."
     }
   ]
 }

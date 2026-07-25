@@ -51,7 +51,7 @@ export function renderContent() {
       <a class="work-item reveal" href="/case.html?p=${encodeURIComponent(p.id)}">
         <span class="work-item__num">0${i + 1}</span>
         <div>
-          <h3 class="work-item__title">${escapeHtml(p.title)} <em>—</em> ${escapeHtml(p.tagline)}</h3>
+          <h3 class="work-item__title">${escapeHtml(p.title)} <em>·</em> ${escapeHtml(p.tagline)}</h3>
           <p class="work-item__detail">${escapeHtml(p.summary)}</p>
           <div class="work-item__stack">${p.stack.map(s => `<span>${escapeHtml(s)}</span>`).join('')}</div>
         </div>

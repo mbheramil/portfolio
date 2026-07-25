@@ -38,7 +38,7 @@ if (!project) {
       <a href="/" class="btn btn--primary"><span>← back to all work</span></a>
     </section>`;
 } else {
-  document.getElementById('caseTitle')!.textContent = `${project.title} — case study · mbheramil`;
+  document.getElementById('caseTitle')!.textContent = `${project.title} · case study · mbheramil`;
   document.getElementById('caseMeta')!.setAttribute('content', project.tagline);
 
   const cs = project.caseStudy;

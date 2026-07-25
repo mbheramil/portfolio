@@ -53,12 +53,12 @@ export function initTerminal() {
       print(groups);
     },
     projects: () => {
-      const lines = site.projects.map((p, i) => `${String(i + 1).padStart(2, '0')}. <b>${escapeHtml(p.title)}</b> · ${escapeHtml(p.year)} — ${escapeHtml(p.tagline)}`).join('<br>');
+      const lines = site.projects.map((p, i) => `${String(i + 1).padStart(2, '0')}. <b>${escapeHtml(p.title)}</b> · ${escapeHtml(p.year)} · ${escapeHtml(p.tagline)}`).join('<br>');
       print(lines);
     },
     email: () => { print(`opening mail client → ${site.email}`, 'out ok'); window.location.href = `mailto:${site.email}`; },
     resume: () => {
-      if (!site.resumeUrl) { print('no résumé uploaded yet — try <b>email</b>.'); return; }
+      if (!site.resumeUrl) { print('no résumé uploaded yet, try <b>email</b>.'); return; }
       print('downloading résumé...', 'out ok');
       window.location.href = site.resumeUrl;
     },
