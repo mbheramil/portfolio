@@ -60,7 +60,7 @@ if (!project) {
 
   const sectionsHtml = cs?.sections?.map((s, i) => `
     <section class="case-section">
-      <span class="case-num">0${i + 1} / ${escapeHtml(s.heading)}</span>
+      <span class="case-num">${String(i + 1).padStart(2, '0')} / ${escapeHtml(s.heading)}</span>
       <p>${escapeHtml(s.body)}</p>
     </section>
   `).join('') || '';
@@ -83,7 +83,7 @@ if (!project) {
       </div>
     </header>
 
-    <figure class="case-cover" style="${cover}"></figure>
+    ${cover ? `<figure class="case-cover" style="${cover}"></figure>` : ''}
 
     <article class="case-body">
       <p class="case-summary">${escapeHtml(project.summary)}</p>

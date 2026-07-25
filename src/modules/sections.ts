@@ -47,9 +47,11 @@ export function renderContent() {
   // Work
   const work = $('workList');
   if (work) {
-    work.innerHTML = site.projects.map((p, i) => `
+    work.innerHTML = site.projects.map((p, i) => {
+      const hoverBg = coverBg(p.cover);
+      return `
       <a class="work-item reveal" href="/case.html?p=${encodeURIComponent(p.id)}">
-        <span class="work-item__num">0${i + 1}</span>
+        <span class="work-item__num">${String(i + 1).padStart(2, '0')}</span>
         <div>
           <h3 class="work-item__title">${escapeHtml(p.title)} <em>·</em> ${escapeHtml(p.tagline)}</h3>
           <p class="work-item__detail">${escapeHtml(p.summary)}</p>
@@ -57,9 +59,10 @@ export function renderContent() {
         </div>
         <span class="work-item__role">${escapeHtml(p.role)}</span>
         <span class="work-item__year">${escapeHtml(p.year)}</span>
-        <div class="work-item__hover" style="${coverBg(p.cover)}"></div>
+        ${hoverBg ? `<div class="work-item__hover" style="${hoverBg}"></div>` : ''}
       </a>
-    `).join('');
+    `;
+    }).join('');
 
     // Floating preview follows cursor inside hovered item
     work.querySelectorAll<HTMLElement>('.work-item').forEach((it) => {

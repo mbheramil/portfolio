@@ -50,9 +50,9 @@
         "aws"
       ],
       "cover": "/screenshots/server-checker-2.png",
-      "demoUrl": "https://d2taomg22q1lhs.cloudfront.net/",
-      "demoType": "external",
-      "demoNote": "",
+      "demoUrl": "",
+      "demoType": "iframe",
+      "demoNote": "Internal tool, no public demo.",
       "repoUrl": ""
     },
     {
@@ -123,7 +123,7 @@
     {
       "id": "earlybird-dashboard",
       "title": "Early Bird College",
-      "tagline": "Custom admissions & student management dashboard.",
+      "tagline": "Custom admissions dashboard with a database-backed AI chat.",
       "year": "2024",
       "role": "full stack",
       "stack": [
@@ -132,15 +132,16 @@
         "django",
         "python",
         "javascript",
+        "AI chat",
         "aws",
         "iframe",
         "payments"
       ],
       "cover": "/screenshots/5-moshd2mx.png",
-      "summary": "A fully custom WordPress-powered dashboard for Early Bird College, handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.",
+      "summary": "A fully custom WordPress-powered dashboard for Early Bird College, handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI, plus an AI chat that answers prospective students from the live database.",
       "caseStudy": {
         "client": "Early Bird College",
-        "timeline": "",
+        "timeline": "2024",
         "team": "solo",
         "live": "https://earlybirdcollege.com/",
         "repo": "",
@@ -158,6 +159,10 @@
           {
             "heading": "two systems, one surface",
             "body": "WordPress handles the student-facing frontend: data collection forms, user accounts, and content. Django runs the backend, covering payment processing, enrolment logic, and the iframe management layer that ties both systems together."
+          },
+          {
+            "heading": "the AI chat",
+            "body": "Prospective students kept asking the same questions about colleges, courses, and enrolment steps, and every one landed on staff. I built the chat from scratch and wired it into Django so it queries the live database instead of guessing, meaning it answers from real records and says so when there is no match. Repeat enquiries reaching staff dropped noticeably."
           },
           {
             "heading": "result",
@@ -183,7 +188,7 @@
       "summary": "A bespoke business tracking dashboard built into the client's Duda site, letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
       "caseStudy": {
         "client": "Identity Theft Business Solutions",
-        "timeline": "",
+        "timeline": "2024",
         "team": "solo",
         "live": "https://www.identitytheftbusinesssolutions.com/business-tracking",
         "repo": "",
@@ -210,6 +215,45 @@
       }
     },
     {
+      "id": "wlaf-ad-platform",
+      "title": "WLAF Ad Platform",
+      "tagline": "Ad rotator and self-serve management dashboard for a radio station.",
+      "year": "2024",
+      "role": "full stack",
+      "stack": [
+        "wordpress",
+        "php",
+        "javascript",
+        "aws lambda",
+        "s3",
+        "cloudfront"
+      ],
+      "cover": "",
+      "summary": "A custom WordPress plugin that serves a rotating advertisement slot on a radio station's news site, paired with a Lambda-backed dashboard so station staff can manage advertisers, creatives, and rotation without a developer.",
+      "caseStudy": {
+        "client": "WLAF 1450 AM",
+        "timeline": "2024",
+        "team": "solo",
+        "live": "https://1450wlaf.com/",
+        "repo": "",
+        "gallery": [],
+        "sections": [
+          {
+            "heading": "the ask",
+            "body": "The station sells ad slots on its news site, but every change to an advertiser's image, link, or rotation order came back to a developer. They wanted the revenue side of the site under their own control."
+          },
+          {
+            "heading": "plugin plus dashboard",
+            "body": "A custom WordPress plugin renders the rotating slot and routes each click through to the advertiser's destination. Creatives live in S3 and are delivered through CloudFront, so the ads never touch the WordPress media library or the site's own bandwidth."
+          },
+          {
+            "heading": "handed over",
+            "body": "The admin dashboard runs on Lambda and S3, separate from WordPress, so staff can add advertisers and update images, links, and rotation themselves. Changes appear on the live site immediately, with no developer in the loop."
+          }
+        ]
+      }
+    },
+    {
       "id": "server-checker",
       "title": "Server Checker",
       "tagline": "Uptime & health monitoring tool for a 500-site fleet.",
@@ -227,9 +271,9 @@
       "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites, alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
       "caseStudy": {
         "client": "Internal tool",
-        "timeline": "ongoing",
+        "timeline": "2025, ongoing",
         "team": "solo",
-        "live": "https://d2taomg22q1lhs.cloudfront.net/",
+        "live": "",
         "repo": "",
         "gallery": [
           "/screenshots/server-checker-top.png",
