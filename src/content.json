@@ -49,7 +49,7 @@
         "cloudfront",
         "aws"
       ],
-      "cover": "/screenshots/server-checker-2.png",
+      "cover": "/screenshots/server-checker-dns.png",
       "demoUrl": "",
       "demoType": "iframe",
       "demoNote": "Internal tool, no public demo.",
@@ -267,7 +267,7 @@
         "cloudfront",
         "aws"
       ],
-      "cover": "/screenshots/server-checker-top.png",
+      "cover": "/screenshots/server-checker-dns.png",
       "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites, alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
       "caseStudy": {
         "client": "Internal tool",
@@ -275,10 +275,7 @@
         "team": "solo",
         "live": "",
         "repo": "",
-        "gallery": [
-          "/screenshots/server-checker-top.png",
-          "/screenshots/server-checker-2.png"
-        ],
+        "gallery": [],
         "sections": [
           {
             "heading": "why build it",
