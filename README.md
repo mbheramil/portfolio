@@ -79,6 +79,19 @@ public/
 
 ## Résumé
 
+The source is `resume/index.html`, a single ATS-safe page (one column, no
+tables for layout, no text baked into images). It is gitignored, since a public
+repo is the wrong place for employment history in plain text. Only the rendered
+PDF ships.
+
+```bash
+npm run resume   # resume/index.html → public/resume.pdf
+```
+
+That needs a local Chrome or Edge, found automatically or via `CHROME_PATH`. It
+also rewrites the PDF properties, because Chrome otherwise stamps its full
+user-agent string into `/Creator`. Print styles are tuned to land the whole
+thing on two pages, so check the page count after editing.
+
 The Résumé card, palette command, and terminal `resume` command all stay hidden
-until `resumeUrl` is set in `content.json`, so the link can never 404. Drop a
-PDF at `public/resume.pdf` and set `"resumeUrl": "/resume.pdf"` to enable them.
+until `resumeUrl` is set in `content.json`, so the link can never 404.
