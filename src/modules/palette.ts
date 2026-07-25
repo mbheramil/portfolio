@@ -45,7 +45,6 @@ export function initPalette(extra: Cmd[] = []) {
     ...(site.resumeUrl
       ? [{ id: 'a-resume', label: 'Download résumé', hint: 'action', icon: '↓', run: () => { window.location.href = site.resumeUrl; close(); } }]
       : []),
-    { id: 'a-source', label: 'View site source on GitHub', hint: 'external', icon: '↗', run: () => { window.open('https://github.com/mbheramil/mbheramil.github.io', '_blank'); close(); } },
     { id: 'a-terminal', label: 'Open terminal', hint: 'easter-egg', icon: '_', run: () => { close(); openTerminal(); } },
     // Custom commands from content.json (admin-managed)
     ...(((site as any).palette as Array<{ label: string; url: string; hint?: string; icon?: string }> | undefined) || [])
