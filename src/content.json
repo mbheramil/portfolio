@@ -3,7 +3,7 @@
   "role": "Full-stack web developer",
   "email": "contactme@mbheramil.com",
   "status": "available for projects",
-  "resumeUrl": "/resume.pdf",
+  "resumeUrl": "",
   "emailjs": {
     "publicKey": "UULH9QgHeTzlkTg9k",
     "serviceId": "mysite",
@@ -11,24 +11,69 @@
     "autoReplyTemplateId": "template_7a5ksoj"
   },
   "hero": {
-    "sub": "I manage 500+ WordPress & Shopify sites and build the custom dashboards, plugins, and tools needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
+    "sub": "I manage 500+ WordPress & Shopify sites, and I build the dashboards, plugins, and tooling needed to run them at scale. Google Cloud, AWS, and AI integrations when the project calls for it."
   },
   "palette": [],
-  "tools": [],
-  "marquee": [
-    "wordpress",
-    "shopify",
-    "wix",
-    "duda",
-    "google cloud",
-    "aws",
-    "AI integration",
-    "e-commerce",
-    "custom themes",
-    "woocommerce",
-    "liquid",
-    "php",
-    "automation"
+  "tools": [
+    {
+      "id": "wp-hub-tool",
+      "name": "WP Hub",
+      "type": "tool",
+      "icon": "▦",
+      "tagline": "One dashboard for a 500-site WordPress fleet.",
+      "description": "Aggregates every site through the WP REST API: plugin and theme update status, server health, last-login activity, and a quick-jump link into any admin panel. Built because per-site maintenance stopped scaling.",
+      "stack": [
+        "wordpress",
+        "php",
+        "REST API",
+        "mysql",
+        "aws"
+      ],
+      "cover": "/screenshots/wphub-health.png",
+      "demoUrl": "",
+      "demoType": "iframe",
+      "demoNote": "Internal tool — no public demo.",
+      "repoUrl": ""
+    },
+    {
+      "id": "server-checker-tool",
+      "name": "Server Checker",
+      "type": "program",
+      "icon": "◉",
+      "tagline": "Scheduled uptime, SSL, and response-code monitoring.",
+      "description": "Pings the whole fleet on a schedule and checks SSL validity, response codes, and server health, then alerts by email or webhook on failure. Replaced per-site third-party monitoring that would have cost more than the sites earn.",
+      "stack": [
+        "javascript",
+        "node",
+        "cron",
+        "cloudfront",
+        "aws"
+      ],
+      "cover": "/screenshots/server-checker-2.png",
+      "demoUrl": "https://d2taomg22q1lhs.cloudfront.net/",
+      "demoType": "external",
+      "demoNote": "",
+      "repoUrl": ""
+    },
+    {
+      "id": "portfolio-cms",
+      "name": "Git-backed CMS",
+      "type": "tool",
+      "icon": "⚙",
+      "tagline": "The admin panel that edits this site. No backend.",
+      "description": "A single dependency-free HTML file that reads and writes content.json straight through the GitHub Contents API. Image uploads become commits, saving triggers the Actions build, and there is no server, database, or hosting bill anywhere in the loop.",
+      "stack": [
+        "javascript",
+        "github API",
+        "github actions",
+        "vite"
+      ],
+      "cover": "",
+      "demoUrl": "",
+      "demoType": "iframe",
+      "demoNote": "Runs at /admin — needs a GitHub token, so no open demo.",
+      "repoUrl": "https://github.com/mbheramil/mbheramil.github.io"
+    }
   ],
   "socials": [],
   "projects": [
@@ -48,31 +93,29 @@
         "aws"
       ],
       "cover": "/screenshots/wphub-sites.png",
-      "url": "",
-      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface replacing manual per-site work with centralised ops.",
+      "summary": "A custom-built multi-site management hub to monitor, update, and maintain a large fleet of WordPress sites from a single interface — replacing manual per-site work with centralised ops.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
         "team": "solo",
         "live": "",
-        "repo": "#",
+        "repo": "",
         "gallery": [
           "/screenshots/wphub-sites.png",
-          "/screenshots/wphub-health.png",
-          "/screenshots/wphub-sites.png"
+          "/screenshots/wphub-health.png"
         ],
         "sections": [
           {
-            "heading": "context",
-            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin doing this one-by-one was hours of overhead daily."
+            "heading": "the problem",
+            "body": "Managing 500+ WordPress sites manually was unsustainable. Each site needed updates, monitoring, and quick-access admin — doing this one-by-one was hours of overhead daily."
           },
           {
-            "heading": "approach",
-            "body": "Built a centralised dashboard that aggregates all sites via the WP REST API. One login to see plugin/theme update status, server health, last-login activity, and quick-jump links to any admin panel."
+            "heading": "how it works",
+            "body": "A centralised dashboard aggregates all sites via the WP REST API. One login shows plugin and theme update status, server health, and last-login activity, with quick-jump links into any admin panel."
           },
           {
-            "heading": "outcome",
-            "body": "Reduced multi-site maintenance overhead by ~80%. Updates that used to take half a day now run in minutes from a single screen."
+            "heading": "where it stands",
+            "body": "Multi-site maintenance overhead is down roughly 80%. Updates that used to take half a day now run in minutes from a single screen, and the tool is still in daily use."
           }
         ]
       }
@@ -94,14 +137,13 @@
         "payments"
       ],
       "cover": "/screenshots/5-moshd2mx.png",
-      "url": "https://earlybirdcollege.com/",
-      "summary": "A fully custom WordPress-powered dashboard for Early Bird College handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.",
+      "summary": "A fully custom WordPress-powered dashboard for Early Bird College — handling student applications, tracking progress, and managing enrolments through a bespoke plugin and UI.",
       "caseStudy": {
         "client": "Early Bird College",
         "timeline": "",
         "team": "solo",
         "live": "https://earlybirdcollege.com/",
-        "repo": "#",
+        "repo": "",
         "gallery": [
           "/screenshots/1-moshchub.png",
           "/screenshots/2-moshcm55.png",
@@ -110,16 +152,16 @@
         ],
         "sections": [
           {
-            "heading": "context",
-            "body": "The client needed a centralised place to manage student enrolments and track application progress existing plugins couldn't handle their specific workflow."
+            "heading": "the brief",
+            "body": "The client needed one place to manage student enrolments and track application progress. Existing plugins couldn't handle their specific workflow, so the admissions process was still running on spreadsheets."
           },
           {
-            "heading": "approach",
-            "body": "WordPress handles the student-facing frontend data collection forms, user accounts, and content. Django runs the backend: payment processing, enrolment logic, and the iframe management layer that ties both systems together."
+            "heading": "two systems, one surface",
+            "body": "WordPress handles the student-facing frontend: data collection forms, user accounts, and content. Django runs the backend — payment processing, enrolment logic, and the iframe management layer that ties both systems together."
           },
           {
-            "heading": "outcome",
-            "body": "Replaced a manual spreadsheet-based process with a live dashboard saving staff hours per week and reducing enrolment errors."
+            "heading": "result",
+            "body": "A manual spreadsheet-based process became a live dashboard — saving staff hours per week and cutting enrolment errors."
           }
         ]
       }
@@ -138,14 +180,13 @@
         "custom dashboard"
       ],
       "cover": "/screenshots/1-mosl9d3q.png",
-      "url": "https://www.identitytheftbusinesssolutions.com/business-tracking",
-      "summary": "A bespoke business tracking dashboard built into the client's Duda site letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
+      "summary": "A bespoke business tracking dashboard built into the client's Duda site, letting them manage and monitor business identity theft cases, client records, and service statuses in one place.",
       "caseStudy": {
         "client": "Identity Theft Business Solutions",
         "timeline": "",
         "team": "solo",
         "live": "https://www.identitytheftbusinesssolutions.com/business-tracking",
-        "repo": "#",
+        "repo": "",
         "gallery": [
           "/screenshots/1-mosl9k9x.png",
           "/screenshots/2-mosl9nj9.png",
@@ -154,16 +195,16 @@
         ],
         "sections": [
           {
-            "heading": "context",
-            "body": "The client needed a proprietary tracking system for business identity theft cases no off-the-shelf CRM fit their specific service model."
+            "heading": "the constraint",
+            "body": "The client needed a proprietary tracking system for business identity theft cases — no off-the-shelf CRM fit their service model, and the public site was locked to Duda."
           },
           {
-            "heading": "approach",
-            "body": "The public-facing site runs on Duda. The business tracking dashboard is a separate app hosted on GitHub Pages, deployed via AWS Amplify, and connected to the client's data layer. Fully decoupled from Duda so it can evolve independently."
+            "heading": "decoupled by design",
+            "body": "The public-facing site stays on Duda. The tracking dashboard is a separate app hosted on GitHub Pages, deployed via AWS Amplify, and connected to the client's data layer — so it can evolve without touching the marketing site."
           },
           {
-            "heading": "outcome",
-            "body": "Delivered a fully operational tracking system tailored to their workflow, replacing disconnected spreadsheets and email chains."
+            "heading": "result",
+            "body": "A tracking system shaped around their actual workflow, replacing disconnected spreadsheets and email chains."
           }
         ]
       }
@@ -183,31 +224,29 @@
         "aws"
       ],
       "cover": "/screenshots/server-checker-top.png",
-      "url": "https://d2taomg22q1lhs.cloudfront.net/",
-      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
+      "summary": "An internal server and uptime monitoring tool built to watch over 500+ client sites — alerting on downtime, SSL expiry, and server errors without relying on expensive third-party services.",
       "caseStudy": {
         "client": "Internal tool",
         "timeline": "ongoing",
         "team": "solo",
         "live": "https://d2taomg22q1lhs.cloudfront.net/",
-        "repo": "#",
+        "repo": "",
         "gallery": [
           "/screenshots/server-checker-top.png",
-          "/screenshots/server-checker-2.png",
-          "/screenshots/server-checker-top.png"
+          "/screenshots/server-checker-2.png"
         ],
         "sections": [
           {
-            "heading": "context",
-            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charged per-site not viable at this scale."
+            "heading": "why build it",
+            "body": "With 500+ sites under management, manual uptime checking was impossible. Third-party monitoring tools charge per-site — not viable at this scale."
           },
           {
-            "heading": "approach",
-            "body": "Built a lightweight checker that pings all sites on a schedule, checks SSL validity, response codes, and server health. Alerts via email/webhook on failure."
+            "heading": "the checker",
+            "body": "A lightweight service pings every site on a schedule and checks SSL validity, response codes, and server health, then alerts by email or webhook on failure."
           },
           {
-            "heading": "outcome",
-            "body": "Full visibility over the entire site fleet at near-zero cost. Average issue detection time dropped from hours (client complaints) to minutes (automated alert)."
+            "heading": "where it stands",
+            "body": "Full visibility over the fleet at near-zero running cost. Average detection time went from hours — a client noticing first — to minutes."
           }
         ]
       }
@@ -284,22 +323,22 @@
     {
       "n": "500+",
       "title": "sites managed",
-      "body": "A live fleet across WordPress, Shopify, Wix and Duda not one-off builds, but ongoing operations at scale."
+      "body": "A live fleet across WordPress, Shopify, Wix and Duda — not one-off builds, but ongoing operations at scale."
     },
     {
       "n": "70/20",
       "title": "wordpress & shopify",
-      "body": "WordPress is home base (70%). Shopify close second (20%). Duda & Wix for the rest right tool for the job."
+      "body": "WordPress is home base (70%). Shopify a close second (20%). Duda and Wix for the rest — right tool for the job."
     },
     {
       "n": "10+",
       "title": "custom tooling",
-      "body": "Built WP Hub, Server Checker, and bespoke client dashboards to manage this many sites without losing the plot."
+      "body": "WP Hub, Server Checker, and bespoke client dashboards, built to manage this many sites without losing the plot."
     },
     {
       "n": "100+",
       "title": "full lifecycle",
-      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations I handle the whole stack long-term."
+      "body": "Build, migrate, maintain, monitor. Performance, uptime, integrations — I handle the whole stack long-term."
     }
   ]
 }

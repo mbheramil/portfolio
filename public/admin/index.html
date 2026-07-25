@@ -7,10 +7,10 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#05060a;--bg2:#0c0e18;--bg3:#13151f;
+  --bg:#0e0e10;--bg2:#17171a;--bg3:#1f1f23;
   --line:rgba(255,255,255,.1);--line2:rgba(255,255,255,.18);
   --txt:#f4f5f7;--muted:#8b8e98;--dim:#4a4d57;
-  --accent:#00ffd1;--danger:#ff5470;--warn:#f5cf00;
+  --accent:#f0a648;--danger:#e2685c;--warn:#e0c14a;
   --r:10px;--ease:cubic-bezier(.22,.61,.36,1);
 }
 body{background:var(--bg);color:var(--txt);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;min-height:100vh}
@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,'Segoe UI',
 .sidebar-logo{font-size:17px;font-weight:800;color:var(--accent);padding:4px 10px 18px;letter-spacing:-.01em}
 .nav-btn{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .15s;border:none;background:none;text-align:left;width:100%}
 .nav-btn:hover{background:var(--bg3);color:var(--txt)}
-.nav-btn.active{background:rgba(0,255,209,.1);color:var(--accent)}
+.nav-btn.active{background:rgba(240,166,72,.12);color:var(--accent)}
 .sidebar-spacer{flex:1}
 .sidebar-foot{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
 
@@ -61,7 +61,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:99px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;text-decoration:none}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-accent{background:var(--accent);color:#001712}
+.btn-accent{background:var(--accent);color:#221503}
 .btn-accent:hover:not(:disabled){opacity:.85}
 .btn-ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
 .btn-ghost:hover{border-color:var(--line2)}
@@ -75,7 +75,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .card-hd h3{font-size:15px}
 .row-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;margin-bottom:8px;transition:border-color .2s;gap:12px}
-.row-item:hover{border-color:rgba(0,255,209,.25)}
+.row-item:hover{border-color:rgba(240,166,72,.28)}
 .row-info{flex:1;min-width:0}
 .row-info h4{font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-info p{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -103,7 +103,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .sec-label{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin:24px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
 
 /* ── Modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(5,6,10,.9);display:flex;align-items:flex-start;justify-content:center;z-index:100;padding:40px 16px 80px;overflow-y:auto;backdrop-filter:blur(6px)}
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,11,.9);display:flex;align-items:flex-start;justify-content:center;z-index:100;padding:40px 16px 80px;overflow-y:auto;backdrop-filter:blur(6px)}
 .modal{background:var(--bg2);border:1px solid var(--line);border-radius:14px;width:100%;max-width:700px;padding:32px}
 .modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .modal-hd h3{font-size:18px;letter-spacing:-.02em}
@@ -162,7 +162,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
     <button class="nav-btn active" data-s="projects">📋 Projects</button>
     <button class="nav-btn" data-s="lab">🧪 Lab</button>
     <button class="nav-btn" data-s="settings">⚙️ Settings</button>
-    <button class="nav-btn" data-s="marquee">🏷️ Marquee</button>
     <button class="nav-btn" data-s="stack">🛠️ Stack</button>
     <button class="nav-btn" data-s="scale">📊 Scale</button>
     <button class="nav-btn" data-s="emailjs">✉️ EmailJS</button>
@@ -323,7 +322,7 @@ function esc(s) {
 function showSec(name) {
   sec = name;
   document.querySelectorAll('.nav-btn[data-s]').forEach(b => b.classList.toggle('active', b.dataset.s === name));
-  const fns = { projects: renderProjects, settings: renderSettings, marquee: renderMarquee,
+  const fns = { projects: renderProjects, settings: renderSettings,
                 stack: renderStack, scale: renderScale, emailjs: renderEmailJS, socials: renderSocials,
                 palette: renderPalette, lab: renderLab };
   fns[name]?.();
@@ -415,7 +414,7 @@ function openModal(idx) {
   editIdx = idx;
   const p = idx >= 0 ? S.projects[idx] : {
     id: '', title: '', tagline: '', year: new Date().getFullYear().toString(),
-    role: '', stack: [], cover: '#0a1118', url: '', summary: '',
+    role: '', stack: [], cover: '#1a1a1e', summary: '',
     caseStudy: { client: '', timeline: '', team: 'solo', live: '', repo: '', gallery: [],
       sections: [
         { heading: 'context',  body: '' },
@@ -446,11 +445,11 @@ function openModal(idx) {
     <div class="field">
       <span class="lbl">Cover (hex color or uploaded image)</span>
       <div class="cover-row">
-        <input type="text" id="m_cover" value="${esc(p.cover)}" placeholder="#0a1118 or /screenshots/img.png">
+        <input type="text" id="m_cover" value="${esc(p.cover)}" placeholder="#1a1a1e or /screenshots/img.png">
         <button type="button" class="btn btn-ghost btn-sm" id="m_cover_up">📤 Upload</button>
         <div class="cover-preview" id="m_cover_preview" style="${coverPreviewStyle(p.cover)}"></div>
       </div>
-      <p class="up-hint">Tip: enter a hex color (e.g. <code>#0a1118</code>) for a flat tile, or upload an image.</p>
+      <p class="up-hint">Tip: enter a hex color (e.g. <code>#1a1a1e</code>) for a flat tile, or upload an image.</p>
     </div>
     <div class="field"><label><span class="lbl">Summary</span><textarea id="m_summary" rows="3">${esc(p.summary)}</textarea></label></div>
     <div class="field">
@@ -472,7 +471,7 @@ function openModal(idx) {
       <span class="lbl">Gallery (hex colors or uploaded images)</span>
       <div class="gal-thumbs" id="m_gal_thumbs"></div>
       <div class="chip-add-row">
-        <input type="text" id="m_gal_inp" placeholder="#0a1118 or /screenshots/img.png">
+        <input type="text" id="m_gal_inp" placeholder="#1a1a1e or /screenshots/img.png">
         <button type="button" class="btn btn-ghost btn-sm" id="m_gal_add">Add</button>
         <button type="button" class="btn btn-accent btn-sm" id="m_gal_up">📤 Upload</button>
       </div>
@@ -594,8 +593,7 @@ function saveModal() {
     year:    document.getElementById('m_year').value.trim(),
     role:    document.getElementById('m_role').value.trim(),
     stack:   [...stackArr],
-    cover:   document.getElementById('m_cover').value.trim() || '#0a1118',
-    url:     existing?.url || '',
+    cover:   document.getElementById('m_cover').value.trim() || '#1a1a1e',
     summary: document.getElementById('m_summary').value.trim(),
     caseStudy: {
       client:   document.getElementById('m_client').value.trim(),
@@ -689,7 +687,7 @@ function openLabModal(idx) {
     <div class="field">
       <span class="lbl">Cover (optional — falls back to icon)</span>
       <div class="cover-row">
-        <input type="text" id="lt_cover" value="${esc(t.cover)}" placeholder="#0a1118 or /screenshots/img.png">
+        <input type="text" id="lt_cover" value="${esc(t.cover)}" placeholder="#1a1a1e or /screenshots/img.png">
         <button type="button" class="btn btn-ghost btn-sm" id="lt_cover_up">📤 Upload</button>
         <div class="cover-preview" id="lt_cover_preview" style="${coverPreviewStyle(t.cover)}"></div>
       </div>
@@ -824,20 +822,6 @@ function renderSettings() {
 }
 
 // ══════════════════════════════════════════════
-// MARQUEE
-// ══════════════════════════════════════════════
-function renderMarquee() {
-  const chip = chipEditor(S.marquee, 'mq');
-  document.getElementById('content').innerHTML = `
-    <div class="page-hd"><div class="page-hd-text"><h2>Marquee</h2><p>Scrolling ticker items below the hero.</p></div></div>
-    <div class="card">
-      <span class="lbl">Items (scroll left-to-right)</span>
-      ${chip.html}
-    </div>`;
-  chip.bind();
-}
-
-// ══════════════════════════════════════════════
 // STACK
 // ══════════════════════════════════════════════
 function renderStack() {
@@ -901,7 +885,7 @@ function renderScale() {
 
     c.innerHTML = `
       <div class="page-hd">
-        <div class="page-hd-text"><h2>Scale</h2><p>The "operating at scale" stats cards (section 03).</p></div>
+        <div class="page-hd-text"><h2>Scale</h2><p>The "operating at scale" stats cards.</p></div>
         <button class="btn btn-accent" id="addScale">+ Add Card</button>
       </div>
       ${items}`;

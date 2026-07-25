@@ -1,5 +1,6 @@
 // Cmd/Ctrl+K command palette. Fuzzy-ish substring search over a registered command list.
 import { site } from '../content';
+import { escapeHtml } from './html';
 
 interface Cmd {
   id: string;
@@ -41,7 +42,9 @@ export function initPalette(extra: Cmd[] = []) {
     { id: 'g-contact', label: 'Go to Contact', hint: 'section', icon: '→', run: goto('contact') },
     { id: 'a-email', label: `Email ${site.email}`, hint: 'action', icon: '✉', run: () => { window.location.href = `mailto:${site.email}`; close(); } },
     { id: 'a-copy-email', label: 'Copy email address', hint: 'action', icon: '⎘', run: async () => { await navigator.clipboard.writeText(site.email); close(); } },
-    { id: 'a-resume', label: 'Download résumé', hint: 'action', icon: '↓', run: () => { window.location.href = site.resumeUrl; close(); } },
+    ...(site.resumeUrl
+      ? [{ id: 'a-resume', label: 'Download résumé', hint: 'action', icon: '↓', run: () => { window.location.href = site.resumeUrl; close(); } }]
+      : []),
     { id: 'a-source', label: 'View site source on GitHub', hint: 'external', icon: '↗', run: () => { window.open('https://github.com/mbheramil/mbheramil.github.io', '_blank'); close(); } },
     { id: 'a-terminal', label: 'Open terminal', hint: 'easter-egg', icon: '_', run: () => { close(); openTerminal(); } },
     // Custom commands from content.json (admin-managed)
@@ -80,9 +83,9 @@ export function initPalette(extra: Cmd[] = []) {
     list.innerHTML = filtered.length
       ? filtered.map((c, i) => `
           <li data-i="${i}" class="${i === active ? 'active' : ''}">
-            <span class="ico">${c.icon || '·'}</span>
-            <span>${c.label}</span>
-            <span class="meta">${c.hint || ''}</span>
+            <span class="ico">${escapeHtml(c.icon || '·')}</span>
+            <span>${escapeHtml(c.label)}</span>
+            <span class="meta">${escapeHtml(c.hint || '')}</span>
           </li>`).join('')
       : `<li><span class="ico">!</span><span class="empty">No matches</span></li>`;
   }

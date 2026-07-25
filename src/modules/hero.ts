@@ -43,8 +43,8 @@ export function initHero() {
     uTime:   { value: 0 },
     uMouse:  { value: new THREE.Vector2(0, 0) },
     uPxRatio:{ value: dpr },
-    uAccent: { value: new THREE.Color(0x00ffd1) },
-    uSecond: { value: new THREE.Color(0x6c7bff) }
+    uAccent: { value: new THREE.Color(0xf0a648) },
+    uSecond: { value: new THREE.Color(0x7b8fa3) }
   };
 
   const mat = new THREE.ShaderMaterial({
@@ -111,7 +111,7 @@ export function initHero() {
   // ───────── floating wireframe icosahedron (subtle) ─────────
   const ico = new THREE.LineSegments(
     new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(2.4, 1)),
-    new THREE.LineBasicMaterial({ color: 0x00ffd1, transparent: true, opacity: 0.08 })
+    new THREE.LineBasicMaterial({ color: 0xf0a648, transparent: true, opacity: 0.08 })
   );
   ico.position.set(0, 0, 0);
   scene.add(ico);

@@ -87,7 +87,6 @@ export function initContactForm() {
     const name    = String(data.get('name') || '');
     const email   = String(data.get('email') || '');
     const ptype   = String(data.get('project_type') || '');
-    const budget  = String(data.get('budget') || '');
     const message = String(data.get('message') || '');
 
     // Map UI values → friendlier service labels for the email
@@ -120,8 +119,7 @@ export function initContactForm() {
       const body =
         `Name: ${name}\n` +
         `Email: ${email}\n` +
-        `Project type: ${ptype}\n` +
-        `Budget: ${budget}\n\n` +
+        `Project type: ${ptype}\n\n` +
         `${message}\n`;
       window.location.href =
         `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

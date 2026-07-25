@@ -1,5 +1,6 @@
 // Renders content sections from src/content.ts so future edits = edit content.ts.
 import { site } from '../content';
+import { escapeHtml, escapeAttr, hasLink, coverBg } from './html';
 
 interface Tool {
   id?: string;
@@ -14,12 +15,6 @@ interface Tool {
   demoType?: 'iframe' | 'external'; // 'iframe' = embed inside site; 'external' = new tab
   demoNote?: string;
   repoUrl?: string;
-}
-
-function hasLink(v: string | undefined | null): boolean {
-  if (!v) return false;
-  const t = v.trim();
-  return t.length > 0 && t !== '#';
 }
 
 export function renderContent() {
@@ -41,21 +36,19 @@ export function renderContent() {
       setTimeout(() => { window.location.href = `mailto:${site.email}`; }, 250);
     });
   }
+  // Résumé card — hidden unless a file is actually configured, so the link
+  // can't 404.
   const resume = $('contactResume') as HTMLAnchorElement | null;
-  if (resume) resume.href = site.resumeUrl;
-
-  // Marquee
-  const m = $('marqueeTrack');
-  if (m) {
-    const items = site.marquee.map(t => `<span>${t}</span>`).join('');
-    m.innerHTML = items + items; // duplicate for seamless loop
+  if (resume) {
+    if (site.resumeUrl) resume.href = site.resumeUrl;
+    else resume.remove();
   }
 
   // Work
   const work = $('workList');
   if (work) {
     work.innerHTML = site.projects.map((p, i) => `
-      <a class="work-item reveal" href="/case.html?p=${encodeURIComponent(p.id)}" data-cursor="link">
+      <a class="work-item reveal" href="/case.html?p=${encodeURIComponent(p.id)}">
         <span class="work-item__num">0${i + 1}</span>
         <div>
           <h3 class="work-item__title">${escapeHtml(p.title)} <em>—</em> ${escapeHtml(p.tagline)}</h3>
@@ -64,7 +57,7 @@ export function renderContent() {
         </div>
         <span class="work-item__role">${escapeHtml(p.role)}</span>
         <span class="work-item__year">${escapeHtml(p.year)}</span>
-        <div class="work-item__hover" style="background:${p.cover.startsWith('#') ? p.cover : `url('${p.cover}') center/cover no-repeat`}"></div>
+        <div class="work-item__hover" style="${coverBg(p.cover)}"></div>
       </a>
     `).join('');
 
@@ -101,19 +94,17 @@ export function renderContent() {
       document.querySelectorAll('a[href="#lab"], a[href="/#lab"]').forEach(a => a.remove());
     } else {
       lab.innerHTML = tools.map(t => {
-        const coverStyle = t.cover
-          ? (t.cover.startsWith('#') ? `background:${t.cover}` : `background:url('${t.cover}') center/cover no-repeat`)
-          : '';
+        const coverStyle = coverBg(t.cover);
         const stackHtml = (t.stack || []).map(s => `<span>${escapeHtml(s)}</span>`).join('');
         const isIframe = t.demoType === 'iframe' && hasLink(t.demoUrl);
         const isExternal = t.demoType !== 'iframe' && hasLink(t.demoUrl);
         const demoBtn = isIframe
-          ? `<button class="lab-card__btn lab-card__btn--primary lab-card__btn--demo" data-cursor="link" data-demo-url="${escapeAttr(t.demoUrl!)}" data-demo-name="${escapeAttr(t.name)}"><span>try demo</span><span class="lab-card__demo-icon">⧉</span></button>`
+          ? `<button class="lab-card__btn lab-card__btn--primary lab-card__btn--demo" data-demo-url="${escapeAttr(t.demoUrl!)}" data-demo-name="${escapeAttr(t.name)}"><span>try demo</span><span class="lab-card__demo-icon">⧉</span></button>`
           : isExternal
-            ? `<a href="${escapeAttr(t.demoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn lab-card__btn--primary" data-cursor="link"><span>try demo</span><span class="lab-card__arrow">↗</span></a>`
+            ? `<a href="${escapeAttr(t.demoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn lab-card__btn--primary"><span>try demo</span><span class="lab-card__arrow">↗</span></a>`
             : '';
         const repoBtn = hasLink(t.repoUrl)
-          ? `<a href="${escapeAttr(t.repoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn" data-cursor="link"><span>source</span><span class="lab-card__arrow">↗</span></a>`
+          ? `<a href="${escapeAttr(t.repoUrl!)}" target="_blank" rel="noopener" class="lab-card__btn"><span>source</span><span class="lab-card__arrow">↗</span></a>`
           : '';
         const note = t.demoNote ? `<p class="lab-card__note">${escapeHtml(t.demoNote)}</p>` : '';
         const typeLabel = t.type ? escapeHtml(t.type) : 'tool';
@@ -159,59 +150,39 @@ export function renderContent() {
       socials.closest('.contact-card')?.remove();
     } else {
       socials.innerHTML = site.socials.map(s =>
-        `<a href="${s.url}" target="_blank" rel="noopener" data-cursor="link">${escapeHtml(s.label)} ↗</a>`
+        `<a href="${escapeAttr(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.label)} ↗</a>`
       ).join('');
     }
   }
 }
 
-function escapeHtml(s: string) {
-  return s.replace(/[&<>"']/g, (c) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  } as Record<string, string>)[c]!);
-}
-function escapeAttr(s: string) { return escapeHtml(s); }
-
 // ── Lab demo iframe modal ─────────────────────
-let labModalInitialized = false;
+let openLabDemo: ((url: string, name: string) => void) | null = null;
+
 function initLabDemoModal(grid: HTMLElement) {
   // Delegate: clicks anywhere in the grid on a demo button
   grid.addEventListener('click', e => {
     const btn = (e.target as Element).closest<HTMLElement>('[data-demo-url]');
     if (!btn) return;
-    openLabDemo(btn.dataset.demoUrl!, btn.dataset.demoName || 'Demo');
+    openLabDemo?.(btn.dataset.demoUrl!, btn.dataset.demoName || 'Demo');
   });
 
-  if (labModalInitialized) return;
-  labModalInitialized = true;
+  if (openLabDemo) return;   // modal wiring is global — only bind it once
 
-  const modal  = document.getElementById('labDemoModal') as HTMLElement;
-  const frame  = document.getElementById('labDemoFrame') as HTMLIFrameElement;
-  const loader = document.getElementById('labDemoLoading') as HTMLElement;
-  const title  = document.getElementById('labDemoTitle') as HTMLElement;
-  const tabBtn = document.getElementById('labDemoOpenTab') as HTMLAnchorElement;
-  const closeBtn = document.getElementById('labDemoClose') as HTMLButtonElement;
-
-  if (!modal || !frame) return;
-
-  function open(url: string, name: string) {
-    title.textContent = name;
-    tabBtn.href = url;
-    frame.src = '';
-    loader.hidden = false;
-    frame.style.opacity = '0';
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    // slight delay so the modal renders before iframe starts loading
-    requestAnimationFrame(() => { frame.src = url; });
-  }
+  const modal    = document.getElementById('labDemoModal') as HTMLElement | null;
+  const frame    = document.getElementById('labDemoFrame') as HTMLIFrameElement | null;
+  const loader   = document.getElementById('labDemoLoading') as HTMLElement | null;
+  const title    = document.getElementById('labDemoTitle') as HTMLElement | null;
+  const tabBtn   = document.getElementById('labDemoOpenTab') as HTMLAnchorElement | null;
+  const closeBtn = document.getElementById('labDemoClose') as HTMLButtonElement | null;
+  if (!modal || !frame || !loader || !title || !tabBtn || !closeBtn) return;
 
   function close() {
-    frame.src = '';           // kills WP instance immediately
-    modal.hidden = true;
+    frame!.src = '';          // kills the embedded instance immediately
+    modal!.hidden = true;
     document.body.style.overflow = '';
-    loader.hidden = true;
-    frame.style.opacity = '1';
+    loader!.hidden = true;
+    frame!.style.opacity = '1';
   }
 
   frame.addEventListener('load', () => {
@@ -223,11 +194,15 @@ function initLabDemoModal(grid: HTMLElement) {
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) close(); });
 
-  // Expose so card buttons can call it
-  (window as unknown as Record<string, unknown>)._openLabDemo = open;
-}
-
-function openLabDemo(url: string, name: string) {
-  const fn = (window as unknown as Record<string, unknown>)._openLabDemo as ((u: string, n: string) => void) | undefined;
-  if (fn) fn(url, name);
+  openLabDemo = (url, name) => {
+    title.textContent = name;
+    tabBtn.href = url;
+    frame.src = '';
+    loader.hidden = false;
+    frame.style.opacity = '0';
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // let the modal paint before the iframe starts loading
+    requestAnimationFrame(() => { frame.src = url; });
+  };
 }

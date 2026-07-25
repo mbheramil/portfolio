@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#05060a" />
+<meta name="theme-color" content="#0e0e10" />
 <title>mbheramil — WordPress, Shopify & cloud developer</title>
 <meta name="description" content="Full-stack web developer specialising in WordPress, Shopify, Wix, Duda — plus Google Cloud, AWS and AI integrations." />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2305060a'/%3E%3Ctext x='50' y='66' font-size='52' font-family='ui-monospace,monospace' font-weight='700' fill='%2300ffd1' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230e0e10'/%3E%3Ctext x='50' y='66' font-size='52' font-family='ui-monospace,monospace' font-weight='700' fill='%23f0a648' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -16,38 +16,26 @@
 </head>
 <body>
 
-<!-- preload state -->
-<div class="boot" id="boot">
-  <div class="boot__bar"><div class="boot__fill" id="bootFill"></div></div>
-  <div class="boot__txt" id="bootTxt">booting<span class="dots">...</span></div>
-</div>
-
 <!-- WebGL hero canvas -->
 <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
 
 <!-- noise overlay -->
 <div class="noise" aria-hidden="true"></div>
 
-<!-- custom cursor -->
-<div class="cursor" id="cursor" aria-hidden="true">
-  <div class="cursor__dot"></div>
-  <div class="cursor__ring"></div>
-</div>
-
 <!-- nav -->
 <header class="nav" id="nav">
-  <a href="#top" class="nav__logo" data-cursor="link">
+  <a href="#top" class="nav__logo">
     <span class="nav__logo-mark">m.</span>
     <span class="nav__logo-name">mbheramil</span>
   </a>
   <nav class="nav__links">
-    <a href="#work" data-cursor="link"><span class="nav__num">01</span>work</a>
-    <a href="#stack" data-cursor="link"><span class="nav__num">02</span>stack</a>
-    <a href="#lab" data-cursor="link"><span class="nav__num">03</span>lab</a>
-    <a href="#scale" data-cursor="link"><span class="nav__num">04</span>scale</a>
-    <a href="#contact" data-cursor="link"><span class="nav__num">05</span>contact</a>
+    <a href="#work"><span class="nav__num"></span>work</a>
+    <a href="#stack"><span class="nav__num"></span>stack</a>
+    <a href="#lab"><span class="nav__num"></span>lab</a>
+    <a href="#scale"><span class="nav__num"></span>scale</a>
+    <a href="#contact"><span class="nav__num"></span>contact</a>
   </nav>
-  <button class="nav__cmd" id="navCmd" data-cursor="link" aria-label="Open command palette">
+  <button class="nav__cmd" id="navCmd" aria-label="Open command palette">
     <span class="kbd">⌘</span><span class="kbd">K</span>
   </button>
   <button class="nav__burger" id="navBurger" aria-label="Menu">
@@ -80,11 +68,11 @@
     </h1>
     <p class="hero__sub" id="heroSub"></p>
     <div class="hero__actions">
-      <a href="#work" class="btn btn--primary" data-cursor="link">
+      <a href="#work" class="btn btn--primary">
         <span>view work</span>
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-      <a href="#contact" class="btn btn--ghost" data-cursor="link">
+      <a href="#contact" class="btn btn--ghost">
         <span>get in touch</span>
       </a>
     </div>
@@ -94,15 +82,10 @@
     </div>
   </section>
 
-  <!-- MARQUEE ──────────────────────────────────────── -->
-  <section class="marquee" aria-hidden="true">
-    <div class="marquee__track" id="marqueeTrack"></div>
-  </section>
-
   <!-- WORK ─────────────────────────────────────────── -->
   <section class="section" id="work">
     <header class="section__head">
-      <span class="section__num">01 / work</span>
+      <span class="section__num" data-sec-num>work</span>
       <h2 class="section__title">selected <em>case studies</em></h2>
       <p class="section__sub">A few recent things I've shipped. Click any project to see details.</p>
     </header>
@@ -112,7 +95,7 @@
   <!-- STACK ────────────────────────────────────────── -->
   <section class="section" id="stack">
     <header class="section__head">
-      <span class="section__num">02 / stack</span>
+      <span class="section__num" data-sec-num>stack</span>
       <h2 class="section__title">tools of the <em>trade</em></h2>
       <p class="section__sub">Mainly WordPress &amp; Shopify — plus Wix, Duda, and custom dev when the project calls for it.</p>
     </header>
@@ -122,7 +105,7 @@
   <!-- LAB ─────────────────────────────────────────── -->
   <section class="section" id="lab">
     <header class="section__head">
-      <span class="section__num">03 / lab</span>
+      <span class="section__num" data-sec-num>lab</span>
       <h2 class="section__title">custom plugins &amp; <em>builds</em></h2>
       <p class="section__sub">Internal tools, WordPress plugins, and small programs I've built to solve specific problems.</p>
     </header>
@@ -132,7 +115,7 @@
   <!-- PROCESS ──────────────────────────────────────── -->
   <section class="section" id="scale">
     <header class="section__head">
-      <span class="section__num">04 / scale</span>
+      <span class="section__num" data-sec-num>scale</span>
       <h2 class="section__title">operating at <em>scale</em></h2>
       <p class="section__sub">500+ sites. custom tooling. full lifecycle. this is how I run them.</p>
     </header>
@@ -142,7 +125,7 @@
   <!-- CONTACT ──────────────────────────────────────── -->
   <section class="section section--contact" id="contact">
     <header class="section__head">
-      <span class="section__num">05 / contact</span>
+      <span class="section__num" data-sec-num>contact</span>
       <h2 class="section__title">let's <em>build</em> something</h2>
       <p class="section__sub">Available for select projects. The fastest way to reach me:</p>
     </header>
@@ -152,19 +135,19 @@
         <div class="cform__row">
           <label class="cform__field">
             <span class="cform__label">name</span>
-            <input type="text" name="name" required autocomplete="name" data-cursor="link" />
+            <input type="text" name="name" required autocomplete="name" />
             <span class="cform__line"></span>
           </label>
           <label class="cform__field">
             <span class="cform__label">email</span>
-            <input type="email" name="email" required autocomplete="email" data-cursor="link" />
+            <input type="email" name="email" required autocomplete="email" />
             <span class="cform__line"></span>
           </label>
         </div>
         <div class="cform__field">
           <span class="cform__label">project type</span>
           <div class="cform__dropdown" id="projectTypeDropdown">
-            <button type="button" class="cform__dropdown-btn" aria-haspopup="listbox" aria-expanded="false" id="projectTypeBtn" data-cursor="link">
+            <button type="button" class="cform__dropdown-btn" aria-haspopup="listbox" aria-expanded="false" id="projectTypeBtn">
               <span id="projectTypeVal">WordPress site</span>
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </button>
@@ -184,14 +167,14 @@
         </div>
         <label class="cform__field">
           <span class="cform__label cform__label--mute">tell me about your project</span>
-          <textarea name="message" rows="5" required data-cursor="link"></textarea>
+          <textarea name="message" rows="5" required></textarea>
           <span class="cform__line"></span>
         </label>
         <!-- honeypot — bots fill this, humans don't see it -->
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="cform__hp" aria-hidden="true" />
 
         <div class="cform__foot">
-          <button type="submit" class="btn btn--primary cform__submit" data-cursor="link">
+          <button type="submit" class="btn btn--primary cform__submit">
             <span class="cform__btn-label">send message</span>
             <span class="cform__btn-spinner" aria-hidden="true"></span>
             <span aria-hidden="true">→</span>
@@ -201,12 +184,12 @@
       </form>
 
       <aside class="contact-grid">
-        <a class="contact-card" id="contactEmail" data-cursor="link">
+        <a class="contact-card" id="contactEmail">
           <span class="contact-card__label">or email directly</span>
           <span class="contact-card__val" id="contactEmailVal">—</span>
           <span class="contact-card__hint">click to copy</span>
         </a>
-        <a class="contact-card" id="contactResume" data-cursor="link" download>
+        <a class="contact-card" id="contactResume" download>
           <span class="contact-card__label">résumé</span>
           <span class="contact-card__val">download.pdf</span>
           <span class="contact-card__hint">latest version</span>
@@ -224,8 +207,8 @@
 <footer class="foot">
   <div class="foot__row">
     <span>© <span id="footYear"></span> mbheramil</span>
-    <span>built from scratch · vite · three.js</span>
-    <button id="footCmd" class="foot__cmd" data-cursor="link"><span class="kbd">⌘</span><span class="kbd">K</span></button>
+    <span>500+ sites · wordpress &amp; shopify</span>
+    <button id="footCmd" class="foot__cmd"><span class="kbd">⌘</span><span class="kbd">K</span></button>
   </div>
 </footer>
 
@@ -266,8 +249,8 @@
   <div class="lab-demo-modal__bar">
     <span class="lab-demo-modal__title" id="labDemoTitle"></span>
     <div class="lab-demo-modal__actions">
-      <a class="lab-demo-modal__open-tab" id="labDemoOpenTab" href="#" target="_blank" rel="noopener" data-cursor="link" title="Open in new tab">↗ open in new tab</a>
-      <button class="lab-demo-modal__close" id="labDemoClose" aria-label="Close demo" data-cursor="link">×</button>
+      <a class="lab-demo-modal__open-tab" id="labDemoOpenTab" href="#" target="_blank" rel="noopener" title="Open in new tab">↗ open in new tab</a>
+      <button class="lab-demo-modal__close" id="labDemoClose" aria-label="Close demo">×</button>
     </div>
   </div>
   <div class="lab-demo-modal__frame-wrap">

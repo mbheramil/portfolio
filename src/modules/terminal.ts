@@ -1,5 +1,7 @@
 // Tiny in-page terminal. Easter egg.
 import { site } from '../content';
+import { runMatrix } from './easter';
+import { escapeHtml } from './html';
 
 export function initTerminal() {
   const term  = document.getElementById('term') as HTMLElement | null;
@@ -45,24 +47,32 @@ export function initTerminal() {
       &nbsp;<b>matrix</b>    — 🟢<br>
       &nbsp;<b>clear</b>     — clear screen<br>
       &nbsp;<b>exit</b>      — close terminal`),
-    about: () => print(`${site.role}. ${site.hero.sub}`),
+    about: () => print(escapeHtml(`${site.role}. ${site.hero.sub}`)),
     stack: () => {
-      const groups = site.stack.map(g => `<b>${g.group}:</b> ${g.items.join(', ')}`).join('<br>');
+      const groups = site.stack.map(g => `<b>${escapeHtml(g.group)}:</b> ${escapeHtml(g.items.join(', '))}`).join('<br>');
       print(groups);
     },
     projects: () => {
-      const lines = site.projects.map((p, i) => `${String(i + 1).padStart(2, '0')}. <b>${p.title}</b> · ${p.year} — ${p.tagline}`).join('<br>');
+      const lines = site.projects.map((p, i) => `${String(i + 1).padStart(2, '0')}. <b>${escapeHtml(p.title)}</b> · ${escapeHtml(p.year)} — ${escapeHtml(p.tagline)}`).join('<br>');
       print(lines);
     },
     email: () => { print(`opening mail client → ${site.email}`, 'out ok'); window.location.href = `mailto:${site.email}`; },
-    resume: () => { print(`downloading résumé...`, 'out ok'); window.location.href = site.resumeUrl; },
-    social: () => print(site.socials.map(s => `<b>${s.label}</b> → ${s.url}`).join('<br>')),
+    resume: () => {
+      if (!site.resumeUrl) { print('no résumé uploaded yet — try <b>email</b>.'); return; }
+      print('downloading résumé...', 'out ok');
+      window.location.href = site.resumeUrl;
+    },
+    social: () => print(site.socials.map(s => `<b>${escapeHtml(s.label)}</b> → ${escapeHtml(s.url)}`).join('<br>')),
     theme: () => {
-      const accents = ['#00ffd1', '#ff7849', '#a78bfa', '#f5cf00', '#ff5470'];
+      const accents = ['#f0a648', '#7b8fa3', '#c4785a', '#9aa87c', '#d4b483'];
       const cur = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
       const i = accents.indexOf(cur);
       const next = accents[(i + 1) % accents.length];
-      document.documentElement.style.setProperty('--accent', next);
+      const root = document.documentElement;
+      root.style.setProperty('--accent', next);
+      // --accent-rgb backs every rgba() tint, so it has to move with --accent.
+      const [r, g, b] = [1, 3, 5].map(o => parseInt(next.slice(o, o + 2), 16));
+      root.style.setProperty('--accent-rgb', `${r},${g},${b}`);
       print(`accent → ${next}`, 'out ok');
     },
     matrix: () => {
@@ -80,52 +90,15 @@ export function initTerminal() {
     e.preventDefault();
     const raw = input.value.trim();
     if (!raw) return;
-    print(raw, 'cmd');
+    print(escapeHtml(raw), 'cmd');
     const [c, ...args] = raw.split(/\s+/);
     const fn = cmds[c.toLowerCase()];
     if (fn) fn(args);
-    else print(`command not found: <b>${c}</b>. type <b>help</b>.`);
+    else print(`command not found: <b>${escapeHtml(c)}</b>. type <b>help</b>.`);
     input.value = '';
   });
 
   close?.addEventListener('click', () => { term.hidden = true; });
   // Esc closes when terminal is focused
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') term.hidden = true; });
-}
-
-// Tiny matrix rain easter egg overlay
-function runMatrix() {
-  const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed;inset:0;z-index:140;pointer-events:none';
-  document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-  if (!ctx) { canvas.remove(); return; }
-  const resize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
-  resize(); window.addEventListener('resize', resize);
-
-  const fontSize = 14;
-  const cols = Math.floor(canvas.width / fontSize);
-  const drops = new Array(cols).fill(1);
-  const chars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ01';
-  let frame = 0;
-  const stop = setTimeout(() => { cancel = true; canvas.remove(); }, 8000);
-  let cancel = false;
-
-  function draw() {
-    if (cancel || !ctx) return;
-    ctx.fillStyle = 'rgba(5,6,10,.08)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `${fontSize}px JetBrains Mono, monospace`;
-    ctx.fillStyle = '#00ffd1';
-    for (let i = 0; i < drops.length; i++) {
-      const c = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(c, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-    frame = requestAnimationFrame(draw);
-  }
-  draw();
-  // ensure cleanup
-  setTimeout(() => { cancel = true; cancelAnimationFrame(frame); canvas.remove(); clearTimeout(stop); }, 8200);
 }

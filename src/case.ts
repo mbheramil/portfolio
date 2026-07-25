@@ -1,9 +1,17 @@
 import './styles/main.css';
 import { site } from './content';
-import { initCursor } from './modules/cursor';
+import { escapeHtml, escapeAttr, hasLink, coverBg } from './modules/html';
 import { initPalette } from './modules/palette';
+import { numberNav } from './modules/nav-numbers';
 
 const root = document.getElementById('caseRoot') as HTMLElement;
+
+// The home page drops its Lab section when no tools are defined — mirror that
+// here so the nav matches across pages.
+if (!(((site as unknown) as { tools?: unknown[] }).tools || []).length) {
+  document.querySelectorAll('a[href="/#lab"], a[href="#lab"]').forEach((a) => a.remove());
+}
+numberNav();
 
 const params = new URLSearchParams(window.location.search);
 const slug = params.get('p') || '';
@@ -19,7 +27,6 @@ burger?.addEventListener('click', () => {
   mm?.classList.toggle('open');
 });
 
-initCursor();
 initPalette();
 
 if (!project) {
@@ -28,16 +35,14 @@ if (!project) {
       <span class="case-num">404 / not_found</span>
       <h1>This project doesn't exist.</h1>
       <p>The link may be wrong, or the project hasn't been published yet.</p>
-      <a href="/" class="btn btn--primary" data-cursor="link"><span>← back to all work</span></a>
+      <a href="/" class="btn btn--primary"><span>← back to all work</span></a>
     </section>`;
 } else {
   document.getElementById('caseTitle')!.textContent = `${project.title} — case study · mbheramil`;
   document.getElementById('caseMeta')!.setAttribute('content', project.tagline);
 
   const cs = project.caseStudy;
-  const cover = project.cover.startsWith('#')
-    ? `background:${project.cover}`
-    : `background:url('${project.cover}') center/cover no-repeat`;
+  const cover = coverBg(project.cover);
 
   const idx = site.projects.findIndex((p) => p.id === slug);
   const next = site.projects[(idx + 1) % site.projects.length];
@@ -46,14 +51,11 @@ if (!project) {
   let imgIdx = -1;
   const galleryHtml = galleryItems.map((g) => {
     const isImg = !g.startsWith('#');
-    const style = isImg
-      ? `background:url('${g}') center/cover no-repeat`
-      : `background:${g}`;
+    const style = coverBg(g);
     if (isImg) imgIdx++;
     const cls = isImg ? 'case-gallery__item case-gallery__item--clickable' : 'case-gallery__item';
-    const cursor = isImg ? ' data-cursor="link"' : '';
     const lb = isImg ? ` data-lb="${imgIdx}"` : '';
-    return `<figure class="${cls}" style="${style}"${cursor}${lb}></figure>`;
+    return `<figure class="${cls}" style="${style}"${lb}></figure>`;
   }).join('');
 
   const sectionsHtml = cs?.sections?.map((s, i) => `
@@ -76,8 +78,8 @@ if (!project) {
         ${metaRow('team',     cs?.team)}
       </dl>
       <div class="case-hero__cta">
-        ${hasLink(cs?.live) ? `<a href="${escapeAttr(cs!.live!)}" target="_blank" rel="noopener" class="btn btn--primary" data-cursor="link"><span>view live ↗</span></a>` : ''}
-        ${hasLink(cs?.repo) ? `<a href="${escapeAttr(cs!.repo!)}" target="_blank" rel="noopener" class="btn btn--ghost" data-cursor="link"><span>source ↗</span></a>` : ''}
+        ${hasLink(cs?.live) ? `<a href="${escapeAttr(cs!.live!)}" target="_blank" rel="noopener" class="btn btn--primary"><span>view live ↗</span></a>` : ''}
+        ${hasLink(cs?.repo) ? `<a href="${escapeAttr(cs!.repo!)}" target="_blank" rel="noopener" class="btn btn--ghost"><span>source ↗</span></a>` : ''}
       </div>
     </header>
 
@@ -99,7 +101,7 @@ if (!project) {
 
     <nav class="case-next">
       <span class="case-num">next →</span>
-      <a href="/case.html?p=${encodeURIComponent(next.id)}" class="case-next__link" data-cursor="link">
+      <a href="/case.html?p=${encodeURIComponent(next.id)}" class="case-next__link">
         <span class="case-next__title">${escapeHtml(next.title)}</span>
         <span class="case-next__tag">${escapeHtml(next.tagline)}</span>
       </a>
@@ -116,9 +118,9 @@ function initLightbox(images: string[]) {
   const lb = document.createElement('div');
   lb.className = 'lb';
   lb.innerHTML = `
-    <button class="lb__close" aria-label="Close" data-cursor="link">×</button>
-    <button class="lb__nav lb__nav--prev" aria-label="Previous" data-cursor="link">‹</button>
-    <button class="lb__nav lb__nav--next" aria-label="Next" data-cursor="link">›</button>
+    <button class="lb__close" aria-label="Close">×</button>
+    <button class="lb__nav lb__nav--prev" aria-label="Previous">‹</button>
+    <button class="lb__nav lb__nav--next" aria-label="Next">›</button>
     <img class="lb__img" alt="">
     <span class="lb__count"></span>
   `;
@@ -160,15 +162,3 @@ function metaRow(label: string, value: string | undefined): string {
   return `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`;
 }
 
-function hasLink(v: string | undefined | null): boolean {
-  if (!v) return false;
-  const t = v.trim();
-  return t.length > 0 && t !== '#';
-}
-
-function escapeHtml(s: string) {
-  return s.replace(/[&<>"']/g, (c) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  } as Record<string, string>)[c]!);
-}
-function escapeAttr(s: string) { return escapeHtml(s); }
