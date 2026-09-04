@@ -10,7 +10,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        case: resolve(__dirname, 'case.html')
+        case: resolve(__dirname, 'case.html'),
+        clients: resolve(__dirname, 'clients.html')
       },
       output: {
         manualChunks: {
