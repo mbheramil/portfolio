@@ -1280,6 +1280,39 @@ article.case-body { /* override .case-body class collision */ }
   margin: 10px 0 0;
 }
 
+.cl-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--pad-x) 16px;
+}
+.cl-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.cl-filter:hover { border-color: rgba(var(--accent-rgb),.3); color: var(--text) }
+.cl-filter--active {
+  background: rgba(var(--accent-rgb),.12);
+  border-color: rgba(var(--accent-rgb),.4);
+  color: var(--accent);
+}
+.cl-filter__n {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  opacity: .7;
+}
+
 .cl-bar {
   display: flex;
   gap: 10px;
