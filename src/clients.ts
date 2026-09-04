@@ -1,4 +1,5 @@
 import './styles/main.css';
+import { numberNav } from './modules/nav-numbers';
 
 type Platform = 'web' | 'shopify';
 interface Client { name: string; url: string; platform: Platform }
@@ -321,6 +322,8 @@ function init() {
       grid.style.transform = '';
     }, 120);
   });
+
+  numberNav();
 
   const footYear = document.getElementById('footYear');
   if (footYear) footYear.textContent = String(new Date().getFullYear());

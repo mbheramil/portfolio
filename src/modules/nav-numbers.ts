@@ -2,7 +2,7 @@
 // Sections can be removed at runtime — e.g. Lab disappears when no tools are
 // defined — so hardcoded 01..05 would leave gaps.
 export function numberNav() {
-  const links = document.querySelectorAll<HTMLAnchorElement>('.nav__links a[href*="#"]');
+  const links = document.querySelectorAll<HTMLAnchorElement>('.nav__links a');
   links.forEach((a, i) => {
     const num = a.querySelector('.nav__num');
     if (num) num.textContent = String(i + 1).padStart(2, '0');
