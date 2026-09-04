@@ -250,7 +250,7 @@ function init() {
     <section class="cl-hero">
       <p class="cl-hero__eyebrow">client work</p>
       <h1 class="cl-hero__count"><span id="clNum">0</span><span class="cl-hero__plus">+</span></h1>
-      <p class="cl-hero__sub">websites designed, built, and launched — some from scratch, others taken over and elevated</p>
+      <p class="cl-hero__sub">websites designed, built, and launched. some from scratch, others taken over and elevated</p>
     </section>
 
     <div class="cl-filters" id="clFilters">
