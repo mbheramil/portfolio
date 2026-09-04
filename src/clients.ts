@@ -2,7 +2,7 @@ import './styles/main.css';
 import { numberNav } from './modules/nav-numbers';
 
 type Platform = 'web' | 'shopify';
-interface Client { name: string; url: string; platform: Platform }
+interface Client { name: string; url: string; platform: Platform; private?: boolean }
 
 const CLIENTS: Client[] = [
   // ── Web / WordPress / Duda ──────────────────────────────────
@@ -89,90 +89,90 @@ const CLIENTS: Client[] = [
 
   // ── Shopify ─────────────────────────────────────────────────
   { name: 'Besttoyst', url: 'https://www.besttoyst.com', platform: 'shopify' },
-  { name: 'Mariasch Studios', url: 'https://mariaschstudiosinc.com', platform: 'shopify' },
-  { name: 'Airbrush Place', url: 'https://customairbrushbusiness.com', platform: 'shopify' },
-  { name: 'Golden Gardens', url: 'https://goldengardens-us.com', platform: 'shopify' },
-  { name: 'Tropical Tees', url: 'https://tropicaltees-us.com', platform: 'shopify' },
+  { name: 'Mariasch Studios', url: 'https://mariaschstudiosinc.com', platform: 'shopify', private: true },
+  { name: 'Airbrush Place', url: 'https://customairbrushbusiness.com', platform: 'shopify', private: true },
+  { name: 'Golden Gardens', url: 'https://goldengardens-us.com', platform: 'shopify', private: true },
+  { name: 'Tropical Tees', url: 'https://tropicaltees-us.com', platform: 'shopify', private: true },
   { name: "God's Healing Wonders", url: 'https://www.godshealingwondersllc.com', platform: 'shopify' },
-  { name: 'Park Avenue Floratique', url: 'https://ahmexh-92.myshopify.com', platform: 'shopify' },
-  { name: 'Survival Traders', url: 'https://survival-traders.com', platform: 'shopify' },
+  { name: 'Park Avenue Floratique', url: 'https://ahmexh-92.myshopify.com', platform: 'shopify', private: true },
+  { name: 'Survival Traders', url: 'https://survival-traders.com', platform: 'shopify', private: true },
   { name: 'Vermont Center Wreaths', url: 'https://vermontcenterwreaths.com', platform: 'shopify' },
-  { name: 'American Jewelry Company', url: 'https://americanjewelry-company.com', platform: 'shopify' },
-  { name: 'Zerust', url: 'https://zerust-us.com', platform: 'shopify' },
-  { name: 'Zamira Bridal USA', url: 'https://zamirabridal-usa.com', platform: 'shopify' },
-  { name: 'Zamira Measurements Dev', url: 'https://zamira-measurements-dev.myshopify.com', platform: 'shopify' },
-  { name: 'Electro Drop Chews', url: 'https://5amqmb-i7.myshopify.com', platform: 'shopify' },
+  { name: 'American Jewelry Company', url: 'https://americanjewelry-company.com', platform: 'shopify', private: true },
+  { name: 'Zerust', url: 'https://zerust-us.com', platform: 'shopify', private: true },
+  { name: 'Zamira Bridal USA', url: 'https://zamirabridal-usa.com', platform: 'shopify', private: true },
+  { name: 'Zamira Measurements Dev', url: 'https://zamira-measurements-dev.myshopify.com', platform: 'shopify', private: true },
+  { name: 'Electro Drop Chews', url: 'https://5amqmb-i7.myshopify.com', platform: 'shopify', private: true },
   { name: 'MedPro Diagnostics', url: 'https://medprodiagnostics.com', platform: 'shopify' },
   { name: 'Davis Mountains Nut Company', url: 'https://allpecans.com', platform: 'shopify' },
-  { name: 'Watch Box Depot', url: 'https://watchbox-depot.com', platform: 'shopify' },
+  { name: 'Watch Box Depot', url: 'https://watchbox-depot.com', platform: 'shopify', private: true },
   { name: 'Cedar Valley Crafts', url: 'https://cedarvalleycrafts.com', platform: 'shopify' },
   { name: 'Special Addition', url: 'https://maternityandnursing.com', platform: 'shopify' },
   { name: 'Pasttime Signs', url: 'https://pasttimesigns.com', platform: 'shopify' },
   { name: 'High Energy Retail', url: 'https://highenergyretail.com', platform: 'shopify' },
   { name: 'Royal Oil Manufacturing', url: 'https://royaloilmfg.com', platform: 'shopify' },
   { name: 'Original Body Parts', url: 'https://originalbodyparts.com', platform: 'shopify' },
-  { name: 'One Stop Kitchen and Bath Designs', url: 'https://onestopkitchenandbathdesigns.com', platform: 'shopify' },
+  { name: 'One Stop Kitchen and Bath Designs', url: 'https://onestopkitchenandbathdesigns.com', platform: 'shopify', private: true },
   { name: 'Krazy Kajun Cookware', url: 'https://krazykajuncookware.com', platform: 'shopify' },
-  { name: 'Red Light Pro Devices', url: 'https://redlightprodevices-us.com', platform: 'shopify' },
+  { name: 'Red Light Pro Devices', url: 'https://redlightprodevices-us.com', platform: 'shopify', private: true },
   { name: 'MotoRaw 360', url: 'https://motoraw-360.com', platform: 'shopify' },
   { name: 'Titus Trucks Accessories', url: 'https://titustrucksaccessories.com', platform: 'shopify' },
   { name: 'CSS Publishing Co', url: 'https://csspublishingcoinc.com', platform: 'shopify' },
-  { name: 'Tranquil Pillow Case', url: 'https://tranquilpillowcase.net', platform: 'shopify' },
+  { name: 'Tranquil Pillow Case', url: 'https://tranquilpillowcase.net', platform: 'shopify', private: true },
   { name: 'The Comfort Store Online', url: 'https://thecomfortstoreonline.com', platform: 'shopify' },
-  { name: "Waters Choice", url: 'https://waters-choice.com', platform: 'shopify' },
-  { name: 'Test Store', url: 'https://test-store-9rlzlhhb.myshopify.com', platform: 'shopify' },
-  { name: "Grandma's Pot Shop", url: 'https://dzzix6-ji.myshopify.com', platform: 'shopify' },
+  { name: 'Waters Choice', url: 'https://waters-choice.com', platform: 'shopify', private: true },
+  { name: 'Test Store', url: 'https://test-store-9rlzlhhb.myshopify.com', platform: 'shopify', private: true },
+  { name: "Grandma's Pot Shop", url: 'https://dzzix6-ji.myshopify.com', platform: 'shopify', private: true },
   { name: 'IPE Wood Outdoor Furniture', url: 'https://ipewoodoutdoorfurniture.com', platform: 'shopify' },
-  { name: 'Flightpath Aviation Services', url: 'https://flightpath-aviation.com', platform: 'shopify' },
+  { name: 'Flightpath Aviation Services', url: 'https://flightpath-aviation.com', platform: 'shopify', private: true },
   { name: 'Toads-N-Tutus', url: 'https://toads-n-tutus.myshopify.com', platform: 'shopify' },
   { name: 'PortablePowerPress', url: 'https://portablepowerpress.com', platform: 'shopify' },
   { name: "Tom's Trains NY", url: 'https://tomstrainsny.com', platform: 'shopify' },
-  { name: "Sara Kathryn's", url: 'https://sarakathryns.com', platform: 'shopify' },
+  { name: "Sara Kathryn's", url: 'https://sarakathryns.com', platform: 'shopify', private: true },
   { name: 'Eagle Hardware', url: 'https://eaglehardware-nc.com', platform: 'shopify' },
   { name: 'The Toriumi Diet', url: 'https://toriumi-diet.myshopify.com', platform: 'shopify' },
-  { name: 'RC Hobby of Medina', url: 'https://rc-hobbyofmedina.com', platform: 'shopify' },
+  { name: 'RC Hobby of Medina', url: 'https://rc-hobbyofmedina.com', platform: 'shopify', private: true },
   { name: "Men's Shop", url: 'https://mensshop-ga.com', platform: 'shopify' },
-  { name: 'Fastimes Motorsports', url: 'https://fastimesmotorsports.com', platform: 'shopify' },
+  { name: 'Fastimes Motorsports', url: 'https://fastimesmotorsports.com', platform: 'shopify', private: true },
   { name: 'Petali Florist', url: 'https://www.petaliflorist.com', platform: 'shopify' },
   { name: 'Elite Custom PC', url: 'https://avgjys-1q.myshopify.com', platform: 'shopify' },
-  { name: 'Eazy E Bikez', url: 'https://eazye-bikez.com', platform: 'shopify' },
-  { name: 'Direct Designs Printing & Packaging', url: 'https://directdesignsprintingandpackaging.com', platform: 'shopify' },
-  { name: 'DND Boutique', url: 'https://dnd-boutique.com', platform: 'shopify' },
-  { name: 'Sephlin', url: 'https://sephlin-id.com', platform: 'shopify' },
-  { name: 'Glow Skin Science', url: 'https://glowskin-science.com', platform: 'shopify' },
-  { name: 'Honeymoon Diamonds & Co.', url: 'https://honeymoondiamondsandco.com', platform: 'shopify' },
+  { name: 'Eazy E Bikez', url: 'https://eazye-bikez.com', platform: 'shopify', private: true },
+  { name: 'Direct Designs Printing & Packaging', url: 'https://directdesignsprintingandpackaging.com', platform: 'shopify', private: true },
+  { name: 'DND Boutique', url: 'https://dnd-boutique.com', platform: 'shopify', private: true },
+  { name: 'Sephlin', url: 'https://sephlin-id.com', platform: 'shopify', private: true },
+  { name: 'Glow Skin Science', url: 'https://glowskin-science.com', platform: 'shopify', private: true },
+  { name: 'Honeymoon Diamonds & Co.', url: 'https://honeymoondiamondsandco.com', platform: 'shopify', private: true },
   { name: 'Carolyn Beauty X', url: 'https://carolynbeautyx.com', platform: 'shopify' },
-  { name: 'Elevation Events & Party Rentals', url: 'https://elevationeventsandpartyrentals.com', platform: 'shopify' },
-  { name: 'Spirit Filter City', url: 'https://spiritfilter-city.com', platform: 'shopify' },
-  { name: 'Wine Filter City', url: 'https://winefilter-city.com', platform: 'shopify' },
+  { name: 'Elevation Events & Party Rentals', url: 'https://elevationeventsandpartyrentals.com', platform: 'shopify', private: true },
+  { name: 'Spirit Filter City', url: 'https://spiritfilter-city.com', platform: 'shopify', private: true },
+  { name: 'Wine Filter City', url: 'https://winefilter-city.com', platform: 'shopify', private: true },
   { name: 'Essenpro', url: 'https://essenproengines.com', platform: 'shopify' },
-  { name: 'Ixchel', url: 'https://ixchel-us.com', platform: 'shopify' },
+  { name: 'Ixchel', url: 'https://ixchel-us.com', platform: 'shopify', private: true },
   { name: 'Fantasy Flowers & Balloons', url: 'https://fantasyflowersb.com', platform: 'shopify' },
   { name: 'IML Engraved Designs', url: 'https://imlengraveddesigns.com', platform: 'shopify' },
   { name: 'Subthump', url: 'https://subthump.com', platform: 'shopify' },
   { name: 'Flooring and Above', url: 'https://flooringandabove.com', platform: 'shopify' },
-  { name: 'Fortune Customer Wheelchair & Medical Supply', url: 'https://fortunecustomerwheelchairandmedicalsupply.com', platform: 'shopify' },
+  { name: 'Fortune Customer Wheelchair & Medical Supply', url: 'https://fortunecustomerwheelchairandmedicalsupply.com', platform: 'shopify', private: true },
   { name: 'Custom Health Rx', url: 'https://customhealth-rx.com', platform: 'shopify' },
   { name: 'Plant Spirit Apothecary', url: 'https://plantspiritapothecary.com', platform: 'shopify' },
   { name: 'Industrial Specialties of San Antonio', url: 'https://industrialspecialtiesofsanantonio.com', platform: 'shopify' },
-  { name: 'NY Designer Fabric Outlet', url: 'https://nydfo-newyorkdesignerfabricoutlet.com', platform: 'shopify' },
+  { name: 'NY Designer Fabric Outlet', url: 'https://nydfo-newyorkdesignerfabricoutlet.com', platform: 'shopify', private: true },
   { name: 'MB Estate Jeweler', url: 'https://mbestate-jeweler.com', platform: 'shopify' },
   { name: 'Sports Med Distributor', url: 'https://sportsmed-distributor.com', platform: 'shopify' },
   { name: 'Damper Doctor', url: 'https://damperdoctor.com', platform: 'shopify' },
   { name: 'H.F. Staples & Co.', url: 'https://hfstaples.com', platform: 'shopify' },
-  { name: 'Texas Direct Floors', url: 'https://godirecttexas.com', platform: 'shopify' },
+  { name: 'Texas Direct Floors', url: 'https://godirecttexas.com', platform: 'shopify', private: true },
   { name: 'Solar Eyes Online', url: 'https://solareyes.org', platform: 'shopify' },
   { name: 'Products of Nature International', url: 'https://www.pronature.com', platform: 'shopify' },
   { name: 'MTI Racing', url: 'https://mtiracing.com', platform: 'shopify' },
-  { name: 'Brite Safety', url: 'https://yqnp4a-mu.myshopify.com', platform: 'shopify' },
+  { name: 'Brite Safety', url: 'https://yqnp4a-mu.myshopify.com', platform: 'shopify', private: true },
   { name: 'Vinyl Supply And More', url: 'https://vinylsupplyandmore.com', platform: 'shopify' },
-  { name: 'The St. Raphael Detox Spa', url: 'https://thestraphaeldetoxspa.com', platform: 'shopify' },
-  { name: 'Fitters', url: 'https://fitters-ca.com', platform: 'shopify' },
-  { name: 'Old Mariner Reel', url: 'https://vzsqcp-cw.myshopify.com', platform: 'shopify' },
-  { name: 'EngiTra Engines & Transmissions', url: 'https://f5d0mg-ub.myshopify.com', platform: 'shopify' },
+  { name: 'The St. Raphael Detox Spa', url: 'https://thestraphaeldetoxspa.com', platform: 'shopify', private: true },
+  { name: 'Fitters', url: 'https://fitters-ca.com', platform: 'shopify', private: true },
+  { name: 'Old Mariner Reel', url: 'https://vzsqcp-cw.myshopify.com', platform: 'shopify', private: true },
+  { name: 'EngiTra Engines & Transmissions', url: 'https://f5d0mg-ub.myshopify.com', platform: 'shopify', private: true },
   { name: 'Excess Solutions', url: 'https://www.excesssolutions.com', platform: 'shopify' },
-  { name: 'Tuxedo Den', url: 'https://tuxedo-den.com', platform: 'shopify' },
-  { name: 'Hyper Green Environmental', url: 'https://hypergreenenvironmental.com', platform: 'shopify' },
+  { name: 'Tuxedo Den', url: 'https://tuxedo-den.com', platform: 'shopify', private: true },
+  { name: 'Hyper Green Environmental', url: 'https://hypergreenenvironmental.com', platform: 'shopify', private: true },
 ];
 
 function getDomain(url: string): string {
@@ -195,22 +195,29 @@ function countUp(el: HTMLElement, target: number, duration = 1000) {
   requestAnimationFrame(tick);
 }
 
-function buildCard(client: Client, index: number): HTMLAnchorElement {
+function buildCard(client: Client, index: number): HTMLElement {
   const domain = getDomain(client.url);
-  const href = client.url.startsWith('http') ? client.url : 'https://' + client.url;
   const faviconSrc = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
   const initial = client.name[0].toUpperCase();
+  const isPrivate = !!client.private;
 
-  const a = document.createElement('a');
-  a.className = 'cl-card';
-  a.href = href;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  a.dataset.search = (client.name + ' ' + domain).toLowerCase();
-  a.dataset.platform = client.platform;
-  a.style.setProperty('--i', String(Math.min(index, 20)));
+  const el: HTMLElement = isPrivate
+    ? document.createElement('div')
+    : document.createElement('a');
 
-  a.innerHTML = `
+  el.className = 'cl-card' + (isPrivate ? ' cl-card--private' : '');
+  el.dataset.search = (client.name + ' ' + domain).toLowerCase();
+  el.dataset.platform = client.platform;
+  el.style.setProperty('--i', String(Math.min(index, 20)));
+
+  if (!isPrivate) {
+    const a = el as HTMLAnchorElement;
+    a.href = client.url.startsWith('http') ? client.url : 'https://' + client.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  }
+
+  el.innerHTML = `
     <span class="cl-card__fav">
       <img src="${faviconSrc}" alt="" width="28" height="28" loading="lazy">
       <span class="cl-card__init">${initial}</span>
@@ -219,17 +226,19 @@ function buildCard(client: Client, index: number): HTMLAnchorElement {
       <span class="cl-card__name">${client.name}</span>
       <span class="cl-card__domain">${domain}</span>
     </span>
-    <span class="cl-card__arrow" aria-hidden="true">↗</span>
+    ${isPrivate
+      ? '<span class="cl-card__badge">in progress</span>'
+      : '<span class="cl-card__arrow" aria-hidden="true">↗</span>'}
   `;
 
-  const img = a.querySelector('img')!;
+  const img = el.querySelector('img')!;
   img.addEventListener('load', () => { img.style.opacity = '1'; });
   img.addEventListener('error', () => {
     img.style.display = 'none';
-    (a.querySelector('.cl-card__init') as HTMLElement).style.display = 'grid';
+    (el.querySelector('.cl-card__init') as HTMLElement).style.display = 'grid';
   });
 
-  return a;
+  return el;
 }
 
 function renderGrid(grid: HTMLElement, list: Client[]) {
